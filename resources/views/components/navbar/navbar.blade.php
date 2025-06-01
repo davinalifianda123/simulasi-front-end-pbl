@@ -1,5 +1,5 @@
 <header class="bg-gray-50 z-10">
-  <div class="flex items-center justify-between h-16 px-4 md:px-6 pt-4.5">
+  <div class="flex items-center justify-between h-16   px-4 md:px-6 py-4.5">
       <!-- Mobile menu button -->
       <div class="sm:hidden">
           <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
@@ -25,21 +25,21 @@
       </div>
 
       <!-- Profile -->
-      <div class="{{ request()->is('profile') || request()->is('profile/edit') || request()->is('profile/update') ? 'hidden' : 'sm:flex hidden md:flex'}} absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0" x-data="{ open: false }">
-        <!-- Profile -->
+      <div class="{{ request()->is('profile/*') ? 'hidden' : 'sm:flex md:flex'}} absolute inset-y-0 right-0 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0" x-data="{ open: false }">
+        
+      <!-- Profile -->
         <div class="relative ml-3">
           <div>
             @if ($namaUser && $namaRole)
               <button type="button" class="relative flex items-center rounded-lg bg-[#F9F9F9] px-3 py-2 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent focus:outline-none" @click="open = !open" :aria-expanded="open" aria-haspopup="true">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">Open user menu</span>
-                <!-- Ikon Profil Default -->
-                <div class="size-8 rounded-full bg-gray-300 flex items-center justify-center">
-                  <svg class="h-5 w-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+
+                <!-- Image dengan Inisial Nama Pengguna-->
+                <div class="size-8 rounded-full bg-[#31304D] flex items-center justify-center text-white font-medium text-xs mt-2">
+                  {{ strtoupper(substr($namaUser, 0, 2)) }}
                 </div>
-                <div class="ml-2 flex flex-col items-start">
+                <div class="ml-2 flex flex-col items-start hidden sm:flex">
                   <span class="text-gray-900 font-medium text-sm">{{ $namaUser }}</span>
                   <span class="text-gray-500 text-xs">{{ $namaRole }}</span>
                 </div>

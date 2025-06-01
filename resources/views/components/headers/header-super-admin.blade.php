@@ -1,7 +1,7 @@
 <aside id="sidebar-multi-level-sidebar"
-  class="fixed top-0 left-0 z-40 w-64 shrink-0 h-screen transition-transform -translate-x-full translate-x-0 "
+  class="fixed top-0 left-0 z-40 grid items-center w-64 shrink-0 h-screen transition-transform -translate-x-full translate-x-0 "
   aria-label="Sidebar">
-    <div class="h-[95%] px-3 py-4 overflow-y-auto bg-[#161A30] rounded-xl shadow-lg mx-auto my-6 w-[95%] flex flex-col">
+    <div class="h-[95%] px-3 py-4 overflow-y-auto bg-[#161A30] rounded-xl shadow-lg mx-auto w-[95%] flex flex-col">
         <div class="flex items-center mb-4">
             <svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M25.529 32.7902L8.708 39.9998L24.5555 22.9637L40.2407 20.1333L25.529 32.7902Z" fill="url(#paint0_linear_4719_3880)"/>
