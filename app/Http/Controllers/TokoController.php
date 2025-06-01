@@ -37,7 +37,10 @@ class TokoController extends Controller
      */
     public function create()
     {
-        //
+        return view('tokos.create', [
+            'nama_user' => request()->attributes->get('nama_user', ''),
+            'nama_role' => request()->attributes->get('nama_role', ''),
+        ]);
     }
 
     /**
@@ -45,7 +48,18 @@ class TokoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->post('http://localhost:8001/api/tokos', [
+            'nama_gudang_toko' => $request->input('nama_gudang_toko'),
+            'alamat' => $request->input('alamat'),
+            'no_telepon' => $request->input('no_telepon'),
+        ]);
+
+        if ($response->successful()) {
+            return redirect()->route('tokos.index')->with('success', 'Toko berhasil ditambahkan.');
+        }
+
+        return redirect()->back()->withErrors(['api' => 'Gagal menambahkan toko.']);
     }
 
     /**

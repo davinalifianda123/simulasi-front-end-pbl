@@ -1,7 +1,7 @@
 @section('page-title', 'Manajemen Barang')
-@section('page-subtitle', 'Stok Barang')
+@section('page-subtitle', 'Merek Barang')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
-    <div class="bg-white rounded-lg shadow-md p-6 flex justify-center items-center">
+    <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-center items-center">
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                 <span class="block sm:inline">{{ session('success') }}</span>
@@ -14,7 +14,7 @@
             </div>
         @endif
         
-        <table id="export-table" data-create-route="{{ route('detail-gudangs.create') }}" data-resource-name="Barang">
+        <table id="export-table" data-create-route="{{ route('barangs.create') }}" data-resource-name="Barang">
             <thead>
                 <tr>
                     @foreach ($headings as $heading)
@@ -30,22 +30,19 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($detailGudangs as $detailGudang)
+                @forelse ($barangs as $barang)
                     <tr class="hover:bg-gray-50 cursor-pointer">
-                        <td class="font-medium text-gray-900 whitespace-nowrap">{{ $detailGudang->id }}</td>
-                        <td>{{ $detailGudang->nama_barang }}</td>
-                        <td>{{ $detailGudang->nama_gudang }}</td>
-                        <td>{{ $detailGudang->nama_satuan_berat }}</td>
-                        <td>{{ $detailGudang->jumlah_stok }}</td>
-                        <td>{{ $detailGudang->stok_opname ? 'Ada' : 'Tidak Ada' }}</td>
-                        <td>{{ $detailGudang->status }}</td>
+                        <td class="font-medium text-gray-900 whitespace-nowrap">{{ $barang->id }}</td>
+                        <td>{{ $barang->nama_barang }}</td>
+                        <td>{{ $barang->kategori_barang }}</td>
+                        <td>{{ $barang->status }}</td>
                     </tr>
                 @empty
                     <tr>
                         <td colspan="7" class="py-8">
                             <div class="w-full flex flex-col items-center">
                                 <img src="{{ asset('images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
-                                <a href="{{ route('penerimaan-di-pusats.create') }}" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
+                                <a href="{{ route('barangs.create') }}" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
                                     + Tambah Barang
                                 </a>
                             </div>

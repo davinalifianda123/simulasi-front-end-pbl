@@ -68,7 +68,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
             ) +
             // Start of the added button and export button group
             "<div class='flex items-center space-x-3 rtl:space-x-reverse'>" + // Added wrapper div for alignment
-            "<button id='exportDropdownButton' type='button' class='flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 sm:w-auto'>" +
+            "<button id='exportDropdownButton' type='button' class='flex w-full items-center justify-center rounded-lg border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:w-auto'>" +
             "Export as" +
             "<svg class='-me-0.5 ms-1.5 h-4 w-4' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'>" +
             "<path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m19 9-7 7-7-7' />" +

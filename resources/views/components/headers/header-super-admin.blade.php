@@ -50,6 +50,9 @@
                       <a href="{{ route('kategori-barangs.index') }}" class="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 group  text-white hover:bg-gray-700">Kategori Barang</a>
                    </li>
                    <li>
+                      <a href="{{ route('barangs.index') }}" class="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 group  text-white hover:bg-gray-700">Merek Barang</a>
+                   </li>
+                   <li>
                       <a href="{{ route('detail-gudangs.index') }}" class="flex items-center w-full p-2 transition duration-75 rounded-lg pl-11 group  text-white hover:bg-gray-700">Stok Barang</a>
                    </li>
              </ul>

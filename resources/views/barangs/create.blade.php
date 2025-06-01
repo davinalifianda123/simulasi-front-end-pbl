@@ -1,56 +1,68 @@
-<x-default-layout>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">
-                Tambah Barang Baru
-            </h2>
-        </div>
-
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded m-4" role="alert">
-                <span class="block sm:inline">{{ session('error') }}</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Tambah Barang</title>
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+            <div class="mb-6 flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-gray-800">Tambah Barang</h1>
             </div>
-        @endif
-    
-        <div class="border-t border-gray-200">
-            <form action="{{ route('barangss.store') }}" method="POST" class="p-6">
+        
+            <form action="{{ route('barangs.store') }}" method="POST">
                 @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
-                        <input type="text" name="nama_barang" id="nama_barang" value="{{ old('nama_barang') }}" required 
-                            class="py-2 px-3 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        @error('nama_barang')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                
+                <div class="mb-12">
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="nama_barang" class="text-sm font-medium text-gray-700">Nama Barang</label>
+                        <label for="nama_barang" class="text-sm font-medium text-red-600">*</label>
                     </div>
-    
-                    <div>
-                        <label for="id_kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-                        <select name="id_kategori_barang" id="id_kategori_barang" required
-                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="">Pilih Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('id_kategori_barang') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->nama_kategori_barang }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('id_kategori')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                    <input 
+                        type="text" 
+                        name="nama_barang" 
+                        id="nama_barang" 
+                        value="{{ old('nama_barang') }}" 
+                        class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_role') ? 'border-red-500' : 'border-gray-300' }}"
+                        placeholder="Input Nama Barang"
+                        required
+                    >
+                    @error('nama_barang')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="id_kategori_barang" class="text-sm font-medium text-gray-700">Pilih Kategori Barang</label>
+                        <label for="id_kategori_barang" class="text-sm font-medium text-red-600">*</label>
                     </div>
+                    <select name="id_kategori_barang" class="w-full p-2 rounded-lg">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category['id'] }}">{{ $category['nama_kategori_barang'] }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('id_kategori_barang')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
-    
-                <div class="mt-6 flex items-center justify-end space-x-3">
-                    <a href="{{ route('barangs.index') }}" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Batal
-                    </a>
-                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Simpan
+
+                <div class="flex justify-center items-center gap-4 ">
+                    <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                        Add
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

@@ -25,8 +25,10 @@ class RoleMiddleware
 
         foreach ($roles as $role) {
             if ($role == $user->role->nama_role) {
+                $request->attributes->set('id_user', $user->id);
                 $request->attributes->set('nama_user', $user->nama_user);
                 $request->attributes->set('nama_role', $user->role->nama_role);
+                $request->attributes->set('id_lokasi', $user->id_lokasi);
                 return $next($request);
             }
         }

@@ -37,7 +37,10 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('suppliers.create', [
+            'nama_user' => request()->attributes->get('nama_user', ''),
+            'nama_role' => request()->attributes->get('nama_role', ''),
+        ]);
     }
 
     /**
@@ -45,7 +48,21 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->post('http://localhost:8001/api/suppliers', [
+            'nama_gudang_toko' => $request->input('nama_gudang_toko'),
+            'alamat' => $request->input('alamat'),
+            'no_telepon' => $request->input('no_telepon'),
+        ]);
+
+        if ($response->successful()) {
+            return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil ditambahkan!');
+        } elseif ($response->status() === 422) {
+            $errors = $response->json()['errors'] ?? [];
+            return back()->withErrors($errors)->withInput();
+        } else {
+            return back()->with('error', 'Gagal menambahkan supplier. Silakan coba lagi.');
+        }
     }
 
     /**

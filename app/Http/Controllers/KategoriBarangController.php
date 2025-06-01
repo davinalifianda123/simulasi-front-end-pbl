@@ -37,7 +37,10 @@ class KategoriBarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create', [
+            'nama_user' => request()->attributes->get('nama_user', ''),
+            'nama_role' => request()->attributes->get('nama_role', ''),
+        ]);
     }
 
     /**
@@ -45,7 +48,19 @@ class KategoriBarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->post('http://localhost:8001/api/kategori-barangs', [
+            'nama_kategori_barang' => $request->input('nama_kategori_barang'),
+        ]);
+
+        if ($response->successful()) {
+            return redirect()->route('kategori-barangs.index')->with('success', 'Kategori barang berhasil ditambahkan!');
+        } elseif ($response->status() === 422) {
+            $errors = $response->json()['errors'] ?? [];
+            return back()->withErrors($errors)->withInput();
+        } else {
+            return back()->with('error', 'Gagal menambahkan kategori. Silakan coba lagi.');
+        }
     }
 
     /**

@@ -14,7 +14,7 @@
             </div>
         @endif
         
-        <table id="export-table" data-create-route="{{ route('penerimaan-di-pusats.create') }}" data-resource-name="Penerimaan Barang">
+        <table id="export-table">
             <thead>
                 <tr>
                     @foreach ($headings as $heading)
@@ -49,9 +49,6 @@
                         <td colspan="11" class="py-8">
                             <div class="w-full flex flex-col items-center">
                                 <img src="{{ asset('images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
-                                <a href="{{ route('penerimaan-di-pusats.create') }}" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
-                                    + Tambah Penerimaan Barang
-                                </a>
                             </div>
                         </td>
                     </tr>
