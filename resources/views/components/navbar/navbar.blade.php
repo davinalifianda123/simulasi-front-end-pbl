@@ -1,5 +1,5 @@
 <header class="bg-gray-50 z-10">
-  <div class="flex items-center justify-between h-16 px-4 md:px-6 pt-4.5">
+  <div class="flex items-center justify-between h-16   px-4 md:px-6 py-4.5">
       <!-- Mobile menu button -->
       <div class="sm:hidden">
           <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
