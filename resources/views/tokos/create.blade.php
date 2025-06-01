@@ -12,8 +12,9 @@
 <body>
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
-            <div class="mb-6 flex items-center justify-between">
+            <div class="mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Tambah Toko</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan toko baru.</p>
             </div>
 
             <form action="{{ route('tokos.store') }}" method="POST">

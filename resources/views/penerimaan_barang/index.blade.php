@@ -14,7 +14,7 @@
             </div>
         @endif
         
-        <table id="export-table">
+        <table id="export-table" data-create-route="#" data-resource-name="#">
             <thead>
                 <tr>
                     @foreach ($headings as $heading)

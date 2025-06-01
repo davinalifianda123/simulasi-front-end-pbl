@@ -1,219 +1,170 @@
-<x-default-layout>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6 m-6">
-        @if (session('error'))
-        <div class="p-4 mb-4 text-red-700 bg-red-100 border-l-4 border-red-500 rounded-lg" role="alert">
-            {{ session('error') }}
-        </div>
-        @endif
-
-        <form action="{{ route('retur-barang.store') }}" method="POST" id="returForm">
-            @csrf
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Tambah Retur Barang</title>
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-xl">
             <div class="mb-6">
-                <div class="mb-6">
-                    <label for="id_penanggung_jawab" class="block text-sm font-medium text-gray-700">Penanggung Jawab</label>
-                    <select id="id_penanggung_jawab" name="id_penanggung_jawab" class="shadow bg-white p-3 mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                        <option value="">Pilih Staff Gudang</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('id_user') == $user->id ? 'selected' : '' }}>{{ $user->nama_user }}</option>
-                        @endforeach
-                    </select>
-                    @error('id_user')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label for="tanggal_retur" class="block text-sm font-medium text-gray-700">Tanggal Retur</label>
-                    <input type="datetime-local" id="tanggal_retur" name="tanggal_retur" value="{{ old('tanggal_retur') ?? now()->format('Y-m-d\TH:i') }}" class="bg-white p-3 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    @error('tanggal_retur')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label for="id_pengiriman_barang" class="block text-sm font-medium text-gray-700">Orderan Barang</label>
-                    <select id="id_pengiriman_barang" name="id_pengiriman_barang" class="shadow bg-white p-3 mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                        <option value="">Pilih Orderan</option>
-                        @foreach($pengirimanBarangs as $pengiriman)
-                            <option value="{{ $pengiriman->id }}" {{ old('id_pengiriman_barang') == $pengiriman->id ? 'selected' : '' }}>ID#{{ $pengiriman->id }} - {{ \Carbon\Carbon::parse($pengiriman->tanggal_pengiriman)->format('d M Y') }}</option>
-                        @endforeach
-                    </select>
-                    @error('id_pengiriman_barang')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label for="alasan_retur" class="block text-sm font-medium text-gray-700">Alasan Retur</label>
-                    <textarea id="alasan_retur" name="alasan_retur" rows="4" class="p-3 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">{{ old('alasan_retur') }}</textarea>
-                    @error('alasan_retur')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Tambah Retur Barang</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan retur barang baru.</p>
             </div>
 
-            <div class="border-t border-gray-200 pt-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Detail Barang yang Diretur</h3>
+            @if ($errors->has('api'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <span class="block sm:inline">{{ $errors->first('api') }}</span>
+                </div>
+            @endif
 
-                <div id="detailBarangContainer">
-                    <div class="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50 detail-barang-item">
-                        <div class="flex justify-between mb-2">
-                            <h4 class="font-medium">Detail Barang #1</h4>
-                            <button type="button" class="remove-item text-red-600 hover:text-red-800">
-                                Hapus
-                            </button>
+            @if ($errors->has('exception'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <span class="block sm:inline">{{ $errors->first('exception') }}</span>
+                </div>
+            @endif
+        
+            <form action="{{ route('cabang-ke-pusats.store') }}" method="POST">
+                @csrf
+                
+                <div class="mb-12">
+                    {{-- Baris 1 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Kode Pengiriman --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="kode" class="text-sm font-medium text-gray-700">Kode Pengiriman</label>
+                                <label for="kode" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="text" name="kode" class="w-full p-2 rounded-lg" placeholder="Input Kode Pengiriman" required>
+                            @error('kode')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
+                        {{-- Pilih Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_barang" class="text-sm font-medium text-gray-700">Pilih Barang</label>
+                                <label for="id_barang" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <select name="id_barang" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Barang</option>
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Satuan Berat --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_satuan_berat" class="text-sm font-medium text-gray-700">Pilih Satuan Berat</label>
+                                <label for="id_satuan_berat" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <select name="id_satuan_berat" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Satuan Berat</option>
+                                @foreach ($satuanBerats as $satuanBerat)
+                                    <option value="{{ $satuanBerat->id }}">{{ $satuanBerat->nama_satuan_berat }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_satuan_berat')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    {{-- Baris 2 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Jumlah Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="jumlah_barang" class="text-sm font-medium text-gray-700">Jumlah Barang</label>
+                                <label for="jumlah_barang" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="number" name="jumlah_barang" class="w-full p-2 rounded-lg" placeholder="Input Jumlah Barang" required>
+                            @error('jumlah_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Berat Satuan Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="berat_satuan_barang" class="text-sm font-medium text-gray-700">Berat Satuan Barang</label>
+                                <label for="berat_satuan_barang" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="number" name="berat_satuan_barang" class="w-full p-2 rounded-lg" placeholder="Input Berat Satuan Barang" required>
+                            @error('berat_satuan_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Tanggal --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="tanggal" class="text-sm font-medium text-gray-700">Pilih Tanggal</label>
+                                <label for="tanggal" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="date" name="tanggal" class="w-full p-2 rounded-lg" required>
+                            @error('tanggal')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Barang</label>
-                                <select name="id_barang[]" class="p-3 barang-select mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-white">
-                                    <option value="">Pilih Barang</option>
-                                    @foreach($barangs as $barang)
-                                        <option value="{{ $barang->id }}">{{ $barang->nama_barang }} - {{ $barang->gudang->nama_gudang ?? $barang->toko->nama_toko }}</option>
-                                    @endforeach
-                                </select>
-                                <p class="error-message mt-1 text-sm text-red-500"></p>
+                    {{-- Baris 3 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Pilih Gudang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_cabang" class="text-sm font-medium text-gray-700">Asal Barang</label>
+                                <label for="id_cabang" class="text-sm font-medium text-red-600">*</label>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Jumlah</label>
-                                <input type="number" name="jumlah_barang_retur[]" min="1" class="p-3 jumlah-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-white">
-                                <p class="error-message mt-1 text-sm text-red-500"></p>
+                            <select name="id_cabang" class="w-full p-2 rounded-lg bg-gray-100 cursor-not-allowed" readonly>
+                                @foreach ($cabangs as $cabang)
+                                    @if ($cabang->id == $id_lokasi)
+                                        <option value="{{ $cabang->id }}" selected>{{ $cabang->nama_cabang }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('id_cabang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Kurir --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_kurir" class="text-sm font-medium text-gray-700">Pilih Kurir</label>
+                                <label for="id_kurir" class="text-sm font-medium text-red-600">*</label>
                             </div>
+                            <select name="id_kurir" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Kurir</option>
+                                @foreach ($kurirs as $kurir)
+                                    <option value="{{ $kurir->id }}">{{ $kurir->nama_kurir }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_kurir')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-2 mb-6">
-                    <button type="button" id="addBarangButton" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                        Tambah Barang
+                <div class="flex justify-center items-center gap-4 ">
+                    <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                        Add
                     </button>
                 </div>
-            </div>
-
-            <div class="flex justify-between border-t border-gray-200 pt-6">
-                <a href="{{ route('retur-barang.index') }}" class="bg-gray-200 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    Batal
-                </a>
-                <button type="submit" id="submitButton" class="bg-blue-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <template id="detailBarangTemplate">
-        <div class="mb-6 p-4 border border-gray-200 rounded-md bg-gray-50 detail-barang-item">
-            <div class="flex justify-between mb-2">
-                <h4 class="font-medium">Detail Barang #</h4>
-                <button type="button" class="remove-item text-red-600 hover:text-red-800">
-                    Hapus
-                </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Barang</label>
-                    <select name="id_barang[]" class="p-3 barang-select mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-white">
-                        <option value="">Pilih Barang</option>
-                        @foreach($barangs as $barang)
-                            <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option>
-                        @endforeach
-                    </select>
-                    <p class="error-message mt-1 text-sm text-red-500"></p>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Jumlah</label>
-                    <input type="number" name="jumlah_barang_retur[]" min="1" class="p-3 jumlah-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-white">
-                    <p class="error-message mt-1 text-sm text-red-500"></p>
-                </div>
-            </div>
+            </form>
         </div>
-    </template>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const addBarangButton = document.getElementById('addBarangButton');
-            const detailBarangContainer = document.getElementById('detailBarangContainer');
-            const detailBarangTemplate = document.getElementById('detailBarangTemplate');
-            const returForm = document.getElementById('returForm');
-            const submitButton = document.getElementById('submitButton');
-
-            updateRemoveButtonState();
-            updateDetailItemNumber();
-
-            addBarangButton.addEventListener('click', function() {
-                const newItem = detailBarangTemplate.content.cloneNode(true);
-                detailBarangContainer.appendChild(newItem);
-                updateRemoveButtonState();
-                updateDetailItemNumber();
-            });
-
-            detailBarangContainer.addEventListener('click', function(event) {
-                if (event.target.classList.contains('remove-item')) {
-                    const item = event.target.closest('.detail-barang-item');
-                    item.remove();
-                    updateRemoveButtonState();
-                    updateDetailItemNumber();
-                }
-            });
-
-            submitButton.addEventListener('click', function(event) {
-                validateForm(event);
-            });
-
-            function updateRemoveButtonState() {
-                const items = document.querySelectorAll('.detail-barang-item');
-                const isDisabled = items.length <= 1;
-
-                items.forEach(item => {
-                    item.querySelector('.remove-item').disabled = isDisabled;
-                });
-            }
-
-            function updateDetailItemNumber() {
-                const items = document.querySelectorAll('.detail-barang-item');
-                items.forEach((item, index) => {
-                    item.querySelector('h4').textContent = `Detail Barang #${index + 1}`;
-                });
-            }
-
-            function validateForm(event) {
-                const detailItems = document.querySelectorAll('.detail-barang-item');
-                let isValid = true;
-                let errors = {};
-                detailItems.forEach((item, index) => {
-                    const barangSelect = item.querySelector('.barang-select');
-                    const jumlahInput = item.querySelector('.jumlah-input');
-                    const errorBarang = item.querySelectorAll('.error-message')[0];
-                    const errorJumlah = item.querySelectorAll('.error-message')[1];
-
-                    if (!barangSelect.value) {
-                        errors['id_barang.' + index] = 'Barang harus dipilih';
-                        errorBarang.textContent = 'Barang harus dipilih';
-                        isValid = false;
-                    } else {
-                        errorBarang.textContent = '';
-                    }
-
-                    if (!jumlahInput.value || parseInt(jumlahInput.value) < 1) {
-                        errors['jumlah_barang_retur.' + index] = 'Jumlah harus lebih dari 0';
-                        errorJumlah.textContent = 'Jumlah harus lebih dari 0';
-                        isValid = false;
-                    } else {
-                        errorJumlah.textContent = '';
-                    }
-                });
-
-                if (!isValid) {
-                    event.preventDefault();
-                    alert('Terdapat kesalahan dalam form. Silakan periksa kembali.');
-                }
-            }
-        });
-    </script>
-</x-default-layout>
+    </div>
+</body>
+</html>

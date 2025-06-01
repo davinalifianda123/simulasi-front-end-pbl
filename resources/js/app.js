@@ -74,9 +74,10 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
             "<path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m19 9-7 7-7-7' />" +
             "</svg>" +
             "</button>" +
+            (createRoute !== '#' ?
             "<a href='" + createRoute + "' class=\"bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200\">" +
             "Tambah " + resourceName +
-            "</a>" +
+            "</a>" : "") +
             "</div>" +
             // End of the added button and export button group
             "<div id='exportDropdown' class='z-10 hidden w-52 divide-y divide-gray-100 rounded-lg bg-white shadow-sm data-popper-placement='bottom'>" +

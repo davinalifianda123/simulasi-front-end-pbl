@@ -12,8 +12,9 @@
 <body>
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-xl">
-            <div class="mb-6 flex items-center justify-between">
+            <div class="mb-6">
                 <h1 class="text-2xl font-bold text-gray-800">Tambah Pengiriman Barang</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan pengiriman barang baru.</p>
             </div>
 
             @if ($errors->has('api'))

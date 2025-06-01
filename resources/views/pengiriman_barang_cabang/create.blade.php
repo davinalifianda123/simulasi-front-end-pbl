@@ -1,287 +1,186 @@
-<x-default-layout>
-    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg m-6">
-        <div class="p-6 bg-white border-b border-gray-200">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Tambah Pengiriman Barang</title>
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-xl">
             <div class="mb-6">
-                <h2 class="text-2xl font-semibold text-gray-800">Tambah Pengiriman Barang</h2>
+                <h1 class="text-2xl font-bold text-gray-800">Tambah Pengiriman Barang</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan pengiriman barang baru.</p>
             </div>
 
-            @if (session('error'))
-                <div class="p-4 mb-4 text-red-700 bg-red-100 border-l-4 border-red-500 rounded-lg" role="alert">
-                    {{ session('error') }}
+            @if ($errors->has('api'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <span class="block sm:inline">{{ $errors->first('api') }}</span>
                 </div>
             @endif
-    
-            <form action="{{ route('pengiriman-barang.store') }}" method="POST">
-                @csrf
-    
-                <div class="space-y-6">
-                    <!-- Data Pengiriman -->
-                    <div class="p-4 bg-gray-50 rounded-lg">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Data Pengiriman</h3>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Asal Barang -->
-                            <div>
-                                <label for="asal_tipe" class="block text-sm font-medium text-gray-700">Asal Barang</label>
-                                <div class="mt-1 flex space-x-2">
-                                    <select id="asal_tipe" name="asal_tipe" class="p-3 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                                        <option value="" selected>Pilih Tipe</option>
-                                        <option value="gudang">Gudang</option>
-                                        <option value="toko">Toko</option>
-                                    </select>
-                                    
-                                    <select id="id_asal_barang" name="id_asal_barang" class="p-3 block w-2/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required disabled>
-                                        <option value="" disabled selected>Pilih Lokasi</option>
-                                    </select>
-                                </div>
-                                @error('id_asal_barang')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
-                            </div>
 
-                            <!-- Tujuan Pengiriman -->
-                            <div>
-                                <label for="tujuan_tipe" class="block text-sm font-medium text-gray-700">Tujuan Pengiriman</label>
-                                <div class="mt-1 flex space-x-2">
-                                    <select id="tujuan_tipe" name="tujuan_tipe" class="p-3 block w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                                        <option value="" selected>Pilih Tipe</option>
-                                        <option value="gudang">Gudang</option>
-                                        <option value="toko">Toko</option>
-                                    </select>
-                                    
-                                    <select id="id_tujuan_pengiriman" name="id_tujuan_pengiriman" class="p-3 block w-2/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required disabled>
-                                        <option value="" disabled selected>Pilih Lokasi</option>
-                                    </select>
-                                </div>
-                                @error('id_tujuan_pengiriman')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+            @if ($errors->has('exception'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <span class="block sm:inline">{{ $errors->first('exception') }}</span>
+                </div>
+            @endif
+        
+            <form action="{{ route('cabang-ke-tokos.store') }}" method="POST">
+                @csrf
+                
+                <div class="mb-12">
+                    {{-- Baris 1 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Kode Pengiriman --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="kode" class="text-sm font-medium text-gray-700">Kode Pengiriman</label>
+                                <label for="kode" class="text-sm font-medium text-red-600">*</label>
                             </div>
-    
-                            <!-- Tanggal Pengiriman -->
-                            <div>
-                                <label for="tanggal_pengiriman" class="block text-sm font-medium text-gray-700">Tanggal Pengiriman</label>
-                                <input type="datetime-local" id="tanggal_pengiriman" name="tanggal_pengiriman" value="{{ old('tanggal_pengiriman') ?? now() }}" 
-                                    class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                @error('tanggal_pengiriman')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                            <input type="text" name="kode" class="w-full p-2 rounded-lg" placeholder="Input Kode Pengiriman" required>
+                            @error('kode')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_barang" class="text-sm font-medium text-gray-700">Pilih Barang</label>
+                                <label for="id_barang" class="text-sm font-medium text-red-600">*</label>
                             </div>
-    
-                            <!-- Kurir -->
-                            <div>
-                                <label for="id_kurir" class="block text-sm font-medium text-gray-700">Kurir</label>
-                                <select id="id_kurir" name="id_kurir" class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">Pilih Kurir</option>
-                                    @foreach($kurirs as $kurir)
-                                        <option value="{{ $kurir->id }}" {{ old('id_kurir') == $kurir->id ? 'selected' : '' }}>
-                                            {{ $kurir->nama_kurir }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('id_kurir')
-                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                @enderror
+                            <select name="id_barang" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Barang</option>
+                                @foreach ($barangs as $barang)
+                                    <option value="{{ $barang->id }}">{{ $barang->nama_barang }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Satuan Berat --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_satuan_berat" class="text-sm font-medium text-gray-700">Pilih Satuan Berat</label>
+                                <label for="id_satuan_berat" class="text-sm font-medium text-red-600">*</label>
                             </div>
+                            <select name="id_satuan_berat" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Satuan Berat</option>
+                                @foreach ($satuanBerats as $satuanBerat)
+                                    <option value="{{ $satuanBerat->id }}">{{ $satuanBerat->nama_satuan_berat }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_satuan_berat')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
-    
-                    <!-- Detail Barang -->
-                    <div class="p-4 bg-gray-50 rounded-lg">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Detail Barang</h3>
-                        
-                        <div id="detail-barang-container">
-                            <div class="detail-barang-item mb-4 p-4 border border-gray-200 rounded-md">
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <!-- Barang -->
-                                    <div class="col-span-2">
-                                        <label for="barang_id_0" class="block text-sm font-medium text-gray-700">Barang</label>
-                                        <select id="barang_id_0" name="barang_id[]" class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                                            <option value="">Pilih Barang</option>
-                                            @foreach($barangs as $barang)
-                                                <option value="{{ $barang->id }}">
-                                                    {{ $barang->nama_barang }} - {{ $barang->gudang->nama_gudang ?? $barang->toko->nama_toko}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-    
-                                    <!-- Jumlah -->
-                                    <div class="col-span-1">
-                                        <label for="jumlah_0" class="block text-sm font-medium text-gray-700">Jumlah</label>
-                                        <input type="number" id="jumlah_0" name="jumlah[]" min="1" value="1" 
-                                            class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    </div>
-    
-                                    <!-- Hapus Button -->
-                                    <div class="flex items-end">
-                                        <button type="button" class="remove-detail-btn px-3 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700" style="display: none;">
-                                            Hapus
-                                        </button>
-                                    </div>
-                                </div>
+                    
+                    {{-- Baris 2 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Jumlah Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="jumlah_barang" class="text-sm font-medium text-gray-700">Jumlah Barang</label>
+                                <label for="jumlah_barang" class="text-sm font-medium text-red-600">*</label>
                             </div>
+                            <input type="number" name="jumlah_barang" class="w-full p-2 rounded-lg" placeholder="Input Jumlah Barang" required>
+                            @error('jumlah_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
-    
-                        <div class="mt-2">
-                            <button type="button" id="add-detail-btn" class="px-4 py-2 text-sm text-white bg-green-600 rounded-md hover:bg-green-700">
-                                + Tambah Barang
-                            </button>
+                        {{-- Berat Satuan Barang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="berat_satuan_barang" class="text-sm font-medium text-gray-700">Berat Satuan Barang</label>
+                                <label for="berat_satuan_barang" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="number" name="berat_satuan_barang" class="w-full p-2 rounded-lg" placeholder="Input Berat Satuan Barang" required>
+                            @error('berat_satuan_barang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
-                        
-                        @error('barang_id')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                        @error('jumlah')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                        {{-- Pilih Tanggal --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="tanggal" class="text-sm font-medium text-gray-700">Pilih Tanggal</label>
+                                <label for="tanggal" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <input type="date" name="tanggal" class="w-full p-2 rounded-lg" required>
+                            @error('tanggal')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
-    
-                    <div class="flex items-center justify-end space-x-3">
-                        <a href="{{ route('pengiriman-barang.index') }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400">
-                            Batal
-                        </a>
-                        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                            Simpan
-                        </button>
+
+                    {{-- Baris 3 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
+                        {{-- Pilih Cabang --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_cabang" class="text-sm font-medium text-gray-700">Asal Barang</label>
+                                <label for="id_cabang" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <select name="id_cabang" class="w-full p-2 rounded-lg bg-gray-100 cursor-not-allowed" readonly>
+                                @foreach ($cabangs as $cabang)
+                                    @if ($cabang->id == $id_lokasi)
+                                        <option value="{{ $cabang->id }}" selected>{{ $cabang->nama_cabang }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('id_cabang')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Toko --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_toko" class="text-sm font-medium text-gray-700">Pilih Toko</label>
+                                <label for="id_toko" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <select name="id_toko" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Toko</option>
+                                @foreach ($tokos as $toko)
+                                    <option value="{{ $toko->id }}">{{ $toko->nama_toko }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_toko')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- Pilih Kurir --}}
+                        <div class="flex flex-col w-full">
+                            <div class="flex items-center mb-2 gap-1">
+                                <label for="id_kurir" class="text-sm font-medium text-gray-700">Pilih Kurir</label>
+                                <label for="id_kurir" class="text-sm font-medium text-red-600">*</label>
+                            </div>
+                            <select name="id_kurir" class="w-full p-2 rounded-lg">
+                                <option value="">Pilih Kurir</option>
+                                @foreach ($kurirs as $kurir)
+                                    <option value="{{ $kurir->id }}">{{ $kurir->nama_kurir }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_kurir')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
+                </div>
+
+                <div class="flex justify-center items-center gap-4 ">
+                    <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                        Add
+                    </button>
                 </div>
             </form>
         </div>
     </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Detail barang counter and handlers
-        let detailCounter = 1;
-        const container = document.getElementById('detail-barang-container');
-        const addButton = document.getElementById('add-detail-btn');
-        
-        // Handle add detail button click
-        addButton.addEventListener('click', function() {
-            const newDetail = document.createElement('div');
-            newDetail.classList.add('detail-barang-item', 'mb-4', 'p-4', 'border', 'border-gray-200', 'rounded-md');
-            
-            newDetail.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Barang -->
-                    <div class="col-span-2">
-                        <label for="barang_id_${detailCounter}" class="block text-sm font-medium text-gray-700">Barang</label>
-                        <select id="barang_id_${detailCounter}" name="barang_id[]" class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            ${Array.from(document.querySelectorAll('#barang_id_0 option')).map(opt => 
-                                `<option value="${opt.value}">${opt.textContent}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-    
-                    <!-- Jumlah -->
-                    <div class="col-span-1">
-                        <label for="jumlah_${detailCounter}" class="block text-sm font-medium text-gray-700">Jumlah</label>
-                        <input type="number" id="jumlah_${detailCounter}" name="jumlah[]" min="1" value="1" 
-                            class="p-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-    
-                    <!-- Hapus Button -->
-                    <div class="flex items-end">
-                        <button type="button" class="remove-detail-btn px-3 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700">
-                            Hapus
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            container.appendChild(newDetail);
-            detailCounter++;
-            
-            // Show remove button on first item if there's more than one item
-            if (container.querySelectorAll('.detail-barang-item').length > 1) {
-                const firstItemRemoveBtn = container.querySelector('.detail-barang-item:first-child .remove-detail-btn');
-                if (firstItemRemoveBtn) {
-                    firstItemRemoveBtn.style.display = 'block';
-                }
-            }
-        });
-        
-        // Handle remove detail button click using event delegation
-        container.addEventListener('click', function(e) {
-            if (e.target.classList.contains('remove-detail-btn')) {
-                const detailItem = e.target.closest('.detail-barang-item');
-                if (detailItem) {
-                    detailItem.remove();
-                    
-                    // Hide remove button on first item if there's only one item left
-                    if (container.querySelectorAll('.detail-barang-item').length === 1) {
-                        const firstItemRemoveBtn = container.querySelector('.detail-barang-item:first-child .remove-detail-btn');
-                        if (firstItemRemoveBtn) {
-                            firstItemRemoveBtn.style.display = 'none';
-                        }
-                    }
-                }
-            }
-        });
-
-        // Handlers for Asal Barang and Tujuan Pengiriman dropdowns
-        const asalTipeDropdown = document.getElementById('asal_tipe');
-        const asalIdDropdown = document.getElementById('id_asal_barang');
-        const tujuanTipeDropdown = document.getElementById('tujuan_tipe');
-        const tujuanIdDropdown = document.getElementById('id_tujuan_pengiriman');
-
-        const gudangs = @json($gudangs);
-        const tokos = @json($tokos);
-
-        // Handle perubahan pada dropdown "Asal Tipe"
-        asalTipeDropdown.addEventListener('change', function() {
-            const selectedType = this.value;
-            
-            // Reset dropdown "Asal ID"
-            asalIdDropdown.innerHTML = '<option value="" disabled selected>Pilih Lokasi</option>';
-            asalIdDropdown.disabled = false;
-            
-            // Isi dropdown "Asal ID" sesuai dengan tipe yang dipilih
-            if (selectedType === 'gudang') {
-                gudangs.forEach(gudang => {
-                    const option = document.createElement('option');
-                    option.value = gudang.id;
-                    option.textContent = gudang.gudang.nama_gudang;
-                    asalIdDropdown.appendChild(option);
-                });
-            } else if (selectedType === 'toko') {
-                tokos.forEach(toko => {
-                    const option = document.createElement('option');
-                    option.value = toko.id;
-                    option.textContent = toko.toko.nama_toko;
-                    asalIdDropdown.appendChild(option);
-                });
-            }
-        });
-
-        // Handle perubahan pada dropdown "Tujuan Tipe"
-        tujuanTipeDropdown.addEventListener('change', function() {
-            const selectedType = this.value;
-            
-            // Reset dropdown "Tujuan ID"
-            tujuanIdDropdown.innerHTML = '<option value="" disabled selected>Pilih Lokasi</option>';
-            tujuanIdDropdown.disabled = false;
-            
-            // Isi dropdown "Tujuan ID" sesuai dengan tipe yang dipilih
-            if (selectedType === 'gudang') {
-                gudangs.forEach(gudang => {
-                    const option = document.createElement('option');
-                    option.value = gudang.id;
-                    option.textContent = gudang.gudang.nama_gudang;
-                    tujuanIdDropdown.appendChild(option);
-                });
-            } else if (selectedType === 'toko') {
-                tokos.forEach(toko => {
-                    if (toko.toko.jenis_toko.nama_jenis_toko !== 'Toko Supplier') {
-                        const option = document.createElement('option');
-                        option.value = toko.id;
-                        option.textContent = toko.toko.nama_toko;
-                        tujuanIdDropdown.appendChild(option);
-                    }
-                });
-            }
-        });
-    });
-    </script>
-</x-default-layout>
+</body>
+</html>
