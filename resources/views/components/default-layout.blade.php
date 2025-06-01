@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Gudangku</title>
     <!-- Fonts & Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
 </head>
 <body class="text-[#1b1b18] bg-gray-50">
     <!-- Main Layout -->
@@ -33,9 +34,9 @@
 
             <!-- Mobile Sidebar Modal (hidden by default) -->
             <div id="mobile-sidebar" class="fixed inset-0 flex z-40 md:hidden transform -translate-x-full transition-transform duration-300 ease-in-out">
-                <div class="fixed inset-0 bg-opacity-20" id="sidebar-overlay"></div>
+                <div class="fixed inset-0" id="sidebar-overlay"></div>
                 
-                <div class="relative flex flex-col w-72 bg-white shadow-2xl pt-5">
+                <div class="relative flex flex-col w-72 bg-gray-50 shadow-2xl pt-5">
                     <div class="absolute top-0 right-0 -mr-12 pt-2">
                         <button id="close-sidebar-button" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                             <span class="sr-only">Close sidebar</span>

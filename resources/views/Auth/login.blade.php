@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Gudangku - Login</title>
+        <title>Gudangku</title>
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -19,6 +19,7 @@
                 }
             </style>
         @endif
+        <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
     </head>
     <body class="bg-[#FAFAFA] text-[#1b1b18] min-h-screen overflow-x-hidden flex flex-col lg:flex-row">
         <!-- Background IMG - Visible on all screens, positioned differently -->
