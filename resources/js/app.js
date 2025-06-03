@@ -59,13 +59,6 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
         perPageSelect: [2, 5, 10, 20, 50],
         template: (options, dom) => "<div class='" + options.classes.top + "'>" +
             "<div class='flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-3 rtl:space-x-reverse w-full sm:w-auto'>" +
-            (options.paging && options.perPageSelect ?
-                "<div class='" + options.classes.dropdown + "'>" +
-                "<label>" +
-                "<select class='" + options.classes.selector + "'></select> " + options.labels.perPage +
-                "</label>" +
-                "</div>" : ""
-            ) +
             // Start of the added button and export button group
             "<div class='flex items-center space-x-3 rtl:space-x-reverse'>" + // Added wrapper div for alignment
             "<button id='exportDropdownButton' type='button' class='flex w-full items-center justify-center rounded-lg border border-gray-200 bg-gray-100 px-3 py-2 text-sm text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:w-auto'>" +
@@ -125,7 +118,14 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
             "<div class='" + options.classes.container + "'" + (options.scrollY.length ? " style='height: " + options.scrollY + "; overflow-Y: auto;'" : "") + "></div>" +
             "<div class='" + options.classes.bottom + "'>" +
             (options.paging ?
-                "<div class='" + options.classes.info + "'></div>" : ""
+                "<div class='flex items-center'>" +
+                "<div class='" + options.classes.info + "'></div>" +
+                (options.paging && options.perPageSelect ?
+                    "<div class='ml-6'>" +
+                    "<select class='" + options.classes.selector + " rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50'></select>" +
+                    "</div>" : ""
+                ) +
+                "</div>" : ""
             ) +
             "<nav class='" + options.classes.pagination + "'></nav>" +
             "</div>"
