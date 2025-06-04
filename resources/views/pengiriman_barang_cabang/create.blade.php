@@ -7,7 +7,8 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
-    <title>Tambah Pengiriman Barang</title>
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
 </head>
 <body>
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
