@@ -14,7 +14,7 @@
             </div>
         @endif
         
-        <table id="export-table" data-create-route="{{ route('barangs.create') }}" data-resource-name="Barang">
+        <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('barangs.create') : '#' }}" data-resource-name="Barang">
             <thead>
                 <tr>
                     @foreach ($headings as $heading)

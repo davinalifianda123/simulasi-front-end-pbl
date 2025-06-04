@@ -13,8 +13,8 @@
                 <span class="block sm:inline">{{ session('error') }}</span>
             </div>
         @endif
-        
-        <table id="export-table" data-create-route="{{ route('kategori-barangs.create') }}" data-resource-name="Kategori Barang">
+
+        <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('kategori-barangs.create') : '#' }}" data-resource-name="Kategori Barang">
             <thead>
                 <tr>
                     @foreach ($headings as $heading)
