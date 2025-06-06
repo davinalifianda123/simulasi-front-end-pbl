@@ -17,7 +17,7 @@
         @endif
 
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('kategori-barangs.create') : '#' }}" data-resource-name="Kategori Barang" data-route-name="kategori-barangs">
+            <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('kategori-barangs.create') : '#' }}" data-resource-name="Kategori Barang" data-route-name="kategori-barangs" data-editable="true">
                 <thead>
                     <tr>
                         @foreach ($headings as $heading)

@@ -91,7 +91,23 @@ class TokoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/tokos/{$id}/edit");
+
+        if (!$response->successful()) {
+            abort($response->status(), 'Gagal mengambil data toko');
+        }
+
+        $result = json_decode($response->body());
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+
+        return view('tokos.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'toko' => $result->data ?? null,
+        ]);
     }
 
     /**
@@ -99,7 +115,16 @@ class TokoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/tokos/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('tokos.index')->with('success', 'Toko berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
 
     /**

@@ -15,7 +15,7 @@
         @endif
         
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('penerimaan-di-pusats.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-pusats">
+            <table id="export-table" data-create-route="{{ route('penerimaan-di-pusats.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-pusats" data-editable="false">
                 <thead>
                     <tr>
                         @foreach ($headings as $heading)

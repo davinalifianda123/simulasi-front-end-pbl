@@ -94,7 +94,23 @@ class SupplierController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/suppliers/{$id}/edit");
+
+        if (!$response->successful()) {
+            abort($response->status(), 'Gagal mengambil data supplier');
+        }
+
+        $result = json_decode($response->body());
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+
+        return view('suppliers.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'supplier' => $result->data ?? null,
+        ]);
     }
 
     /**
@@ -102,7 +118,16 @@ class SupplierController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/suppliers/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
 
     /**

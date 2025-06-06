@@ -88,13 +88,14 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                 </svg>
                             </a>
+                            ${isEditable ? `
                             <a onclick="editData(${index})" 
                                     class="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 hover:text-blue-800 transition-all duration-200 shadow-sm hover:shadow-md" 
                                     title="Edit Data">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
-                            </a>
+                            </a> `: ''}
                             <a onclick="deleteData(${index})" 
                                     class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-800 transition-all duration-200 shadow-sm hover:shadow-md" 
                                     title="Hapus Data">
@@ -115,6 +116,8 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
     window.createRoute = tableElement ? tableElement.dataset.createRoute : '#';
     window.resourceName = tableElement ? tableElement.dataset.resourceName : 'Baru';
     window.routeName = tableElement ? tableElement.dataset.routeName : '';
+    window.isEditable = tableElement.dataset.editable === 'true';
+
 
     const table = new simpleDatatables.DataTable("#export-table", {
         perPageSelect: [2, 5, 10, 20, 50],
@@ -262,7 +265,7 @@ window.deleteData = function(index) {
     const id = row ? row.dataset.id : null;
     if (window.routeName && id) {
         if (confirm('Yakin ingin menghapus data ini?')) {
-            window.location.href = `/${window.routeName}/${id}/delete`;
+            window.location.href = `/${window.routeName}/${id}/destroy`;
         }
     }
 };

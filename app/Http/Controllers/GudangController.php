@@ -94,7 +94,23 @@ class GudangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/gudangs/{$id}/edit");
+
+        if (!$response->successful()) {
+            abort($response->status(), 'Gagal mengambil data gudang');
+        }
+
+        $result = json_decode($response->body());
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+
+        return view('gudangs.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'gudang' => $result->data ?? null,
+        ]);
     }
 
     /**
@@ -102,7 +118,16 @@ class GudangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/gudangs/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('gudangs.index')->with('success', 'Gudang berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
 
     /**
@@ -112,4 +137,37 @@ class GudangController extends Controller
     {
         //
     }
+
+    /**
+     * Toggle the status of the specified gudang.
+     */
+    public function toggle(string $id, Request $request)
+    {
+        $token = request()->cookie('jwt_token');
+
+        // Pertama, cek status gudang saat ini
+        $check = Http::withToken($token)->get("http://localhost:8001/api/gudangs/{$id}");
+
+        $gudang = null;
+        if ($check->successful()) {
+            $result = json_decode($check->body());
+            $gudang = $result->data ?? null;
+        }
+
+        // Tentukan endpoint yang akan dipanggil
+        $endpoint = $gudang->flag == 1
+            ? "http://localhost:8001/api/gudangs/{$id}/deactivate"
+            : "http://localhost:8001/api/gudangs/{$id}/activate";
+
+        $response = Http::withToken($token)->patch($endpoint);
+
+        if ($response->successful()) {
+            $message = $response->json('message') ?? 'Berhasil mengubah status opname.';
+            return redirect()->route('gudangs.index')->with('success', $message);
+        }
+
+        $errorMessage = $response->json('message') ?? 'Gagal mengubah status opname.';
+        return redirect()->route('gudangs.index')->with('error', $errorMessage);
+    }
+
 }

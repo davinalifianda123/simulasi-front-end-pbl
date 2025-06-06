@@ -92,16 +92,43 @@ class KategoriBarangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/kategori-barangs/{$id}/edit");
+
+        if (!$response->successful()) {
+            abort($response->status(), 'Gagal mengambil data kategori barang');
+        }
+
+        $result = json_decode($response->body());
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+
+        return view('categories.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'kategoriBarang' => $result->data ?? null,
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/kategori-barangs/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('kategori-barangs.index')->with('success', 'Kategori barang berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

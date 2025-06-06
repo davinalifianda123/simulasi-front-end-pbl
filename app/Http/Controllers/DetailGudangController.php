@@ -123,7 +123,26 @@ class DetailGudangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->get("http://localhost:8001/api/detail-gudangs/{$id}/edit");
+
+        $result = json_decode($response->body());
+        $data = $result->data;
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+        $id_lokasi = request()->attributes->get('id_lokasi');
+
+        return view('detail_gudang.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'id_lokasi' => $id_lokasi ?? '',
+            'detailGudang' => $data->detailGudang ?? null,
+            'barangs' => $data->barangs ?? [],
+            'gudangs' => $data->gudang ?? [],
+            'satuanBerats' => $data->satuanBerat ?? [],
+        ]);
     }
 
     /**
@@ -131,7 +150,16 @@ class DetailGudangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/detail-gudangs/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('detail-gudangs.index')->with('success', 'Detail Gudang berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
 
     /**

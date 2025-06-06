@@ -1,67 +1,77 @@
-<x-default-layout>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">
-                Edit Barang
-            </h2>
-        </div>
-
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded m-4" role="alert">
-                <span class="block sm:inline">{{ session('error') }}</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Edit Merek Barang</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk memperbarui merek barang.</p>
             </div>
-        @endif
-    
-        <div class="border-t border-gray-200">
-            <form action="{{ route('barangs.update', $detailGudang->id) }}" method="POST" class="p-6">
+
+            <form action="{{ route('barangs.update', $barang->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
-                        <input type="text" name="nama_barang" id="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" required 
-                            class="py-2 px-3 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        @error('nama_barang')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+
+                <div class="mb-12">
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="nama_barang" class="text-sm font-medium text-gray-700">Merek</label>
+                        <label for="nama_barang" class="text-sm font-medium text-red-600">*</label>
                     </div>
-    
-                    <div>
-                        <label for="id_kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-                        <select name="id_kategori" id="id_kategori" required
-                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="">Pilih Kategori</option>
-                            @foreach($kategoris as $kategori)
-                                <option value="{{ $kategori->id }}" {{ old('id_kategori', $barang->id_kategori_barang) == $kategori->id ? 'selected' : '' }}>
-                                    {{ $kategori->nama_kategori_barang }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('id_kategori')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                    <input 
+                        type="text" 
+                        name="nama_barang" 
+                        id="nama_barang" 
+                        value="{{ old('nama_barang', $barang->nama_barang) }}" 
+                        class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_barang') ? 'border-red-500' : 'border-gray-300' }}"
+                        placeholder="Input Nama Merek Barang"
+                        required
+                    >
+                    @error('nama_barang')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="id_kategori_barang" class="text-sm font-medium text-gray-700">Kategori Barang</label>
+                        <label for="id_kategori_barang" class="text-sm font-medium text-red-600">*</label>
                     </div>
-    
-                    <div>
-                        <label for="jumlah_stok" class="block text-sm font-medium text-gray-700">Jumlah Stok</label>
-                        <input type="number" name="jumlah_stok" id="jumlah_stok" value="{{ old('jumlah_stok', $detailGudang->jumlah_stok) }}" required min="0"
-                            class="py-2 px-3 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                        @error('jumlah_stok')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-    
+                    <select 
+                        name="id_kategori_barang" 
+                        id="id_kategori_barang" 
+                        class="p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('id_kategori_barang') ? 'border-red-500' : 'border-gray-300' }}"
+                        required
+                    >
+                        <option value="">Pilih Kategori Barang</option>
+                        @foreach ($kategoriBarang as $kategori)
+                            <option value="{{ $kategori->id }}" {{ old('id_kategori_barang', $barang->id_kategori_barang) == $kategori->id ? 'selected' : '' }}>
+                                {{ $kategori->nama_kategori_barang }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_kategori_barang')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
-    
-                <div class="mt-6 flex items-center justify-end space-x-3">
-                    <a href="{{ route('barangs.index') }}" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Batal
-                    </a>
-                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Perbarui
+
+                <div class="flex justify-center items-center gap-4 ">
+                    <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                        Update
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

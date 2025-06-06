@@ -50,26 +50,17 @@ Route::middleware('jwt.auth')->group(function () {
         Route::resource('users', UserController::class);
 
         Route::resource('kategori-barangs', KategoriBarangController::class);
-        Route::patch('kategori-barangs/{id}/activate', [KategoriBarangController::class, 'activate'])->name('kategori-barangs.activate');
-        Route::patch('kategori-barangs/{id}/deactivate', [KategoriBarangController::class, 'deactivate'])->name('kategori-barangs.deactivate');
     
         Route::resource('tokos', TokoController::class);
-        Route::patch('tokos/{id}/activate', [TokoController::class, 'activate'])->name('tokos.activate');
-        Route::patch('tokos/{id}/deactivate', [TokoController::class, 'deactivate'])->name('tokos.deactivate');
-    
+
         Route::resource('suppliers', SupplierController::class);
-        Route::patch('suppliers/{id}/activate', [SupplierController::class, 'activate'])->name('supplier.activate');
-        Route::patch('suppliers/{id}/deactivate', [SupplierController::class, 'activate'])->name('supplier.deactivate');
     
         Route::resource('gudangs', GudangController::class);
-        Route::patch('gudangs/{id}/activate', [GudangController::class, 'activate'])->name('gudangs.activate');
-        Route::patch('gudangs/{id}/deactivate', [GudangController::class, 'deactivate'])->name('gudangs.deactivate');
+        Route::patch('/gudangs/{id}/toggle', [GudangController::class, 'toggle'])->name('gudangs.toggle');
     });
 
     Route::middleware(['role:SuperAdmin,Admin'])->group(function () {
         Route::resource('barangs', BarangController::class);
-        Route::patch('barangs/{id}/activate', [BarangController::class, 'activate'])->name('barangs.activate');
-        Route::patch('barangs/{id}/deactivate', [BarangController::class, 'deactivate'])->name('barangs.deactivate');
         
         Route::resource('kategori-barangs', KategoriBarangController::class);
     
@@ -79,8 +70,6 @@ Route::middleware('jwt.auth')->group(function () {
     
         Route::resource('cabang-ke-tokos', CabangKeTokoController::class);
     
-        Route::resource('supplier-ke-pusats', SupplierKePusatController::class);
-    
         Route::resource('penerimaan-di-pusats', PenerimaanDiPusatController::class);
     
         Route::resource('detail-gudangs', DetailGudangController::class);
@@ -88,7 +77,5 @@ Route::middleware('jwt.auth')->group(function () {
         Route::resource('pusat-ke-cabangs', PusatKeCabangController::class);
     
         Route::resource('penerimaan-di-cabangs', PenerimaanDiCabangController::class);
-    
-        Route::resource('toko-ke-cabangs', TokoKeCabangController::class);
     });
 });

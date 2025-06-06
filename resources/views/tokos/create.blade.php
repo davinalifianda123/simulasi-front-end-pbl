@@ -14,8 +14,8 @@
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">Tambah Toko</h1>
-                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan toko baru.</p>
+                <h1 class="text-2xl font-bold text-gray-800">Tambah Pelanggan</h1>
+                <p class="text-sm text-gray-600 mb-4">Silakan isi form di bawah ini untuk menambahkan pelanggan baru.</p>
             </div>
 
             <form action="{{ route('tokos.store') }}" method="POST">
@@ -23,7 +23,7 @@
                 
                 <div class="mb-12">
                     <div class="flex items-center mb-2 gap-1">
-                        <label for="nama_gudang_toko" class="text-sm font-medium text-gray-700">Nama Toko</label>
+                        <label for="nama_gudang_toko" class="text-sm font-medium text-gray-700">Nama Pelanggan</label>
                         <label for="nama_gudang_toko" class="text-sm font-medium text-red-600">*</label>
                     </div>
                     <input
@@ -31,7 +31,7 @@
                         name="nama_gudang_toko"
                         id="nama_gudang_toko"
                         class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                        placeholder="Input Nama Toko"
+                        placeholder="Input Nama Pelanggan"
                         required
                     >
                     @error('nama_gudang_toko')

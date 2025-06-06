@@ -96,9 +96,9 @@
         </hr>
     
         <div class="mt-6 px-4 py-5">
-            <a href="{{ route('pusat-ke-suppliers.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <button onclick="history.back();" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                 Kembali ke Daftar
-            </a>
+            </button>
         </div>
     </div>
 </body>

@@ -106,15 +106,40 @@ class BarangController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->get("http://localhost:8001/api/barangs/{$id}/edit");
+
+        $result = json_decode($response->body());
+        $data = $result->data;
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+
+        return view('barangs.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'barang' => $data->barang ?? null,
+            'kategoriBarang' => $data->categories ?? [],
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/barangs/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('barangs.index')->with('success', 'Barang berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
 
     /**

@@ -18,7 +18,7 @@
 
         {{-- Tabel --}}
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('detail-gudangs.create') }}" data-resource-name="Detail Barang" data-route-name="detail-gudangs">
+            <table id="export-table" data-create-route="{{ route('detail-gudangs.create') }}" data-resource-name="Detail Barang" data-route-name="detail-gudangs" data-editable="true">
                 <thead>
                     <tr>
                         @foreach ($headings as $heading)
@@ -41,7 +41,7 @@
                             <td>{{ $detailGudang->nama_gudang }}</td>
                             <td>{{ $detailGudang->nama_satuan_berat }}</td>
                             <td>{{ $detailGudang->jumlah_stok }}</td>
-                            <td>{{ $detailGudang->stok_opname ? 'Ada' : 'Tidak Ada' }}</td>
+                            <td>{!! $detailGudang->stok_opname ? '<span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Aktif</span>' : '<span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Nonaktif</span>' !!}</td>
                             <td>{{ $detailGudang->status }}</td>
                         </tr>
                     @empty

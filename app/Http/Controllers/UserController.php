@@ -110,7 +110,25 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->get("http://localhost:8001/api/users/{$id}/edit");
+
+        $result = json_decode($response->body());
+        $data = $result->data;
+
+        $nama_user = request()->attributes->get('nama_user');
+        $nama_role = request()->attributes->get('nama_role');
+        $id_lokasi = request()->attributes->get('id_lokasi');
+
+        return view('users.edit', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'id_lokasi' => $id_lokasi ?? '',
+            'user' => $data->user ?? null,
+            'roles' => $data->roles ?? [],
+            'lokasi' => $data->lokasis ?? [],
+        ]);
     }
 
     /**
@@ -118,8 +136,26 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $data = $request->all();
+
+        // Cek apakah tombol reset password ditekan
+        if ($request->has('reset_password') && $request->input('reset_password') == '1') {
+            $data['password'] = 'password123';
+        }
+
+        $response = Http::withToken($token)->put("http://localhost:8001/api/users/{$id}", $data);
+
+        if ($response->successful()) {
+            $message = $request->has('reset_password') ? 'Password berhasil direset ke default.' : 'User berhasil diperbarui.';
+            return redirect()->route('users.index')->with('success', $message);
+        } else {
+            $result = json_decode($response->body());
+            return back()->withInput()->withErrors(['message' => $result->message ?? 'Gagal memperbarui data.']);
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
