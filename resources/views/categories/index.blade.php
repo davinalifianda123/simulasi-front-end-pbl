@@ -37,7 +37,6 @@
                         <tr class="hover:bg-gray-50 cursor-pointer">
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $kategoriBarang->id }}</td>
                             <td>{{ $kategoriBarang->nama_kategori_barang }}</td>
-                            <td>{{ $kategoriBarang->status }}</td>
                         </tr>
                     @empty
                         <tr>

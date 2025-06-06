@@ -34,16 +34,11 @@
                     @forelse ($cabangKeTokos as $cabangKeToko)
                         <tr class="hover:bg-gray-50 cursor-pointer">
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $cabangKeToko->id }}</td>
-                            <td>{{ $cabangKeToko->kode }}</td>
-                            <td>{{ $cabangKeToko->nama_cabang }}</td>
-                            <td>{{ $cabangKeToko->nama_toko }}</td>
                             <td>{{ $cabangKeToko->nama_barang }}</td>
-                            <td>{{ $cabangKeToko->satuan_berat }}</td>
-                            <td>{{ $cabangKeToko->nama_kurir }}</td>
-                            <td>{{ $cabangKeToko->status }}</td>
-                            <td>{{ $cabangKeToko->berat_satuan_barang }}</td>
+                            <td>{{ $cabangKeToko->nama_toko }}</td>
                             <td>{{ $cabangKeToko->jumlah_barang }}</td>
                             <td>{{ $cabangKeToko->tanggal }}</td>
+                            <td>{{ $cabangKeToko->status }}</td>
                         </tr>
                     @empty
                         <tr>

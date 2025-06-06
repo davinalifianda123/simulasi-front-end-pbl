@@ -36,7 +36,6 @@
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $barang->id }}</td>
                             <td>{{ $barang->nama_barang }}</td>
                             <td>{{ $barang->kategori_barang }}</td>
-                            <td>{{ $barang->status }}</td>
                         </tr>
                     @empty
                         <tr>

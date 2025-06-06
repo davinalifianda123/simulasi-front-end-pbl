@@ -36,8 +36,6 @@
                             <td>{{ $user->nama_user }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
-                            <td>{{ $user->lokasi }}</td>
-                            <td>{{ $user->status }}</td>
                         </tr>
                     @empty
                         <tr>

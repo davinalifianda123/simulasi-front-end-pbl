@@ -39,10 +39,8 @@
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $detailGudang->id }}</td>
                             <td>{{ $detailGudang->nama_barang }}</td>
                             <td>{{ $detailGudang->nama_gudang }}</td>
-                            <td>{{ $detailGudang->nama_satuan_berat }}</td>
                             <td>{{ $detailGudang->jumlah_stok }}</td>
                             <td>{!! $detailGudang->stok_opname ? '<span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Aktif</span>' : '<span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">Nonaktif</span>' !!}</td>
-                            <td>{{ $detailGudang->status }}</td>
                         </tr>
                     @empty
                         <tr>

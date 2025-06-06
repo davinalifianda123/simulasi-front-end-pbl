@@ -34,15 +34,10 @@
                     @forelse ($pusatKeSuppliers as $pusatKeSupplier)
                         <tr class="hover:bg-gray-50 cursor-pointer">
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $pusatKeSupplier->id }}</td>
-                            <td>{{ $pusatKeSupplier->kode }}</td>
                             <td>{{ $pusatKeSupplier->nama_barang }}</td>
-                            <td>{{ $pusatKeSupplier->nama_pusat }}</td>
                             <td>{{ $pusatKeSupplier->nama_supplier }}</td>
-                            <td>{{ $pusatKeSupplier->satuan_berat }}</td>
-                            <td>{{ $pusatKeSupplier->berat_satuan_barang }}</td>
                             <td>{{ $pusatKeSupplier->jumlah_barang }}</td>
                             <td>{{ $pusatKeSupplier->tanggal }}</td>
-                            <td>{{ $pusatKeSupplier->nama_kurir }}</td>
                             <td>{{ $pusatKeSupplier->status }}</td>
                         </tr>
                     @empty

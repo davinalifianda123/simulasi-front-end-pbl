@@ -34,14 +34,11 @@
                     @forelse ($penerimaanDiCabangs as $penerimaanDiCabang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $penerimaanDiCabang->id }}</td>
-                            <td>{{ $penerimaanDiCabang->kode }}</td>
                             <td>{{ $penerimaanDiCabang->nama_barang }}</td>
-                            <td>{{ $penerimaanDiCabang->jenis_penerimaan }}</td>
                             <td>{{ $penerimaanDiCabang->asal_barang }}</td>
-                            <td>{{ $penerimaanDiCabang->satuan_berat }}</td>
-                            <td>{{ $penerimaanDiCabang->berat_satuan_barang }}</td>
                             <td>{{ $penerimaanDiCabang->jumlah_barang }}</td>
                             <td>{{ $penerimaanDiCabang->tanggal }}</td>
+                            <td>{{ $penerimaanDiCabang->jenis_penerimaan }}</td>
                         </tr>
                     @empty
                         <tr>
