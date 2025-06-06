@@ -97,9 +97,25 @@ class DetailGudangController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/detail-gudangs/{$id}");
+
+        $detailGudang = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $detailGudang = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('detail_gudang.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'detailGudang' => $detailGudang,
+        ]);
     }
 
     /**

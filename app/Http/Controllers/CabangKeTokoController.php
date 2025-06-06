@@ -54,7 +54,7 @@ class CabangKeTokoController extends Controller
             'nama_user' => $nama_user ?? '',
             'nama_role' => $nama_role ?? '',
             'id_lokasi' => $id_lokasi ?? '',
-            'barangs' => $data->barangs ?? [],
+            'barangs' => $data->barang ?? [],
             'cabangs' => $data->cabang ?? [],
             'tokos' => $data->toko ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
@@ -67,21 +67,9 @@ class CabangKeTokoController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'kode' => 'required|string',
-            'id_cabang' => 'required',
-            'id_toko' => 'required',
-            'id_barang' => 'required',
-            'jumlah_barang' => 'required|integer|min:1',
-            'tanggal' => 'required|date',
-            'id_satuan_berat' => 'required',
-            'id_kurir' => 'required',
-            'berat_satuan_barang' => 'required|numeric|min:1',
-        ]);
-
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-tokos', $validated);
+            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-tokos', $request->all());
 
             $result = json_decode($response->body());
 
@@ -102,9 +90,25 @@ class CabangKeTokoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/cabang-ke-tokos/{$id}");
+
+        $cabangKeToko = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $cabangKeToko = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('pengiriman_barang_cabang.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'cabangKeToko' => $cabangKeToko,
+        ]);
     }
 
     /**

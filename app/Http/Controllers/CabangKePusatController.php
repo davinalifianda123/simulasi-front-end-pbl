@@ -66,20 +66,9 @@ class CabangKePusatController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'kode' => 'required|string',
-            'id_cabang' => 'required',
-            'id_barang' => 'required',
-            'jumlah_barang' => 'required|integer|min:1',
-            'tanggal' => 'required|date',
-            'id_satuan_berat' => 'required',
-            'id_kurir' => 'required',
-            'berat_satuan_barang' => 'required|numeric|min:1',
-        ]);
-
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-pusats', $validated);
+            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-pusats', $request->all());
 
             $result = json_decode($response->body());
 

@@ -118,7 +118,7 @@
                             <select name="id_lokasi" class="w-full p-2 rounded-lg">
                                 <option value="">Pilih Lokasi</option>
                                 @foreach ($lokasi as $lokasi)
-                                    <option value="{{ $lokasi['id'] }}">{{ $lokasi['nama_gudang_toko'] }}</option>
+                                    <option value="{{ $lokasi['id'] }}">{{ $lokasi['nama_lokasi'] }}</option>
                                 @endforeach
                             </select>
                             @error('id_lokasi')

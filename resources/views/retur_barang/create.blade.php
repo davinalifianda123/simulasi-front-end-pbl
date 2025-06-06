@@ -36,17 +36,6 @@
                 <div class="mb-12">
                     {{-- Baris 1 --}}
                     <div class="mb-6 flex justify-center items-center gap-4">
-                        {{-- Kode Pengiriman --}}
-                        <div class="flex flex-col w-full">
-                            <div class="flex items-center mb-2 gap-1">
-                                <label for="kode" class="text-sm font-medium text-gray-700">Kode Pengiriman</label>
-                                <label for="kode" class="text-sm font-medium text-red-600">*</label>
-                            </div>
-                            <input type="text" name="kode" class="w-full p-2 rounded-lg" placeholder="Input Kode Pengiriman" required>
-                            @error('kode')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
                         {{-- Pilih Barang --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">
@@ -79,10 +68,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
-                    
-                    {{-- Baris 2 --}}
-                    <div class="mb-6 flex justify-center items-center gap-4">
                         {{-- Jumlah Barang --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">
@@ -94,6 +79,10 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
+                    
+                    {{-- Baris 2 --}}
+                    <div class="mb-6 flex justify-center items-center gap-4">
                         {{-- Berat Satuan Barang --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">
@@ -105,21 +94,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- Pilih Tanggal --}}
-                        <div class="flex flex-col w-full">
-                            <div class="flex items-center mb-2 gap-1">
-                                <label for="tanggal" class="text-sm font-medium text-gray-700">Pilih Tanggal</label>
-                                <label for="tanggal" class="text-sm font-medium text-red-600">*</label>
-                            </div>
-                            <input type="date" name="tanggal" class="w-full p-2 rounded-lg" required>
-                            @error('tanggal')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </div>
-
-                    {{-- Baris 3 --}}
-                    <div class="mb-6 flex justify-center items-center gap-4">
                         {{-- Pilih Supplier --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">

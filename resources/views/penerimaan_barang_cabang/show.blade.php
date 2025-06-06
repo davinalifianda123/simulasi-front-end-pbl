@@ -1,117 +1,91 @@
-<x-default-layout>
-    <div class="bg-white rounded-lg shadow-md">
-        <div class="p-6 border-b flex justify-between items-center gap-12">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Penerimaan Barang</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="flex flex-col gap-4 sm:rounded-lg bg-white p-3 m-6">
+        <div class="bg-white overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6 flex justify-between">
+                <div>
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Informasi Penerimaan Barang</h3>
+                </div>
             </div>
-            <div class="flex space-x-2">
-                <a href="{{ route('penerimaan-barang.edit', $penerimaanBarang->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded">
-                    Edit
-                </a>
-                <form action="{{ route('penerimaan-barang.destroy', $penerimaanBarang->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded">
-                        Hapus
-                    </button>
-                </form>
+            <div class="border-t border-gray-200">
+                <dl class="px-4 py-5">
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">ID Penerimaan</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $penerimaanDiCabang->id }}</dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Tanggal Penerimaan</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ \Carbon\Carbon::parse($penerimaanDiCabang->tanggal)->format('d M Y H:i') }}</dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Jenis Penerimaan</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $penerimaanDiCabang->jenis_penerimaan }}</dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Kode</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $penerimaanDiCabang->kode }}</dd>
+                    </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Asal Barang</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $penerimaanDiCabang->asal_barang }}</dd>
+                    </div>
+                </dl>
             </div>
         </div>
-        
-        <div class="p-6">
-            @if(session('success'))
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                    <p>{{ session('success') }}</p>
-                </div>
-            @endif
-            
-            @if(session('error'))
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                    <p>{{ session('error') }}</p>
-                </div>
-            @endif
-            
-            <div class="mb-8">
-                <h2 class="text-lg font-semibold text-gray-700 mb-3">Informasi Penerimaan</h2>
-                <div class="bg-gray-50 rounded-lg p-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Supplier</p>
-                            <p class="text-base text-gray-900">{{ $penerimaanBarang->supplier->nama_toko_supplier }}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Gudang</p>
-                            <p class="text-base text-gray-900">{{ $penerimaanBarang->gudang->nama_gudang }}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500">Tanggal Penerimaan</p>
-                            <p class="text-base text-gray-900">{{ $penerimaanBarang->tanggal_penerimaan->format('d F Y H:i') }}</p>
-                        </div>
-                    </div>
-                </div>
+    
+        <div class="mt-8">
+            <div class="flex justify-between items-center px-4 py-5">
+                <h3 class="text-lg font-medium text-gray-900">Detail Barang yang Diterima</h3>
             </div>
-            
-            <div class="mb-8">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-semibold text-gray-700">Detail Barang</h2>
-                    <a href="{{ route('penerimaan-barang.create-detail', $penerimaanBarang->id) }}" class="bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-3 rounded text-sm">
-                        + Tambah Barang
-                    </a>
-                </div>
-                
-                <div class="bg-gray-50 rounded-lg p-4">
-                    @if($penerimaanBarang->detailPenerimaanBarang->count() > 0)
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Barang</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Satuan</th>
-                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($penerimaanBarang->detailPenerimaanBarang as $index => $detail)
-                                        <tr class="hover:bg-gray-50">
-                                            <td class="px-4 py-3 text-sm text-gray-900">{{ $index + 1 }}</td>
-                                            <td class="px-4 py-3 text-sm text-gray-900">{{ $detail->barang->nama_barang }}</td>
-                                            <td class="px-4 py-3 text-sm text-gray-900">{{ $detail->jumlah }}</td>
-                                            <td class="px-4 py-3 text-sm text-gray-900">{{ $detail->barang->berat }} gr</td>
-                                            <td class="px-4 py-3 text-sm">
-                                                <div class="flex space-x-2">
-                                                    <a href="{{ route('penerimaan-barang.show-detail', $detail->id) }}" class="text-blue-600 hover:text-blue-800 font-medium">
-                                                        Detail
-                                                    </a>
-                                                    <a href="{{ route('penerimaan-barang.edit-detail', $detail->id) }}" class="text-yellow-600 hover:text-yellow-800 font-medium">
-                                                        Edit
-                                                    </a>
-                                                    <form action="{{ route('penerimaan-barang.destroy-detail', $detail->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus detail barang ini?');">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">
-                                                            Hapus
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <p class="text-gray-500 text-center py-4">Belum ada data detail barang</p>
-                    @endif
-                </div>
+            <hr class="border-t border-gray-200 mb-8">
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg px-4 py-5">
+                <table class="min-w-full divide-y divide-gray-200 ">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nama Barang
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Jumlah Barang
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Satuan Barang
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $penerimaanDiCabang->nama_barang }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $penerimaanDiCabang->jumlah_barang }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $penerimaanDiCabang->berat_satuan_barang . " " . $penerimaanDiCabang->satuan_berat }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            
-            <div class="mt-6 border-t pt-4">
-                <a href="{{ route('penerimaan-barang.index') }}" class="text-blue-600 hover:text-blue-800 font-medium">
-                    &larr; Kembali ke Daftar Penerimaan
-                </a>
-            </div>
+        </hr>
+    
+        <div class="mt-6 px-4 py-5">
+            <a href="{{ route('penerimaan-di-cabangs.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                Kembali ke Daftar
+            </a>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

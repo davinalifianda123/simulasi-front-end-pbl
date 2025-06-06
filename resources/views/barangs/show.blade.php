@@ -8,50 +8,37 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
     <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
 </head>
-<body>
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div class="px-4 py-5 sm:px-6 flex justify-between items-center gap-12">
-            <div>
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl">
-                    Detail Barang
-                </h2>
-            </div>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail Merek Barang</h1>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">ID</label>
+            <p class="text-lg font-medium text-gray-800">{{ $barang->id }}</p>
         </div>
-    
-        <div class="border-t border-gray-200">
-            <dl>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Nama Barang
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $barang->nama_barang }}
-                    </dd>
-                </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Kategori
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $barang->kategori_barang}}
-                    </dd>
-                </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-medium text-gray-500">
-                        Status Barang
-                    </dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ $barang->status }}
-                    </dd>
-                </div>
-            </dl>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Merek</label>
+            <p class="text-lg font-medium text-gray-800">{{ $barang->nama_barang }}</p>
         </div>
-    
-        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-            <a href="{{ route('barangs.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Kembali ke Daftar
-            </a>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Kategori Barang</label>
+            <p class="text-lg font-medium text-gray-800">{{ $barang->kategori_barang }}</p>
+        </div>
+
+        <div class="mb-6">
+            <label class="text-sm text-gray-500">Status</label>
+            <p class="text-lg font-medium text-gray-800">{{ $barang->status }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="history.back();" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                Kembali
+            </button>
         </div>
     </div>
 </body>

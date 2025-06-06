@@ -1,41 +1,50 @@
-<x-default-layout>
-    <div class="bg-white rounded-lg shadow-md p-6 max-w-2xl mx-auto">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Detail Gudang</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
 
-        <div class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">ID</label>
-                <div class="mt-1 border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-900">
-                    {{ $gudang->id }}
-                </div>
-            </div>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail Gudang</h1>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Nama Gudang</label>
-                <div class="mt-1 border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-900">
-                    {{ $gudang->nama_gudang_toko }}
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                <div class="mt-1 border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-900">
-                    {{ $gudang->alamat }}
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">No Telepon</label>
-                <div class="mt-1 border border-gray-300 rounded-md px-3 py-2 bg-gray-50 text-gray-900">
-                    {{ $gudang->no_telepon ?? '-' }}
-                </div>
-            </div>
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">ID</label>
+            <p class="text-lg font-medium text-gray-800">{{ $gudang->id }}</p>
         </div>
 
-        <div class="mt-6">
-            <a href="{{ route('gudang.index') }}" class="text-blue-600 hover:text-blue-800 font-medium">
-                &larr; Kembali
-            </a>
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Nama Gudang</label>
+            <p class="text-lg font-medium text-gray-800">{{ $gudang->nama_gudang }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Alamat</label>
+            <p class="text-lg font-medium text-gray-800">{{ $gudang->alamat }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">No Telepon</label>
+            <p class="text-lg font-medium text-gray-800">{{ $gudang->no_telepon }}</p>
+        </div>
+
+        <div class="mb-6">
+            <label class="text-sm text-gray-500">Status</label>
+            <p class="text-lg font-medium text-gray-800">{{ $gudang->status }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="history.back();" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                Kembali
+            </button>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

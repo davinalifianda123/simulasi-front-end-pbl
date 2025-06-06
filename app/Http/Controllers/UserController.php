@@ -84,9 +84,25 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/users/{$id}");
+
+        $user = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $user = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('users.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'user' => $user,
+        ]);
     }
 
     /**

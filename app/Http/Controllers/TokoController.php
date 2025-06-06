@@ -65,9 +65,25 @@ class TokoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/tokos/{$id}");
+
+        $toko = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $toko = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('tokos.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'toko' => $toko,
+        ]);
     }
 
     /**

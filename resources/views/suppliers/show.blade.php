@@ -1,44 +1,45 @@
-<x-default-layout>
-    <div class="bg-white shadow-md rounded-lg overflow-hidden px-6 py-4">
-        <div class="flex justify-between items-center p-4 border-b">
-            <h1 class="text-2xl font-bold text-gray-800">Detail Supplier</h1>
-            <div class="space-x-2">
-                <a href="{{ route('suppliers.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-4 py-2 rounded">
-                    Kembali
-                </a>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail Supplier</h1>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">ID</label>
+            <p class="text-lg font-medium text-gray-800">{{ $supplier->id }}</p>
         </div>
 
-        <div class="p-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="border-b md:border-b-0 md:border-r pb-4 md:pb-0 md:pr-4">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Informasi Supplier</h2>
-                    
-                    <div class="mb-4">
-                        <span class="block text-gray-500 text-sm">Nama Supplier</span>
-                        <span class="block text-lg font-medium">{{ $supplier->nama_gudang_toko }}</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <span class="block text-gray-500 text-sm">Alamat</span>
-                        <span class="block text-lg">{{ $supplier->alamat }}</span>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <span class="block text-gray-500 text-sm">Terdaftar Pada</span>
-                        <span class="block text-lg">{{ $supplier->created_at->format('d M Y, H:i') }}</span>
-                    </div>
-                </div>
-                
-                <div class="pt-4 md:pt-0 md:pl-4">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-700">Kontak</h2>
-                    
-                    <div class="mb-4">
-                        <span class="block text-gray-500 text-sm">Nomor Telepon</span>
-                        <span class="block text-lg">{{ $supplier->no_telepon }}</span>
-                    </div>
-                </div>
-            </div>
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Nama Supplier</label>
+            <p class="text-lg font-medium text-gray-800">{{ $supplier->nama_gudang_toko }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Alamat</label>
+            <p class="text-lg font-medium text-gray-800">{{ $supplier->alamat }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">No Telepon</label>
+            <p class="text-lg font-medium text-gray-800">{{ $supplier->no_telepon }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="history.back();" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                Kembali
+            </button>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

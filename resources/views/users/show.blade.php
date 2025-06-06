@@ -1,36 +1,55 @@
-<!-- resources/views/users/show.blade.php -->
-<x-default-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Detail Pengguna') }}: {{ $user->name }}
-        </h2>
-    </x-slot>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="mb-6">
-                        <a href="{{ route('users.index') }}" class="text-blue-500 hover:underline">
-                            &larr; Kembali ke Daftar Pengguna
-                        </a>
-                    </div>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail User</h1>
 
-                    <div class="p-4 mb-6 bg-gray-50 rounded-lg">
-                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                            <div>
-                                <h3 class="text-lg font-semibold">Informasi Pengguna</h3>
-                                <div class="mt-2">
-                                    <p><span class="font-medium">ID:</span> {{ $user->id }}</p>
-                                    <p><span class="font-medium">Nama:</span> {{ $user->nama_user }}</p>
-                                    <p><span class="font-medium">Email:</span> {{ $user->email }}</p>
-                                    <p><span class="font-medium">Role:</span> {{ ucfirst($user->role->nama_role ?? 'Tidak ada role') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">ID</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->id }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Nama User</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->nama_user }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Email</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->email }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Role</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->role }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Lokasi</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->lokasi }}</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Status</label>
+            <p class="text-lg font-medium text-gray-800">{{ $user->status }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="history.back();" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                Kembali
+            </button>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

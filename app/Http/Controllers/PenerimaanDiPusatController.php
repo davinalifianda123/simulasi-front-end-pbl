@@ -66,25 +66,14 @@ class PenerimaanDiPusatController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'kode' => 'required|string',
-            'id_barang' => 'required',
-            'jumlah_barang' => 'required|integer|min:1',
-            'tanggal' => 'required|date',
-            'id_satuan_berat' => 'required',
-            'id_asal_barang' => 'required',
-            'id_jenis_penerimaan' => 'required',
-            'berat_satuan_barang' => 'required|numeric|min:1',
-        ]);
-
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/penerimaan-di-pusats', $validated);
+            $response = Http::withToken($token)->post('http://localhost:8001/api/penerimaan-di-pusats', $request->all());
 
             $result = json_decode($response->body());
 
             if ($response->successful() && $result->status) {
-                return redirect()->route('penerimaan_barang.index')->with('success', $result->message);
+                return redirect()->route('penerimaan-di-pusats.index')->with('success', $result->message);
             } else {
                 return back()->withErrors([
                     'api' => $result->message ?? 'Gagal menyimpan data.',
@@ -100,9 +89,25 @@ class PenerimaanDiPusatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/penerimaan-di-pusats/{$id}");
+
+        $penerimaanDiPusat = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $penerimaanDiPusat = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('penerimaan_barang.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'penerimaanDiPusat' => $penerimaanDiPusat,
+        ]);
     }
 
     /**

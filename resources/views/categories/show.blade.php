@@ -1,27 +1,40 @@
-<x-default-layout>
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Detail Kategori Barang</h1>
-            <a href="{{ route('categories.index') }}" class="inline-flex items-center text-blue-600 hover:text-blue-800">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-            </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <title>Gudangku</title>
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Detail Kategori Barang</h1>
+
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">ID</label>
+            <p class="text-lg font-medium text-gray-800">{{ $kategoriBarang->id }}</p>
         </div>
 
-    
-        <div class="bg-gray-50 p-4 rounded-md mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <h3 class="text-sm font-medium text-gray-500">ID Kategori</h3>
-                    <p class="mt-1 text-lg">{{ $category->id }}</p>
-                </div>
-                
-                <div>
-                    <h3 class="text-sm font-medium text-gray-500">Nama Kategori</h3>
-                    <p class="mt-1 text-lg font-medium">{{ $category->nama_kategori_barang }}</p>
-                </div>
-            </div>
+        <div class="mb-4">
+            <label class="text-sm text-gray-500">Nama Kategori</label>
+            <p class="text-lg font-medium text-gray-800">{{ $kategoriBarang->nama_kategori_barang }}</p>
+        </div>
+
+        <div class="mb-6">
+            <label class="text-sm text-gray-500">Status</label>
+            <p class="text-lg font-medium text-gray-800">{{ $kategoriBarang->status }}</p>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="history.back();" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                Kembali
+            </button>
         </div>
     </div>
-</x-default-layout>
+</body>
+</html>

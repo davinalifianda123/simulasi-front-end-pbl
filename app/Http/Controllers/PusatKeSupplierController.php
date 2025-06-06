@@ -66,20 +66,9 @@ class PusatKeSupplierController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'kode' => 'required|string',
-            'id_supplier' => 'required',
-            'id_barang' => 'required',
-            'jumlah_barang' => 'required|integer|min:1',
-            'tanggal' => 'required|date',
-            'id_satuan_berat' => 'required',
-            'id_kurir' => 'required',
-            'berat_satuan_barang' => 'required|numeric|min:1',
-        ]);
-
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/pusat-ke-suppliers', $validated);
+            $response = Http::withToken($token)->post('http://localhost:8001/api/pusat-ke-suppliers', $request->all());
 
             $result = json_decode($response->body());
 
@@ -101,9 +90,25 @@ class PusatKeSupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+        $response = Http::withToken($token)->get("http://localhost:8001/api/pusat-ke-suppliers/{$id}");
+
+        $pusatKeSupplier = null;
+        if ($response->successful()) {
+            $result = json_decode($response->body());
+            $pusatKeSupplier = $result->data ?? null;
+        }
+
+        $nama_user = $request->attributes->get('nama_user');
+        $nama_role = $request->attributes->get('nama_role');
+
+        return view('retur_barang.show', [
+            'nama_user' => $nama_user ?? '',
+            'nama_role' => $nama_role ?? '',
+            'pusatKeSupplier' => $pusatKeSupplier,
+        ]);
     }
 
     /**
