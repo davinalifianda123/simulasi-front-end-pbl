@@ -48,34 +48,50 @@ Route::middleware('jwt.auth')->group(function () {
 
     Route::middleware(['role:SuperAdmin'])->group(function () {
         Route::resource('users', UserController::class);
+        Route::patch('/users/{id}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
 
-        Route::resource('kategori-barangs', KategoriBarangController::class);
-    
+        Route::patch('/kategori-barangs/{id}/deactivate', [KategoriBarangController::class, 'deactivate'])->name('kategori-barangs.deactivate');
+
+        Route::patch('/detail-gudangs/{id}/deactivate', [DetailGudangController::class, 'deactivate'])->name('detail-gudangs.deactivate');
+
         Route::resource('tokos', TokoController::class);
+        Route::patch('/tokos/{id}/deactivate', [TokoController::class, 'deactivate'])->name('tokos.deactivate');
 
         Route::resource('suppliers', SupplierController::class);
-    
+        Route::patch('/suppliers/{id}/deactivate', [SupplierController::class, 'deactivate'])->name('suppliers.deactivate');
+
         Route::resource('gudangs', GudangController::class);
         Route::patch('/gudangs/{id}/toggle', [GudangController::class, 'toggle'])->name('gudangs.toggle');
     });
 
     Route::middleware(['role:SuperAdmin,Admin'])->group(function () {
         Route::resource('barangs', BarangController::class);
+        Route::patch('/barangs/{id}/deactivate', [BarangController::class, 'deactivate'])->name('barangs.deactivate');
         
         Route::resource('kategori-barangs', KategoriBarangController::class);
     
+        Route::resource('detail-gudangs', DetailGudangController::class);
+        
         Route::resource('pusat-ke-suppliers', PusatKeSupplierController::class);
-    
+        Route::patch('/pusat-ke-suppliers/{id}/deactivate', [PusatKeSupplierController::class, 'deactivate'])->name('pusat-ke-suppliers.deactivate');
+        Route::patch('/pusat-ke-suppliers/{id}/update-status', [PusatKeSupplierController::class, 'updateStatus'])->name('pusat-ke-suppliers.update-status');
+
         Route::resource('cabang-ke-pusats', CabangKePusatController::class);
+        Route::patch('/cabang-ke-pusats/{id}/deactivate', [CabangKePusatController::class, 'deactivate'])->name('cabang-ke-pusats.deactivate');
+        Route::patch('/cabang-ke-pusats/{id}/update-status', [CabangKePusatController::class, 'updateStatus'])->name('cabang-ke-pusats.update-status');
     
         Route::resource('cabang-ke-tokos', CabangKeTokoController::class);
-    
+        Route::patch('/cabang-ke-tokos/{id}/deactivate', [CabangKeTokoController::class, 'deactivate'])->name('cabang-ke-tokos.deactivate');
+        Route::patch('/cabang-ke-tokos/{id}/update-status', [CabangKeTokoController::class, 'updateStatus'])->name('cabang-ke-tokos.update-status');
+
         Route::resource('penerimaan-di-pusats', PenerimaanDiPusatController::class);
-    
-        Route::resource('detail-gudangs', DetailGudangController::class);
+        Route::patch('/penerimaan-di-pusats/{id}/deactivate', [PenerimaanDiPusatController::class, 'deactivate'])->name('penerimaan-di-pusats.deactivate');
     
         Route::resource('pusat-ke-cabangs', PusatKeCabangController::class);
+        Route::patch('/pusat-ke-cabangs/{id}/deactivate', [PusatKeCabangController::class, 'deactivate'])->name('pusat-ke-cabangs.deactivate');
+        Route::patch('/pusat-ke-cabangs/{id}/update-status', [PusatKeCabangController::class, 'updateStatus'])->name('pusat-ke-cabangs.update-status');
     
         Route::resource('penerimaan-di-cabangs', PenerimaanDiCabangController::class);
+        Route::patch('/penerimaan-di-cabangs/{id}/deactivate', [PenerimaanDiCabangController::class, 'deactivate'])->name('penerimaan-di-cabangs.deactivate');
     });
 });

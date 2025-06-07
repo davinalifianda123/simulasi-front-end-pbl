@@ -28,6 +28,7 @@ class PusatKeSupplierController extends Controller
             'nama_user' => $nama_user ?? '',
             'nama_role' => $nama_role ?? '',
             'pusatKeSuppliers' => $result->pusatKeSuppliers ?? [],
+            'statuses' => $result->statuses ?? [],
             'headings' => $result->headings ?? [],
         ]);
     }
@@ -133,5 +134,38 @@ class PusatKeSupplierController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function deactivate(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/pusat-ke-suppliers/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('pusat-ke-suppliers.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('pusat-ke-suppliers.index')
+                            ->with('error', $error);
+        }
+    }
+
+    public function updateStatus(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+        $payload = [
+            'id_status' => request()->input('id_status'),
+        ];
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/pusat-ke-suppliers/{$id}/update-status", $payload);
+
+        $responseBody = $response->json();
+
+        $message = $responseBody['message'] ?? ($response->successful() ? 'Status berhasil diperbarui.' : 'Gagal memperbarui status.');
+
+        return redirect()->route('pusat-ke-suppliers.index')->with($response->successful() ? 'success' : 'error', $message);
     }
 }

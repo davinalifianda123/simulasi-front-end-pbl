@@ -164,4 +164,21 @@ class UserController extends Controller
     {
         //
     }
+
+    public function deactivate(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/users/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('users.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('users.index')
+                            ->with('error', $error);
+        }
+    }
 }

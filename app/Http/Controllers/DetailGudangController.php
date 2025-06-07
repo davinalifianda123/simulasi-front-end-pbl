@@ -165,8 +165,21 @@ class DetailGudangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deactivate(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/detail-gudangs/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('detail-gudangs.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('detail-gudangs.index')
+                            ->with('error', $error);
+        }
     }
+
 }

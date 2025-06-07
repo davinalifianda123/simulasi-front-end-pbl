@@ -96,7 +96,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
                             </a> `: ''}
-                            <a onclick="deleteData(${index})" 
+                            <a onclick="deactivateData(${index})" 
                                     class="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-800 transition-all duration-200 shadow-sm hover:shadow-md" 
                                     title="Hapus Data">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,6 +117,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
     window.resourceName = tableElement ? tableElement.dataset.resourceName : 'Baru';
     window.routeName = tableElement ? tableElement.dataset.routeName : '';
     window.isEditable = tableElement.dataset.editable === 'true';
+    window.userRole = tableElement.dataset.userRole || null;
 
 
     const table = new simpleDatatables.DataTable("#export-table", {
@@ -260,12 +261,45 @@ window.editData = function(index) {
     }
 };
 
-window.deleteData = function(index) {
+window.deactivateData = function(index) {
     const row = document.querySelectorAll('#export-table tbody tr')[index];
     const id = row ? row.dataset.id : null;
+
+    if (!window.userRole || window.userRole !== 'SuperAdmin') {
+        alert('Akses ditolak. Hanya SuperAdmin yang dapat menghapus data.');
+        return;
+    }
+
     if (window.routeName && id) {
         if (confirm('Yakin ingin menghapus data ini?')) {
-            window.location.href = `/${window.routeName}/${id}/destroy`;
+            const url = `/${window.routeName}/${id}/deactivate`;
+
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status === 403) {
+                    alert('Akses ditolak. Anda tidak memiliki izin untuk menghapus data ini.');
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.status) {
+                    location.reload();
+                } else {
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat menonaktifkan data.');
+            });
         }
     }
 };
+

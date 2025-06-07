@@ -174,23 +174,32 @@
             <div class="bg-white rounded-lg shadow-sm p-6">
                 <h2 class="text-lg font-semibold mb-4">Stock Running Low</h2>
                 <div class="space-y-4" style="max-height: 370px; overflow-y: auto;">
-                    @foreach ($lowStock as $index => $item)
-                        <div class="flex items-center justify-between {{ $index >= 5 ? 'hidden extra-stock' : '' }}">
-                            <div class="flex items-center">
-                                <span class="text-gray-500 mr-2">#{{ $index + 1 }}</span>
-                                <div>
-                                    <p class="font-medium text-sm">{{ $item->nama_barang }}</p>
-                                    <div class="flex flex-col">
-                                        <span class="text-xs text-gray-500">{{ $item->nama_gudang }}</span>
-                                        <span class="text-xs text-gray-500">
-                                            Stock: <span class="text-red-500">{{ $item->jumlah_stok }}</span>
-                                        </span>
+                    @if(count($lowStock) > 0)
+                        @foreach ($lowStock as $index => $item)
+                            <div class="flex items-center justify-between {{ $index >= 5 ? 'hidden extra-stock' : '' }}">
+                                <div class="flex items-center">
+                                    <span class="text-gray-500 mr-2">#{{ $index + 1 }}</span>
+                                    <div>
+                                        <p class="font-medium text-sm">{{ $item->nama_barang }}</p>
+                                        <div class="flex flex-col">
+                                            <span class="text-xs text-gray-500">{{ $item->nama_gudang }}</span>
+                                            <span class="text-xs text-gray-500">
+                                                Stock: <span class="text-red-500">{{ $item->jumlah_stok }}</span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                    <div class="mt-28 flex flex-col gap-4 items-center justify-between text-center">
+                            <img src="{{ asset('images/in-stock.png') }}" alt="In Stock" class="mx-auto w-32 h-32 object-contain">
+                            <span class="inline-flex items-center bg-green-100 text-green-800 text-md font-medium px-2.5 py-0.5 rounded-full">
+                                <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                                Available
+                            </span>
                         </div>
-                    @endforeach
-                </div>
+                    @endif
 
                 @if (count($lowStock) > 5)
                     <button

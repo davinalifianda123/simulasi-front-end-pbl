@@ -133,4 +133,21 @@ class PenerimaanDiCabangController extends Controller
     {
         //
     }
+
+    public function deactivate(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/penerimaan-di-cabangs/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('penerimaan-di-cabangs.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('penerimaan-di-cabangs.index')
+                            ->with('error', $error);
+        }
+    }
 }

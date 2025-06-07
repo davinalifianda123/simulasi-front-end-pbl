@@ -28,6 +28,7 @@ class CabangKeTokoController extends Controller
             'nama_user' => $nama_user ?? '',
             'nama_role' => $nama_role ?? '',
             'cabangKeTokos' => $result->cabangKeTokos ?? [],
+            'statuses' => $result->statuses ?? [],
             'headings' => $result->headings ?? [],
         ]);
     }
@@ -133,5 +134,38 @@ class CabangKeTokoController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function deactivate(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-tokos/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('cabang-ke-tokos.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('cabang-ke-tokos.index')
+                            ->with('error', $error);
+        }
+    }
+
+    public function updateStatus(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+        $payload = [
+            'id_status' => request()->input('id_status'),
+        ];
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-tokos/{$id}/update-status", $payload);
+
+        $responseBody = $response->json();
+
+        $message = $responseBody['message'] ?? ($response->successful() ? 'Status berhasil diperbarui.' : 'Gagal memperbarui status.');
+
+        return redirect()->route('cabang-ke-tokos.index')->with($response->successful() ? 'success' : 'error', $message);
     }
 }

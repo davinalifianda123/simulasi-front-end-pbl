@@ -133,8 +133,18 @@ class KategoriBarangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deactivate(string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/kategori-barangs/{$id}/deactivate");
+
+        if ($response->successful()) {
+            $message = $response->json('message');
+            return redirect()->route('kategori-barangs.index')->with('success', $message);
+        } else {
+            $message = $response->json('message') ?? 'Gagal menonaktifkan kategori barang.';
+            return redirect()->route('kategori-barangs.index')->with('error', $message);
+        }
     }
 }

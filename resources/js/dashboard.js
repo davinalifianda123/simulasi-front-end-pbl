@@ -54,18 +54,7 @@ const options = {
       }
     }
   },
-  series: [
-    {
-      name: "Developer Edition",
-      data: [150, 141, 145, 152, 135, 125],
-      color: "#1A56DB",
-    },
-    {
-      name: "Designer Edition",
-      data: [43, 13, 65, 12, 42, 73],
-      color: "#7E3BF2",
-    },
-  ],
+  series: [],
   chart: {
     sparkline: {
       enabled: false

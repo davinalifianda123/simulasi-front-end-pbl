@@ -134,4 +134,21 @@ class TokoController extends Controller
     {
         //
     }
+
+    public function deactivate(string $id)
+    {
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->patch("http://localhost:8001/api/tokos/{$id}/deactivate");
+
+        if ($response->successful()) {
+            return redirect()->route('tokos.index')
+                            ->with('success', $response->json()['message'] ?? 'Data berhasil dihapus.');
+        } else {
+            $error = $response->json()['message'] ?? 'Gagal menghapus data.';
+
+            return redirect()->route('tokos.index')
+                            ->with('error', $error);
+        }
+    }
 }
