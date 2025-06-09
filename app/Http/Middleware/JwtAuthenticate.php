@@ -21,7 +21,7 @@ class JwtAuthenticate
         try {
             // Coba akses endpoint user
             $response = Http::withToken($accessToken)
-                            ->get('http://localhost:8001/api/authenticated-user');
+                            ->get('https://gudangku.web.id/api/authenticated-user');
 
             if ($response->ok()) {
                 return $next($request);
@@ -29,7 +29,7 @@ class JwtAuthenticate
 
             // Jika access token expired, coba refresh
             if (!$response->ok() && $refreshToken) {
-                $refreshResponse = Http::post('http://localhost:8001/api/refresh', ['refresh_token' => $refreshToken]);
+                $refreshResponse = Http::post('https://gudangku.web.id/api/refresh', ['refresh_token' => $refreshToken]);
 
                 if ($refreshResponse->ok()) {
                     $newAccessToken = $refreshResponse['access_token'];
@@ -38,7 +38,7 @@ class JwtAuthenticate
                     Cookie::queue(cookie('jwt_token', $newAccessToken, 60 * 24));
 
                     // Validasi ulang dengan token baru
-                    $secondTry = Http::withToken($newAccessToken)->get('http://localhost:8001/api/authenticated-user');
+                    $secondTry = Http::withToken($newAccessToken)->get('https://gudangku.web.id/api/authenticated-user');
 
                     if ($secondTry->ok()) {
                         return $next($request);

@@ -264,8 +264,10 @@ window.editData = function(index) {
 window.deactivateData = function(index) {
     const row = document.querySelectorAll('#export-table tbody tr')[index];
     const id = row ? row.dataset.id : null;
+    const isSuperAdmin = window.userRole === 'SuperAdmin';
+    const isDetailRoute = window.routeName === 'detail-gudangs';
 
-    if (!window.userRole || window.userRole !== 'SuperAdmin') {
+    if (!isSuperAdmin && !isDetailRoute) {
         alert('Akses ditolak. Hanya SuperAdmin yang dapat menghapus data.');
         return;
     }

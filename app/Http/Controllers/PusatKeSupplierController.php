@@ -13,7 +13,7 @@ class PusatKeSupplierController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/pusat-ke-suppliers');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/pusat-ke-suppliers');
 
         $result = [];
         if ($response->successful()) {
@@ -39,7 +39,7 @@ class PusatKeSupplierController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/pusat-ke-suppliers/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/pusat-ke-suppliers/create');
 
         $data = [];
         if ($response->successful()) {
@@ -69,7 +69,7 @@ class PusatKeSupplierController extends Controller
     {
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/pusat-ke-suppliers', $request->all());
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/pusat-ke-suppliers', $request->all());
 
             $result = json_decode($response->body());
 
@@ -94,7 +94,7 @@ class PusatKeSupplierController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/pusat-ke-suppliers/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/pusat-ke-suppliers/{$id}");
 
         $pusatKeSupplier = null;
         if ($response->successful()) {
@@ -140,7 +140,7 @@ class PusatKeSupplierController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/pusat-ke-suppliers/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/pusat-ke-suppliers/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('pusat-ke-suppliers.index')
@@ -160,7 +160,7 @@ class PusatKeSupplierController extends Controller
             'id_status' => request()->input('id_status'),
         ];
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/pusat-ke-suppliers/{$id}/update-status", $payload);
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/pusat-ke-suppliers/{$id}", $payload);
 
         $responseBody = $response->json();
 

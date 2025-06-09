@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/users');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/users');
 
         $result = [];
         if ($response->successful()) {
@@ -38,7 +38,7 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/users/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/users/create');
 
         $roles = [];
         $lokasi = [];
@@ -63,7 +63,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/users', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/users', [
             'nama_user' => $request->input('nama_user'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
@@ -87,7 +87,7 @@ class UserController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/users/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/users/{$id}");
 
         $user = null;
         if ($response->successful()) {
@@ -112,7 +112,7 @@ class UserController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->get("http://localhost:8001/api/users/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/users/{$id}/edit");
 
         $result = json_decode($response->body());
         $data = $result->data;
@@ -145,7 +145,7 @@ class UserController extends Controller
             $data['password'] = 'password123';
         }
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/users/{$id}", $data);
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/users/{$id}", $data);
 
         if ($response->successful()) {
             $message = $request->has('reset_password') ? 'Password berhasil direset ke default.' : 'User berhasil diperbarui.';
@@ -169,7 +169,7 @@ class UserController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/users/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/users/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('users.index')

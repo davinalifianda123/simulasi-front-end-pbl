@@ -13,7 +13,7 @@ class PenerimaanDiPusatController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/penerimaan-di-pusats');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-pusats');
 
         $result = [];
         if ($response->successful()) {
@@ -38,7 +38,7 @@ class PenerimaanDiPusatController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/penerimaan-di-pusats/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-pusats/create');
 
         $data = [];
         if ($response->successful()) {
@@ -49,11 +49,13 @@ class PenerimaanDiPusatController extends Controller
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
         $id_lokasi = $request->attributes->get('id_lokasi');
+        $lokasi = $request->attributes->get('lokasi');
 
         return view('penerimaan_barang.create', [
             'nama_user' => $nama_user ?? '',
             'nama_role' => $nama_role ?? '',
             'id_lokasi' => $id_lokasi ?? '',
+            'lokasi' => $lokasi ?? '',
             'barangs' => $data->barangs ?? [],
             'jenisPenerimaans' => $data->jenisPenerimaan ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
@@ -68,7 +70,7 @@ class PenerimaanDiPusatController extends Controller
     {
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/penerimaan-di-pusats', $request->all());
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/penerimaan-di-pusats', $request->all());
 
             $result = json_decode($response->body());
 
@@ -92,7 +94,7 @@ class PenerimaanDiPusatController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/penerimaan-di-pusats/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/penerimaan-di-pusats/{$id}");
 
         $penerimaanDiPusat = null;
         if ($response->successful()) {
@@ -138,7 +140,7 @@ class PenerimaanDiPusatController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/penerimaan-di-pusats/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/penerimaan-di-pusats/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('penerimaan-di-pusats.index')

@@ -13,7 +13,7 @@ class CabangKePusatController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/cabang-ke-pusats');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/cabang-ke-pusats');
 
         $result = [];
         if ($response->successful()) {
@@ -27,7 +27,7 @@ class CabangKePusatController extends Controller
         return view('retur_barang_cabang.index', [
             'nama_user' => $nama_user ?? '',
             'nama_role' => $nama_role ?? '',
-            'cabangKePusats' => $result->cabangKePusats ?? [],
+            'cabangKePusats' => $result->CabangKePusats ?? [],
             'statuses' => $result->statuses ?? [],
             'headings' => $result->headings ?? [],
         ]);
@@ -39,7 +39,7 @@ class CabangKePusatController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/cabang-ke-pusats/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/cabang-ke-pusats/create');
 
         $data = [];
         if ($response->successful()) {
@@ -69,7 +69,7 @@ class CabangKePusatController extends Controller
     {
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-pusats', $request->all());
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/cabang-ke-pusats', $request->all());
 
             $result = json_decode($response->body());
 
@@ -93,7 +93,7 @@ class CabangKePusatController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/cabang-ke-pusats/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/cabang-ke-pusats/{$id}");
 
         $cabangKePusat = null;
         if ($response->successful()) {
@@ -139,7 +139,7 @@ class CabangKePusatController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-pusats/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/cabang-ke-pusats/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('cabang-ke-pusats.index')
@@ -159,7 +159,7 @@ class CabangKePusatController extends Controller
             'id_status' => request()->input('id_status'),
         ];
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-pusats/{$id}/update-status", $payload);
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/cabang-ke-pusats/{$id}", $payload);
 
         $responseBody = $response->json();
 

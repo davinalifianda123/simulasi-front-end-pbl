@@ -18,7 +18,7 @@ class AuthController extends Controller
 
         try {
             // Kirim POST ke backend API login
-            $response = Http::post('http://localhost:8001/api/login', [
+            $response = Http::post('https://gudangku.web.id/api/login', [
                 'email' => $request->email,
                 'password' => $request->password,
             ]);

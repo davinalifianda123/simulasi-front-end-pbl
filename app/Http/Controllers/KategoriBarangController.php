@@ -13,7 +13,7 @@ class KategoriBarangController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/kategori-barangs');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/kategori-barangs');
 
         $result = [];
         if ($response->successful()) {
@@ -49,7 +49,7 @@ class KategoriBarangController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/kategori-barangs', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/kategori-barangs', [
             'nama_kategori_barang' => $request->input('nama_kategori_barang'),
         ]);
 
@@ -69,7 +69,7 @@ class KategoriBarangController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/kategori-barangs/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/kategori-barangs/{$id}");
 
         $kategoriBarang = null;
         if ($response->successful()) {
@@ -93,7 +93,7 @@ class KategoriBarangController extends Controller
     public function edit(string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/kategori-barangs/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/kategori-barangs/{$id}/edit");
 
         if (!$response->successful()) {
             abort($response->status(), 'Gagal mengambil data kategori barang');
@@ -119,7 +119,7 @@ class KategoriBarangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/kategori-barangs/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/kategori-barangs/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('kategori-barangs.index')->with('success', 'Kategori barang berhasil diperbarui.');
@@ -137,7 +137,7 @@ class KategoriBarangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/kategori-barangs/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/kategori-barangs/{$id}/deactivate");
 
         if ($response->successful()) {
             $message = $response->json('message');

@@ -18,16 +18,17 @@ class RoleMiddleware
     {
         $token = $request->cookie('jwt_token');
 
-        $response = Http::withToken($token)->get('http://localhost:8001/api/authenticated-user');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/authenticated-user');
 
         $userResponse = json_decode($response->body());
-        $user = $userResponse->user;
+        $user = $userResponse->data;
 
         foreach ($roles as $role) {
-            if ($role == $user->role->nama_role) {
+            if ($role == $user->role) {
                 $request->attributes->set('id_user', $user->id);
                 $request->attributes->set('nama_user', $user->nama_user);
-                $request->attributes->set('nama_role', $user->role->nama_role);
+                $request->attributes->set('nama_role', $user->role);
+                $request->attributes->set('lokasi', $user->lokasi);
                 $request->attributes->set('id_lokasi', $user->id_lokasi);
                 return $next($request);
             }

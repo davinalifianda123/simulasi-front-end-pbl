@@ -13,7 +13,7 @@ class TokoController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/tokos');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/tokos');
 
         $result = [];
         if ($response->successful()) {
@@ -49,7 +49,7 @@ class TokoController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/tokos', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/tokos', [
             'nama_gudang_toko' => $request->input('nama_gudang_toko'),
             'alamat' => $request->input('alamat'),
             'no_telepon' => $request->input('no_telepon'),
@@ -68,7 +68,7 @@ class TokoController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/tokos/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/tokos/{$id}");
 
         $toko = null;
         if ($response->successful()) {
@@ -92,7 +92,7 @@ class TokoController extends Controller
     public function edit(string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/tokos/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/tokos/{$id}/edit");
 
         if (!$response->successful()) {
             abort($response->status(), 'Gagal mengambil data toko');
@@ -117,7 +117,7 @@ class TokoController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/tokos/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/tokos/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('tokos.index')->with('success', 'Toko berhasil diperbarui.');
@@ -139,7 +139,7 @@ class TokoController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/tokos/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/tokos/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('tokos.index')

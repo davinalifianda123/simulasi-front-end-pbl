@@ -13,7 +13,7 @@ class DetailGudangController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/detail-gudangs');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
 
         $result = [];
         if ($response->successful()) {
@@ -22,7 +22,7 @@ class DetailGudangController extends Controller
         }
 
         $nama_user = $request->attributes->get('nama_user');
-        $nama_role = $request->attributes->get('nama_role');
+        $nama_role = $request->attributes->get('role');
 
         return view('detail_gudang.index', [
             'nama_user' => $nama_user ?? '',
@@ -38,7 +38,7 @@ class DetailGudangController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/detail-gudangs/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs/create');
 
         $data = [];
         if ($response->successful()) {
@@ -47,13 +47,15 @@ class DetailGudangController extends Controller
         }
 
         $nama_user = $request->attributes->get('nama_user');
-        $nama_role = $request->attributes->get('nama_role');
+        $role = $request->attributes->get('nama_role');
         $id_lokasi = $request->attributes->get('id_lokasi');
+        $lokasi = $request->attributes->get('lokasi');
 
         return view('detail_gudang.create', [
             'nama_user' => $nama_user ?? '',
-            'nama_role' => $nama_role ?? '',
+            'role' => $role ?? '',
             'id_lokasi' => $id_lokasi ?? '',
+            'lokasi' => $lokasi ?? '',
             'barangs' => $data->barangs ?? [],
             'gudangs' => $data->gudang ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
@@ -75,7 +77,7 @@ class DetailGudangController extends Controller
 
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/detail-gudangs', $validated);
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/detail-gudangs', $validated);
 
             $result = json_decode($response->body());
 
@@ -100,7 +102,7 @@ class DetailGudangController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/detail-gudangs/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/detail-gudangs/{$id}");
 
         $detailGudang = null;
         if ($response->successful()) {
@@ -109,11 +111,11 @@ class DetailGudangController extends Controller
         }
 
         $nama_user = $request->attributes->get('nama_user');
-        $nama_role = $request->attributes->get('nama_role');
+        $role = $request->attributes->get('role');
 
         return view('detail_gudang.show', [
             'nama_user' => $nama_user ?? '',
-            'nama_role' => $nama_role ?? '',
+            'role' => $role ?? '',
             'detailGudang' => $detailGudang,
         ]);
     }
@@ -125,18 +127,18 @@ class DetailGudangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->get("http://localhost:8001/api/detail-gudangs/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/detail-gudangs/{$id}/edit");
 
         $result = json_decode($response->body());
         $data = $result->data;
 
         $nama_user = request()->attributes->get('nama_user');
-        $nama_role = request()->attributes->get('nama_role');
+        $role = request()->attributes->get('role');
         $id_lokasi = request()->attributes->get('id_lokasi');
 
         return view('detail_gudang.edit', [
             'nama_user' => $nama_user ?? '',
-            'nama_role' => $nama_role ?? '',
+            'role' => $role ?? '',
             'id_lokasi' => $id_lokasi ?? '',
             'detailGudang' => $data->detailGudang ?? null,
             'barangs' => $data->barangs ?? [],
@@ -152,7 +154,7 @@ class DetailGudangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/detail-gudangs/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/detail-gudangs/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('detail-gudangs.index')->with('success', 'Detail Gudang berhasil diperbarui.');
@@ -169,7 +171,7 @@ class DetailGudangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/detail-gudangs/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/detail-gudangs/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('detail-gudangs.index')

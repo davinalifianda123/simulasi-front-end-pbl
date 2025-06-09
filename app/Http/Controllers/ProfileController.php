@@ -38,7 +38,7 @@ class ProfileController extends Controller
     public function show(string $namaUser)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/profile/{$namaUser}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$namaUser}");
 
         $user = null;
         if ($response->successful()) {
@@ -63,7 +63,7 @@ class ProfileController extends Controller
     public function edit(string $namaUser)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/profile/{$namaUser}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$namaUser}");
 
         $user = null;
         if ($response->successful()) {
@@ -88,7 +88,7 @@ class ProfileController extends Controller
     public function update(Request $request, string $namaUser)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->put("http://localhost:8001/api/profile/{$namaUser}", [
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/profile/{$namaUser}", [
             'nama_user' => $request->input('nama_user'),
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),

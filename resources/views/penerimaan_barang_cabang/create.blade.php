@@ -127,7 +127,7 @@
                                 <select name="id_asal_barang" id="asalBarang" class="w-full p-2 rounded-lg">
                                     <option value="">Pilih Asal Barang</option>
                                     @foreach ($asalBarangs as $asalBarang)
-                                        <option value="{{ $asalBarang->id }}" data-tipe="{{ $asalBarang->tipe_asal_cabang }}">{{ $asalBarang->nama_gudang_toko }}</option>
+                                        <option value="{{ $asalBarang->id }}" data-tipe="{{ $asalBarang->tipe_asal_cabang }}">{{ $asalBarang->nama_gudang }}</option>
                                     @endforeach
                                 </select>
                                 @error('id_asal_barang')

@@ -58,13 +58,15 @@
                                 <label for="id_gudang" class="text-sm font-medium text-gray-700">Lokasi</label>
                                 <label for="id_gudang" class="text-sm font-medium text-red-600">*</label>
                             </div>
-                            <select name="id_gudang" class="w-full p-2 rounded-lg bg-gray-100 cursor-not-allowed" readonly>
-                                <option value="">Pilih Lokasi</option>
-                                @foreach ($gudangs as $gudang)
-                                    @if ($gudang->id == $id_lokasi)
-                                        <option value="{{ $gudang->id }}" selected>{{ $gudang->nama_gudang_toko }}</option>
-                                    @endif
-                                @endforeach
+                            <select name="id_gudang" class="w-full p-2 rounded-lg" required>
+                                @if($role === 'SuperAdmin')
+                                    <option value="">Pilih Lokasi</option>
+                                        @foreach ($gudangs as $gudang)
+                                            <option value="{{ $gudang->id }}">{{ $gudang->nama_gudang }}</option>
+                                        @endforeach
+                                @elseif($role === 'Admin')
+                                    <option value="{{ $id_lokasi }}" selected>{{ $lokasi }}</option>
+                                @endif
                             </select>
                             @error('id_gudang')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

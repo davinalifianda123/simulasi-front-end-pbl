@@ -13,7 +13,7 @@ class GudangController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/gudangs');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/gudangs');
 
         $result = [];
         if ($response->successful()) {
@@ -22,7 +22,7 @@ class GudangController extends Controller
         }
 
         $nama_user = $request->attributes->get('nama_user');
-        $nama_role = $request->attributes->get('nama_role');
+        $nama_role = $request->attributes->get('role');
 
         return view('gudangs.index', [
             'nama_user' => $nama_user ?? '',
@@ -49,7 +49,7 @@ class GudangController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/gudangs', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/gudangs', [
             'nama_gudang_toko' => $request->input('nama_gudang_toko'),
             'alamat' => $request->input('alamat'),
             'no_telepon' => $request->input('no_telepon'),
@@ -71,7 +71,7 @@ class GudangController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/gudangs/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/gudangs/{$id}");
 
         $gudang = null;
         if ($response->successful()) {
@@ -95,7 +95,7 @@ class GudangController extends Controller
     public function edit(string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/gudangs/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/gudangs/{$id}/edit");
 
         if (!$response->successful()) {
             abort($response->status(), 'Gagal mengambil data gudang');
@@ -120,7 +120,7 @@ class GudangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/gudangs/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/gudangs/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('gudangs.index')->with('success', 'Gudang berhasil diperbarui.');
@@ -146,7 +146,7 @@ class GudangController extends Controller
         $token = request()->cookie('jwt_token');
 
         // Pertama, cek status gudang saat ini
-        $check = Http::withToken($token)->get("http://localhost:8001/api/gudangs/{$id}");
+        $check = Http::withToken($token)->get("https://gudangku.web.id/api/gudangs/{$id}");
 
         $gudang = null;
         if ($check->successful()) {
@@ -155,9 +155,9 @@ class GudangController extends Controller
         }
 
         // Tentukan endpoint yang akan dipanggil
-        $endpoint = $gudang->flag == 1
-            ? "http://localhost:8001/api/gudangs/{$id}/deactivate"
-            : "http://localhost:8001/api/gudangs/{$id}/activate";
+        $endpoint = $gudang->status == 'Aktif'
+            ? "https://gudangku.web.id/api/gudangs/{$id}/deactivate"
+            : "https://gudangku.web.id/api/gudangs/{$id}/activate";
 
         $response = Http::withToken($token)->patch($endpoint);
 

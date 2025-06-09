@@ -13,7 +13,7 @@ class CabangKeTokoController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/cabang-ke-tokos');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/cabang-ke-tokos');
 
         $result = [];
         if ($response->successful()) {
@@ -39,7 +39,7 @@ class CabangKeTokoController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/cabang-ke-tokos/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/cabang-ke-tokos/create');
 
         $data = [];
         if ($response->successful()) {
@@ -70,7 +70,7 @@ class CabangKeTokoController extends Controller
     {
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/cabang-ke-tokos', $request->all());
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/cabang-ke-tokos', $request->all());
 
             $result = json_decode($response->body());
 
@@ -94,7 +94,7 @@ class CabangKeTokoController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/cabang-ke-tokos/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/cabang-ke-tokos/{$id}");
 
         $cabangKeToko = null;
         if ($response->successful()) {
@@ -140,7 +140,7 @@ class CabangKeTokoController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-tokos/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/cabang-ke-tokos/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('cabang-ke-tokos.index')
@@ -160,7 +160,7 @@ class CabangKeTokoController extends Controller
             'id_status' => request()->input('id_status'),
         ];
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/cabang-ke-tokos/{$id}/update-status", $payload);
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/cabang-ke-tokos/{$id}", $payload);
 
         $responseBody = $response->json();
 

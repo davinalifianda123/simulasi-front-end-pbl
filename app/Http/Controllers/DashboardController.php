@@ -14,12 +14,23 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $token = $request->cookie('jwt_token');
+        $user = Http::withToken($token)->get('https://gudangku.web.id/api/authenticated-user');
+        $user = json_decode($user->getBody());
+        $user = $user->data ?? [];
+        $responses = null;
 
-        // Jalankan kedua request secara asynchronous
-        $responses = Http::pool(fn (Pool $pool) => [
-            $pool->as('cards')->withToken($token)->get('http://localhost:8001/api/dashboard'),
-            $pool->as('lowStock')->withToken($token)->post('http://localhost:8001/api/dashboard-low-stock'),
-        ]);
+        if ($user->role == "SuperAdmin" || $user->role == "Supervisor") {
+            $responses = Http::pool(fn (Pool $pool) => [
+                $pool->as('cards')->withToken($token)->get('https://gudangku.web.id/api/dashboard-super'),
+                $pool->as('lowStock')->withToken($token)->get('https://gudangku.web.id/api/dashboard-low-stock-super'),
+            ]);
+        } else {
+            $responses = Http::pool(fn (Pool $pool) => [
+                $pool->as('cards')->withToken($token)->get('https://gudangku.web.id/api/dashboard-admin-cabang'),
+                $pool->as('lowStock')->withToken($token)->get('https://gudangku.web.id/api/dashboard-low-stock-admin-cabang'),
+            ]);
+        }
+
 
         // Ambil hasil respons
         $dashboard = [];
@@ -44,7 +55,7 @@ class DashboardController extends Controller
     public function dashboardGraph(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $url = "http://localhost:8001/api/dashboard-graph";
+        $url = "https://gudangku.web.id/api/dashboard-graph";
         $res = Http::withToken($token)->post($url, [
           'filter_durasi' => $request->input('filter_durasi'),
         ]);

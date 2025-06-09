@@ -13,7 +13,7 @@ class BarangController extends Controller
     public function index(Request $request)
     {
          $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/barangs');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/barangs');
 
         $result = [];
         if ($response->successful()) {
@@ -38,7 +38,7 @@ class BarangController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/barangs/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/barangs/create');
 
         $categories = [];
 
@@ -61,7 +61,7 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/barangs', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/barangs', [
             'nama_barang' => $request->input('nama_barang'),
             'id_kategori_barang' => $request->input('id_kategori_barang'),
         ]);
@@ -82,7 +82,7 @@ class BarangController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/barangs/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/barangs/{$id}");
 
         $barang = null;
         if ($response->successful()) {
@@ -108,7 +108,7 @@ class BarangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->get("http://localhost:8001/api/barangs/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/barangs/{$id}/edit");
 
         $result = json_decode($response->body());
         $data = $result->data;
@@ -132,7 +132,7 @@ class BarangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/barangs/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/barangs/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('barangs.index')->with('success', 'Barang berhasil diperbarui.');
@@ -149,7 +149,7 @@ class BarangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/barangs/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/barangs/{$id}/deactivate");
 
         if ($response->successful()) {
             $message = $response->json('message');

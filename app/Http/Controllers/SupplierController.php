@@ -13,7 +13,7 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/suppliers');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/suppliers');
 
         $result = [];
         if ($response->successful()) {
@@ -49,7 +49,7 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('http://localhost:8001/api/suppliers', [
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/suppliers', [
             'nama_gudang_toko' => $request->input('nama_gudang_toko'),
             'alamat' => $request->input('alamat'),
             'no_telepon' => $request->input('no_telepon'),
@@ -71,7 +71,7 @@ class SupplierController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/suppliers/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/suppliers/{$id}");
 
         $supplier = null;
         if ($response->successful()) {
@@ -95,7 +95,7 @@ class SupplierController extends Controller
     public function edit(string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/suppliers/{$id}/edit");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/suppliers/{$id}/edit");
 
         if (!$response->successful()) {
             abort($response->status(), 'Gagal mengambil data supplier');
@@ -120,7 +120,7 @@ class SupplierController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->put("http://localhost:8001/api/suppliers/{$id}", $request->all());
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/suppliers/{$id}", $request->all());
 
         if ($response->successful()) {
             return redirect()->route('suppliers.index')->with('success', 'Supplier berhasil diperbarui.');
@@ -142,7 +142,7 @@ class SupplierController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/suppliers/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/suppliers/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('suppliers.index')

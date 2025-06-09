@@ -33,14 +33,6 @@
                         <dt class="text-sm font-medium text-gray-500">Kategori Barang</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $barang->kategori_barang }}</dd>
                     </div>
-                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-sm font-medium text-gray-500">Status</dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                {{ $barang->status }}
-                            </span>
-                        </dd>
-                    </div>
                 </dl>
             </div>
         </div>

@@ -13,7 +13,7 @@ class PenerimaanDiCabangController extends Controller
     public function index(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/penerimaan-di-cabangs');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-cabangs');
 
         $result = [];
         if ($response->successful()) {
@@ -38,7 +38,7 @@ class PenerimaanDiCabangController extends Controller
     public function create(Request $request)
     {
         $token = $request->cookie('jwt_token');
-        $response = Http::withToken($token)->get('http://localhost:8001/api/penerimaan-di-cabangs/create');
+        $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-cabangs/create');
 
         $data = [];
         if ($response->successful()) {
@@ -68,7 +68,7 @@ class PenerimaanDiCabangController extends Controller
     {
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('http://localhost:8001/api/penerimaan-di-cabangs', $request->all());
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/penerimaan-di-cabangs', $request->all());
 
             $result = json_decode($response->body());
 
@@ -92,7 +92,7 @@ class PenerimaanDiCabangController extends Controller
     public function show(Request $request, string $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("http://localhost:8001/api/penerimaan-di-cabangs/{$id}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/penerimaan-di-cabangs/{$id}");
 
         $penerimaanDiCabang = null;
         if ($response->successful()) {
@@ -138,7 +138,7 @@ class PenerimaanDiCabangController extends Controller
     {
         $token = request()->cookie('jwt_token');
 
-        $response = Http::withToken($token)->patch("http://localhost:8001/api/penerimaan-di-cabangs/{$id}/deactivate");
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/penerimaan-di-cabangs/{$id}/deactivate");
 
         if ($response->successful()) {
             return redirect()->route('penerimaan-di-cabangs.index')

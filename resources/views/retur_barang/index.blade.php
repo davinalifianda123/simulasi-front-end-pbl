@@ -38,7 +38,7 @@
                         <tr class="hover:bg-gray-50 cursor-pointer">
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $pusatKeSupplier->id }}</td>
                             <td>{{ $pusatKeSupplier->nama_barang }}</td>
-                            <td>{{ $pusatKeSupplier->nama_supplier }}</td>
+                            <td>{{ $pusatKeSupplier->tujuan }}</td>
                             <td>{{ $pusatKeSupplier->jumlah_barang }}</td>
                             <td>{{ $pusatKeSupplier->tanggal }}</td>
                             <td>

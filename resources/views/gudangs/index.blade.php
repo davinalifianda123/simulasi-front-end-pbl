@@ -49,13 +49,13 @@
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit" aria-label="Toggle Status" class="relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 {{ $gudang->flag == 0 ? 'bg-green-600' : 'bg-red-300' }}">
+                                    <button type="submit" aria-label="Toggle Status" class="relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2  {{ $gudang->status == 'Nonaktif' ? 'bg-green-600 focus:ring-green-500'  : 'bg-red-300 focus:ring-red-500' }}">
                                         <span class="sr-only">Toggle Status</span>
 
                                         {{-- Lingkaran --}}
                                         <span class="inline-block w-6 h-6 transform rounded-full bg-white shadow-md transition duration-300 ease-in-out 
-                                            {{ $gudang->flag == 1 ? 'translate-x-8' : 'translate-x-1' }}">
-                                            @if ($gudang->flag == 1)
+                                            {{ $gudang->status == 'Aktif' ? 'translate-x-8' : 'translate-x-1' }}">
+                                            @if ($gudang->status == 'Aktif')
                                                 {{-- Silang --}}
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-600 p-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
