@@ -63,7 +63,7 @@
                                 <option value="">Pilih Lokasi</option>
                                 @foreach ($gudangs as $gudang)
                                     @if ($gudang->id == $id_lokasi)
-                                        <option value="{{ $gudang->id }}" selected>{{ $gudang->nama_gudang_toko }}</option>
+                                        <option value="{{ $gudang->id }}" selected>{{ $gudang->nama_gudang }}</option>
                                     @endif
                                 @endforeach
                             </select>
