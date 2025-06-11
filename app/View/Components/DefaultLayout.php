@@ -14,10 +14,12 @@ class DefaultLayout extends Component
 
     public string $namaUser;
     public string $namaRole;
+    public int $id;
     
     public function __construct() {
         $this->namaUser = request()->attributes->get('nama_user');
         $this->namaRole = request()->attributes->get('nama_role');
+        $this->id = request()->attributes->get('id_user');
     }
 
     /**

@@ -183,7 +183,7 @@
                                         <p class="font-medium text-sm">{{ $item->nama_barang }}</p>
                                         <div class="flex flex-col">
                                             @if ($nama_role == 'SuperAdmin' || $nama_role == 'Supervisor')
-                                                <span class="text-xs text-gray-500">Cabang: {{ $item->nama_cabang }}</span>
+                                                <span class="text-xs text-gray-500">Cabang: {{ $item->nama_gudang }}</span>
                                             @endif
                                             <span class="text-xs text-gray-500">
                                                 Stock: <span class="text-red-500">{{ $item->jumlah_stok }}</span>
