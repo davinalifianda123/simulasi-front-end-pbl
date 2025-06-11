@@ -31,7 +31,7 @@
         <!-- Main Content Area - Flexible width, full height -->
         <div class="flex flex-col flex-1 w-0 overflow-hidden">
             <!-- Top Navbar -->
-            <x-navbar :nama-user="$namaUser" :nama-role="$namaRole"/>
+            <x-navbar :id="$id" :nama-user="$namaUser" :nama-role="$namaRole"/>
 
             <!-- Mobile Sidebar Modal (hidden by default) -->
             <div id="mobile-sidebar" class="fixed inset-0 flex z-40 md:hidden transform -translate-x-full transition-transform duration-300 ease-in-out">

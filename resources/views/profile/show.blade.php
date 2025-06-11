@@ -10,9 +10,8 @@
                         </div>
                     @endif
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Informasi Pengguna -->
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="bg-white p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Pengguna</h3>
                             
                             <div class="space-y-4">                                
@@ -28,51 +27,18 @@
                                 
                                 <div>
                                     <p class="text-sm font-medium text-gray-500">Role</p>
-                                    <p class="text-base text-gray-900">{{ $user->role->nama_role }}</p>
+                                    <p class="text-base text-gray-900">{{ $user->role }}</p>
                                 </div>
 
                                 <div>
                                     <p class="text-sm font-medium text-gray-500">Gudang</p>
-                                    <p class="text-base text-gray-900">{{ $user->lokasi->nama_gudang_toko }}</p>
-                                </div>
-                                
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500">Status</p>
-                                    <p class="text-base text-gray-900">
-                                        @if($user->flag == 1)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                Aktif
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                Tidak Aktif
-                                            </span>
-                                        @endif
-                                    </p>
+                                    <p class="text-base text-gray-900">{{ $user->lokasi }}</p>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!-- Informasi Tambahan -->
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Akun</h3>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500">Tanggal Bergabung</p>
-                                    <p class="text-base text-gray-900">{{ $user->created_at->format('d M Y') }}</p>
-                                </div>
-                                
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500">Terakhir Diperbarui</p>
-                                    <p class="text-base text-gray-900">{{ $user->updated_at->format('d M Y') }}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6 pt-6 border-t border-gray-200">
-                                <h4 class="text-md font-medium text-gray-700 mb-3">Aksi</h4>
-                                <div class="flex flex-col sm:flex-row gap-3">
-                                    <a href="{{ route('profile.edit', $user->nama_user) }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+
+                            <div class="mt-6 pt-6 border-gray-200">
+                                <div class="flex flex-col sm:flex-row gap-3 justify-end">
+                                    <a href="{{ route('profile.edit', $user->id) }}" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
                                         Edit Profil
                                     </a>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="inline-flex items-center justify-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:border-red-700 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
@@ -83,10 +49,8 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
                 </div>
             </div>
         </div>
-
 </x-default-layout>

@@ -35,10 +35,10 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $namaUser)
+    public function show($id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$namaUser}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$id}");
 
         $user = null;
         if ($response->successful()) {
@@ -60,10 +60,10 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $namaUser)
+    public function edit($id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$namaUser}");
+        $response = Http::withToken($token)->get("https://gudangku.web.id/api/profile/{$id}");
 
         $user = null;
         if ($response->successful()) {
@@ -85,10 +85,10 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $namaUser)
+    public function update(Request $request, $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->put("https://gudangku.web.id/api/profile/{$namaUser}", [
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/profile/{$id}", [
             'nama_user' => $request->input('nama_user'),
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),

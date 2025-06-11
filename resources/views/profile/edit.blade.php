@@ -17,7 +17,7 @@
                     @endif
 
                     <div class="bg-gray-50 rounded-lg p-6">
-                        <form action="{{ route('profile.update', $user->nama_user) }}" method="POST">
+                        <form action="{{ route('profile.update', $user->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             
@@ -47,22 +47,7 @@
                                         
                                         <div>
                                             <label for="role" class="text-sm font-medium text-gray-500">Role</label>
-                                            <input type="text" id="role" value="{{ $user->role->nama_role }}" class="mt-1 p-2 w-full bg-gray-100 text-gray-900 rounded-md" disabled>
-                                        </div>
-                                        
-                                        <div>
-                                            <label for="status" class="text-sm font-medium text-gray-500">Status</label>
-                                            <div class="mt-1">
-                                                @if($user->flag == 1)
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        Aktif
-                                                    </span>
-                                                @else
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                        Tidak Aktif
-                                                    </span>
-                                                @endif
-                                            </div>
+                                            <input type="text" id="role" value="{{ $user->role }}" class="mt-1 p-2 w-full bg-gray-100 text-gray-900 rounded-md" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -93,26 +78,11 @@
                                             <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 p-2 w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                                         </div>
                                     </div>
-                                    
-                                    <div class="mt-6 pt-6 border-t border-gray-200">
-                                        <h4 class="text-md font-medium text-gray-700 mb-3">Informasi Akun</h4>
-                                        <div class="space-y-2">
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-500">Tanggal Bergabung</p>
-                                                <p class="text-base text-gray-900">{{ $user->created_at->format('d M Y') }}</p>
-                                            </div>
-                                            
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-500">Terakhir Diperbarui</p>
-                                                <p class="text-base text-gray-900">{{ $user->updated_at->format('d M Y') }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             
                             <div class="mt-6 flex justify-end space-x-3">
-                                <a href="{{ route('profile.show', $user->nama_user) }}" class="inline-flex items-center justify-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:outline-none focus:border-gray-300 focus:ring ring-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
+                                <a href="{{ route('profile.show', $user->id) }}" class="inline-flex items-center justify-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-300 focus:outline-none focus:border-gray-300 focus:ring ring-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
                                     Batal
                                 </a>
                                 <button type="submit" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
