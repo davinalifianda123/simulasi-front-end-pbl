@@ -52,22 +52,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- Pilih Satuan Berat --}}
-                        <div class="flex flex-col w-full">
-                            <div class="flex items-center mb-2 gap-1">
-                                <label for="id_satuan_berat" class="text-sm font-medium text-gray-700">Pilih Satuan Berat</label>
-                                <label for="id_satuan_berat" class="text-sm font-medium text-red-600">*</label>
-                            </div>
-                            <select name="id_satuan_berat" class="w-full p-2 rounded-lg">
-                                <option value="">Pilih Satuan Berat</option>
-                                @foreach ($satuanBerats as $satuanBerat)
-                                    <option value="{{ $satuanBerat->id }}">{{ $satuanBerat->nama_satuan_berat }}</option>
-                                @endforeach
-                            </select>
-                            @error('id_satuan_berat')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
                         {{-- Jumlah Barang --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">

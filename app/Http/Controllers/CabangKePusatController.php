@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Illuminate\Support\Str;
 
 class CabangKePusatController extends Controller
 {
@@ -90,16 +94,22 @@ class CabangKePusatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string $id)
+    private function getCabangKePusatById($id)
     {
         $token = request()->cookie('jwt_token');
         $response = Http::withToken($token)->get("https://gudangku.web.id/api/cabang-ke-pusats/{$id}");
 
-        $cabangKePusat = null;
         if ($response->successful()) {
             $result = json_decode($response->body());
-            $cabangKePusat = $result->data ?? null;
+            return $result->data ?? null;
         }
+
+        return null;
+    }
+
+    public function show(Request $request, string $id)
+    {
+        $cabangKePusat = $this->getCabangKePusatById($id);
 
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
@@ -166,5 +176,48 @@ class CabangKePusatController extends Controller
         $message = $responseBody['message'] ?? ($response->successful() ? 'Status berhasil diperbarui.' : 'Gagal memperbarui status.');
 
         return redirect()->route('cabang-ke-pusats.index')->with($response->successful() ? 'success' : 'error', $message);
+    }
+
+    public function downloadInvoice($id)
+    {
+        $data = $this->getCabangKePusatById($id);
+        $nama_user = request()->attributes->get('nama_user');
+
+        $buyer = new Buyer([
+            'name' => $data->tujuan ?? '-',
+            'custom_fields' => [
+                'Tanggal Penerimaan' => $data->tanggal ?? '-',
+            ],
+        ]);
+
+        $seller = new Buyer([
+            'name' => $nama_user,
+            'custom_fields' => [
+                'Gudang' => $data->nama_cabang ?? '-',
+            ],
+        ]);
+
+        // 📦 Item
+        $item = (new InvoiceItem())
+            ->title($data->nama_barang ?? 'Barang Tidak Diketahui')
+            ->description('Jenis Penerimaan: ' . ($data->jenis_penerimaan ?? '-') . ', Berat/Satuan: ' . ($data->berat_satuan_barang ?? '-') . ' kg')
+            ->units($data->satuan_berat ?? '-')
+            ->pricePerUnit(0)
+            ->quantity($data->jumlah_barang ?? 1);
+
+        // 🧾 Generate Invoice
+        $invoice = Invoice::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->date(now())
+            ->dateFormat('d/m/Y')
+            ->currencySymbol('Rp ')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->filename('Invoice-Retur-Cabang-' . Str::slug($data->id ?? 'no-id'))
+            ->addItem($item)
+            ->logo(public_path('images/Logo-invoice.png'));
+
+        return $invoice->stream(); // atau ->download()
     }
 }

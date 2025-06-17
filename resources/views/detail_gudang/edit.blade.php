@@ -114,12 +114,8 @@
                     <div class="mb-6 flex justify-center items-center gap-4">
                         {{-- Stok Opname --}}
                         <div class="flex flex-col w-full">
-                            <div class="flex items-center mb-2 gap-1">
-                                <label for="stok_opname" class="text-sm font-medium text-gray-700">Stok Opname</label>
-                                <label for="stok_opname" class="text-sm font-medium text-red-600">*</label>
-                            </div>
-                            <input type="number" name="stok_opname" class="w-full p-2 rounded-lg bg-gray-100" value="{{ old('stok_opname', $detailGudang->stok_opname) }}" readonly>
-                            <p class="text-sm text-gray-500">0 = Nonaktif, 1 = Aktif</p>
+                            {{-- Display the message instead of the input field --}}
+                            <p class="text-sm text-gray-500"><span class="text-red-600">*</span>Hanya bisa mengedit stok barang ketika stok opname aktif.</p>
                             @error('stok_opname')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
