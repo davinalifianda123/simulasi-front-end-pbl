@@ -33,9 +33,17 @@
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $pusatKeCabang->nama_pusat }}</dd>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                        <dt class="text-sm font-medium text-gray-500">Status Pengiriman</dt>
+                        <dt class="text-sm font-medium text-gray-500">Status Retur</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                            @php
+                                $statusInfo = match($pusatKeCabang->id_status) {
+                                    1 => 'bg-yellow-100 text-yellow-700',
+                                    2 => 'bg-blue-100 text-blue-700',
+                                    3 => 'bg-green-100 text-green-700',
+                                    default => 'bg-gray-100 text-gray-800'
+                                };
+                            @endphp
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusInfo }}">
                                 {{ $pusatKeCabang->status }}
                             </span>
                         </dd>
