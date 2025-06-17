@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Illuminate\Support\Str;
 
 class PenerimaanDiPusatController extends Controller
 {
@@ -91,16 +95,22 @@ class PenerimaanDiPusatController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string $id)
+    private function getPenerimaanDiPusatById($id)
     {
         $token = request()->cookie('jwt_token');
         $response = Http::withToken($token)->get("https://gudangku.web.id/api/penerimaan-di-pusats/{$id}");
 
-        $penerimaanDiPusat = null;
         if ($response->successful()) {
             $result = json_decode($response->body());
-            $penerimaanDiPusat = $result->data ?? null;
+            return $result->data ?? null;
         }
+
+        return null;
+    }
+
+    public function show(Request $request, string $id)
+    {
+        $penerimaanDiPusat = $this->getPenerimaanDiPusatById($id);
 
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
@@ -151,5 +161,70 @@ class PenerimaanDiPusatController extends Controller
             return redirect()->route('penerimaan-di-pusats.index')
                             ->with('error', $error);
         }
+    }
+
+    public function downloadInvoice($id)
+    {
+        $data = $this->getPenerimaanDiPusatById($id);
+        $token = request()->cookie('jwt_token');
+        $nama_user = request()->attributes->get('nama_user');
+
+        // 🔄 Ambil daftar gudang dengan id=1
+        $gudangResponse = Http::withToken($token)->get('https://gudangku.web.id/api/gudangs/1');
+        $responseJson = json_decode($gudangResponse->body());
+        $gudangData = $responseJson->data ?? [];
+
+
+        // 🔄 Ambil daftar supplier
+        $supplierResponse = Http::withToken($token)->get('https://gudangku.web.id/api/suppliers');
+        $responseJson = json_decode($supplierResponse->body());
+        $supplierData = $responseJson->data->suppliers ?? [];
+
+        // 🔍 Cari supplier yang cocok dengan asal_barang
+        $matchedSupplier = collect($supplierData)->first(function ($supplier) use ($data) {
+            return trim(strtolower($supplier->nama_gudang_toko)) === trim(strtolower($data->asal_barang));
+        });
+        
+
+        $buyer = new Buyer([
+            'name' => $nama_user ?? 'Pusat Tidak Diketahui',
+            'custom_fields' => [
+                'Gudang' => $gudangData->nama_gudang ?? '-',
+                'Alamat' => $gudangData->alamat ?? '-',
+                'Telepon' => $gudangData->no_telepon ?? '-',
+                'Tanggal Penerimaan' => $data->tanggal ?? '-',
+            ],
+        ]);
+
+        $seller = new Buyer([
+            'name' => $matchedSupplier->nama_gudang_toko ?? $data->asal_barang ?? 'Supplier Tidak Diketahui',
+            'custom_fields' => [
+                'Alamat' => $matchedSupplier->alamat ?? '-',
+                'Telepon' => $matchedSupplier->no_telepon ?? '-',
+            ],
+        ]);
+
+        // 📦 Item
+        $item = (new InvoiceItem())
+            ->title($data->nama_barang ?? 'Barang Tidak Diketahui')
+            ->description('Jenis Penerimaan: ' . ($data->jenis_penerimaan ?? '-') . ', Berat/Satuan: ' . ($data->berat_satuan_barang ?? '-') . ' kg')
+            ->units($data->satuan_berat ?? '-')
+            ->pricePerUnit(0)
+            ->quantity($data->jumlah_barang ?? 1);
+
+        // 🧾 Generate Invoice
+        $invoice = Invoice::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->date(now())
+            ->dateFormat('d/m/Y')
+            ->currencySymbol('Rp ')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->filename('Invoice-Penerimaan-Pusat-' . Str::slug($data->id ?? 'no-id'))
+            ->addItem($item)
+            ->logo(public_path('images/Logo-invoice.png'));
+
+        return $invoice->stream(); // atau ->download()
     }
 }

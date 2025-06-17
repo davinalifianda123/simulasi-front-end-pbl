@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Illuminate\Support\Str;
 
 class CabangKeTokoController extends Controller
 {
@@ -91,16 +95,22 @@ class CabangKeTokoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, string $id)
+    private function getCabangKeTokoById($id)
     {
         $token = request()->cookie('jwt_token');
         $response = Http::withToken($token)->get("https://gudangku.web.id/api/cabang-ke-tokos/{$id}");
 
-        $cabangKeToko = null;
         if ($response->successful()) {
             $result = json_decode($response->body());
-            $cabangKeToko = $result->data ?? null;
+            return $result->data ?? null;
         }
+
+        return null;
+    }
+
+    public function show(Request $request, string $id)
+    {
+        $cabangKeToko = $this->getCabangKeTokoById($id);
 
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
@@ -167,5 +177,50 @@ class CabangKeTokoController extends Controller
         $message = $responseBody['message'] ?? ($response->successful() ? 'Status berhasil diperbarui.' : 'Gagal memperbarui status.');
 
         return redirect()->route('cabang-ke-tokos.index')->with($response->successful() ? 'success' : 'error', $message);
+    }
+
+    public function downloadInvoice($id)
+    {
+        $data = $this->getCabangKeTokoById($id);
+        $nama_user = request()->attributes->get('nama_user');
+
+        $buyer = new Buyer([
+            'name' => $nama_user ?? 'Pusat Tidak Diketahui',
+            'custom_fields' => [
+                'Gudang' => $data->nama_cabang ?? '-',
+                'Tanggal Penerimaan' => $data->tanggal ?? '-',
+            ],
+        ]);
+
+        $seller = new Buyer([
+            'name' => $data->nama_toko ?? 'Toko Tidak Diketahui',
+            'custom_fields' => [
+                'Alamat' => $matchedToko->alamat ?? '-',
+                'Telepon' => $matchedToko->no_telepon ?? '-',
+            ],
+        ]);
+
+        // 📦 Item
+        $item = (new InvoiceItem())
+            ->title($data->nama_barang ?? 'Barang Tidak Diketahui')
+            ->description('Jenis Penerimaan: ' . ($data->jenis_penerimaan ?? '-') . ', Berat/Satuan: ' . ($data->berat_satuan_barang ?? '-') . ' kg')
+            ->units($data->satuan_berat ?? '-')
+            ->pricePerUnit(0)
+            ->quantity($data->jumlah_barang ?? 1);
+
+        // 🧾 Generate Invoice
+        $invoice = Invoice::make()
+            ->seller($seller)
+            ->buyer($buyer)
+            ->date(now())
+            ->dateFormat('d/m/Y')
+            ->currencySymbol('Rp ')
+            ->currencyCode('IDR')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->filename('Invoice-Pengiriman-Cabang-' . Str::slug($data->id ?? 'no-id'))
+            ->addItem($item)
+            ->logo(public_path('images/Logo-invoice.png'));
+
+        return $invoice->stream(); // atau ->download()
     }
 }

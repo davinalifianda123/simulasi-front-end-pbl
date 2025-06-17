@@ -72,10 +72,6 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
-                    
-                    {{-- Baris 2 --}}
-                    <div class="mb-6 flex justify-center items-center gap-4">
                         {{-- Pilih Satuan Berat --}}
                         <div class="flex flex-col w-full">
                             <div class="flex items-center mb-2 gap-1">
@@ -92,17 +88,10 @@
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- Jumlah Stok --}}
-                        <div class="flex flex-col w-full">
-                            <div class="flex items-center mb-2 gap-1">
-                                <label for="jumlah_stok" class="text-sm font-medium text-gray-700">Jumlah Stok</label>
-                                <label for="jumlah_stok" class="text-sm font-medium text-red-600">(default)</label>
-                            </div>
-                            <input type="number" name="jumlah_stok" class="w-full p-2 rounded-lg bg-gray-100 cursor-not-allowed" value="0" readonly>
-                            @error('jumlah_stok')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <input type="number" name="jumlah_stok" class="w-full p-2 rounded-lg bg-gray-100 cursor-not-allowed" value="0" hidden>
+                        @error('jumlah_stok')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
