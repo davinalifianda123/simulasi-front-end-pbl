@@ -30,7 +30,7 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">Penanggung Jawab</dt>
-                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $cabangKePusat->nama_cabang }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $nama_user }}</dd>
                     </div>
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">Status Retur</dt>
@@ -95,10 +95,16 @@
             </div>
         </hr>
     
-        <div class="mt-6 px-4 py-5">
+        <div class="flex flex-row justify-between items-center mt-6 px-4 py-5">
             <button onclick="history.back();" type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                 Kembali ke Daftar
             </button>
+            <a href="{{ route('cabang-ke-pusats.invoice', $cabangKePusat->id) }}" target="_blank" class="text-white bg-[#050708] hover:bg-[#050708]/80 font-medium rounded-md text-sm px-4 py-2 text-center flex items-center gap-2 ml-3 w-fit">
+                <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
+                </svg>
+                Invoice
+            </a>
         </div>
     </div>
 </body>
