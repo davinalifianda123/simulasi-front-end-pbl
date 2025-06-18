@@ -173,16 +173,19 @@ class PenerimaanDiPusatController extends Controller
         $gudangResponse = Http::withToken($token)->get('https://gudangku.web.id/api/gudangs/1');
         $responseJson = json_decode($gudangResponse->body());
         $gudangData = $responseJson->data ?? [];
+       
+
+        $allgudangResponse = Http::withToken($token)->get('https://gudangku.web.id/api/gudangs');
+        $allresponseJson = json_decode($allgudangResponse->body());
+        $allgudangData = $allresponseJson->data->gudangs ?? [];
 
 
         // 🔄 Ambil daftar supplier
-        $supplierResponse = Http::withToken($token)->get('https://gudangku.web.id/api/suppliers');
-        $responseJson = json_decode($supplierResponse->body());
-        $supplierData = $responseJson->data->suppliers ?? [];
+
 
         // 🔍 Cari supplier yang cocok dengan asal_barang
-        $matchedSupplier = collect($supplierData)->first(function ($supplier) use ($data) {
-            return trim(strtolower($supplier->nama_gudang_toko)) === trim(strtolower($data->asal_barang));
+        $mathedGudang = collect($allgudangData)->first(function ($gudang) use ($data) {
+            return trim(strtolower($gudang->nama_gudang)) === trim(strtolower($data->asal_barang));
         });
         
 
@@ -197,10 +200,10 @@ class PenerimaanDiPusatController extends Controller
         ]);
 
         $seller = new Buyer([
-            'name' => $matchedSupplier->nama_gudang_toko ?? $data->asal_barang ?? 'Supplier Tidak Diketahui',
+            'name' => $mathedGudang->nama_gudang_toko ?? $data->asal_barang ?? 'Supplier Tidak Diketahui',
             'custom_fields' => [
-                'Alamat' => $matchedSupplier->alamat ?? '-',
-                'Telepon' => $matchedSupplier->no_telepon ?? '-',
+                'Alamat' => $mathedGudang->alamat ?? '-',
+                'Telepon' => $mathedGudang->no_telepon ?? '-',
             ],
         ]);
 
