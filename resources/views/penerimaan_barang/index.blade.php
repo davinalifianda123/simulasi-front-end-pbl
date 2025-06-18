@@ -15,7 +15,7 @@
         @endif
         
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('penerimaan-di-pusats.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-pusats" data-editable="false" data-user-role="{{ $nama_role }}">
+            <table id="export-table" data-create-route="#" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-pusats" data-editable="false" data-user-role="{{ $nama_role }}">
                 <thead>
                     <tr>
                         @if(count($penerimaanDiPusats) > 0)

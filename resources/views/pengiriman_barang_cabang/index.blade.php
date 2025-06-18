@@ -16,7 +16,7 @@
         @endif
         
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="#" data-resource-name="Pengiriman Barang" data-route-name="cabang-ke-tokos" data-editable="false" data-user-role="{{ $nama_role }}">
+            <table id="export-table" data-create-route="{{ route('cabang-ke-tokos.create') }}" data-resource-name="Pengiriman Barang" data-route-name="cabang-ke-tokos" data-editable="false" data-user-role="{{ $nama_role }}">
                 <thead>
                     <tr>
                         @if(count($cabangKeTokos) > 0)
