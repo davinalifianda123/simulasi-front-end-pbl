@@ -29,6 +29,7 @@ class DetailGudangController extends Controller
             'nama_role' => $nama_role ?? '',
             'detailGudangs' => $result->detailGudangs ?? [],
             'headings' => $result->headings ?? [],
+            'status_opname' => $result->status_opname,
         ]);
     }
 
@@ -39,6 +40,14 @@ class DetailGudangController extends Controller
     {
         $token = $request->cookie('jwt_token');
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs/create');
+
+        $responseDetailGudang = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $detailGudang = [];
+        if ($responseDetailGudang->successful()) {
+            $result = json_decode($responseDetailGudang->body());
+            $detailGudang = $result->data;
+        }
 
         $data = [];
         if ($response->successful()) {
@@ -59,6 +68,7 @@ class DetailGudangController extends Controller
             'barangs' => $data->barangs ?? [],
             'gudangs' => $data->gudang ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
+            'detailGudangs' => $detailGudang->detailGudangs ?? [],
         ]);
     }
 
@@ -68,16 +78,9 @@ class DetailGudangController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'id_barang' => 'required',
-            'id_gudang' => 'required',
-            'id_satuan_berat' => 'required',
-            'jumlah_stok' => 'required|integer|min:0',
-        ]);
-
         try {
             $token = $request->cookie('jwt_token');
-            $response = Http::withToken($token)->post('https://gudangku.web.id/api/detail-gudangs', $validated);
+            $response = Http::withToken($token)->post('https://gudangku.web.id/api/detail-gudangs', $request->all());
 
             $result = json_decode($response->body());
 
@@ -130,8 +133,8 @@ class DetailGudangController extends Controller
         $response = Http::withToken($token)->get("https://gudangku.web.id/api/detail-gudangs/{$id}/edit");
 
         $result = json_decode($response->body());
-        $data = $result->data;
-
+        $data = $result->data ?? [];
+        
         $nama_user = request()->attributes->get('nama_user');
         $role = request()->attributes->get('role');
         $id_lokasi = request()->attributes->get('id_lokasi');
@@ -140,10 +143,9 @@ class DetailGudangController extends Controller
             'nama_user' => $nama_user ?? '',
             'role' => $role ?? '',
             'id_lokasi' => $id_lokasi ?? '',
-            'detailGudang' => $data->detailGudang ?? null,
+            'detailGudang' => $data->detailGudang,
             'barangs' => $data->barangs ?? [],
             'gudangs' => $data->gudang ?? [],
-            'satuanBerats' => $data->satuanBerat ?? [],
         ]);
     }
 

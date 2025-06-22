@@ -41,14 +41,17 @@ class BarangController extends Controller
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/barangs/create');
 
         $categories = [];
+        $satuan_berats = [];
 
         if ($response->successful()) {
             $data = $response->json('data');
             $categories = $data['categories'] ?? [];
+            $satuan_berats = $data['satuanBerat'] ?? [];
         }
 
         return view('barangs.create', [
             'categories' => $categories,
+            'satuan_berats' => $satuan_berats,
             'nama_user' => $request->attributes->get('nama_user', ''),
             'nama_role' => $request->attributes->get('nama_role', ''),
         ]);
@@ -61,10 +64,7 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->post('https://gudangku.web.id/api/barangs', [
-            'nama_barang' => $request->input('nama_barang'),
-            'id_kategori_barang' => $request->input('id_kategori_barang'),
-        ]);
+        $response = Http::withToken($token)->post('https://gudangku.web.id/api/barangs', $request->all());
 
         if ($response->successful()) {
             return redirect()->route('barangs.index')->with('success', 'Barang berhasil ditambahkan!');

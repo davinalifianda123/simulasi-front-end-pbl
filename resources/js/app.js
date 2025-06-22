@@ -59,7 +59,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
 
             // Add "Aksi" header
             const headerRow = tableElement.querySelector('thead tr');
-            if (headerRow && !headerRow.querySelector('th.aksi-header')) {
+            if (showActionButtons && headerRow && !headerRow.querySelector('th.aksi-header')) {
                 const aksiHeader = document.createElement('th');
                 aksiHeader.textContent = 'Aksi';
                 aksiHeader.className = 'aksi-header text-center';
@@ -75,7 +75,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
                     row.setAttribute('data-id', id);
                 }
 
-                if (!row.querySelector('td.aksi-cell')) {
+                if (showActionButtons && !row.querySelector('td.aksi-cell')) {
                     const aksiCell = document.createElement('td');
                     aksiCell.className = 'aksi-cell text-center';
                     aksiCell.innerHTML = `
@@ -118,6 +118,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
     window.routeName = tableElement ? tableElement.dataset.routeName : '';
     window.isEditable = tableElement.dataset.editable === 'true';
     window.userRole = tableElement.dataset.userRole || null;
+    window.showActionButtons = tableElement.dataset.showAction !== 'false';
 
 
     const table = new simpleDatatables.DataTable("#export-table", {

@@ -44,7 +44,7 @@
                         <label for="id_kategori_barang" class="text-sm font-medium text-gray-700">Pilih Kategori Barang</label>
                         <label for="id_kategori_barang" class="text-sm font-medium text-red-600">*</label>
                     </div>
-                    <select name="id_kategori_barang" class="w-full p-2 rounded-lg">
+                    <select name="id_kategori_barang" class="w-full p-2 rounded-lg mb-6">
                         <option value="">Pilih Kategori</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category['id'] }}">{{ $category['nama_kategori_barang'] }}</option>
@@ -52,6 +52,38 @@
                     </select>
 
                     @error('id_kategori_barang')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="id_satuan_berat" class="text-sm font-medium text-gray-700">Satuan Berat</label>
+                        <label for="id_satuan_berat" class="text-sm font-medium text-red-600">*</label>
+                    </div>
+                    <select name="id_satuan_berat" class="w-full p-2 rounded-lg mb-6">
+                        <option value="">Pilih Satuan Berat</option>
+                        @foreach ($satuan_berats as $satuan)
+                            <option value="{{ $satuan['id'] }}">{{ $satuan['nama_satuan_berat'] }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('id_satuan_berat')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+
+                    <div class="flex items-center mb-2 gap-1">
+                        <label for="berat_satuan_barang" class="text-sm font-medium text-gray-700">Berat Satuan Barang</label>
+                        <label for="berat_satuan_barang" class="text-sm font-medium text-red-600">*</label>
+                    </div>
+                    <input 
+                        type="text" 
+                        name="berat_satuan_barang" 
+                        id="berat_satuan_barang" 
+                        value="{{ old('berat_satuan_barang') }}" 
+                        class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('berat_satuan_barang') ? 'border-red-500' : 'border-gray-300' }}"
+                        placeholder="Input Berat Satuan Barang"
+                        required
+                    >
+                    @error('berat_satuan_barang')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>

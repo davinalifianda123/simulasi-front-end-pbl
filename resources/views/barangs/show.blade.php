@@ -33,6 +33,14 @@
                         <dt class="text-sm font-medium text-gray-500">Kategori Barang</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $barang->kategori_barang }}</dd>
                     </div>
+                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Satuan Berat</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $barang->satuan_berat }}</dd>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Berat Satuan Barang</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $barang->berat_satuan_barang . " " . $barang->satuan_berat }}</dd>
+                    </div>
                 </dl>
             </div>
         </div>

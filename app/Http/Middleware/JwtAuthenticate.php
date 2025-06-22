@@ -34,16 +34,13 @@ class JwtAuthenticate
                 if ($refreshResponse->ok()) {
                     $newAccessToken = $refreshResponse['access_token'];
 
-                    // Simpan token baru ke cookie (untuk request selanjutnya)
+                    // Simpan token baru
                     Cookie::queue(cookie('jwt_token', $newAccessToken, 60 * 24));
 
-                    // Validasi ulang dengan token baru
-                    $secondTry = Http::withToken($newAccessToken)->get('https://gudangku.web.id/api/authenticated-user');
-
-                    if ($secondTry->ok()) {
-                        return $next($request);
-                    }
+                    // Redirect ulang agar request berikutnya pakai token baru
+                    return redirect($request->fullUrl());
                 }
+
             }
 
             // Jika tidak bisa refresh atau gagal validasi

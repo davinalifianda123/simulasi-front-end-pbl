@@ -41,19 +41,33 @@
                         <dt class="text-sm font-medium text-gray-500">Jumlah Stok</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ $detailGudang->jumlah_stok }}</dd>
                     </div>
+                    @php
+                        $stokOpnameStyle = match(strtolower($detailGudang->stok_opname)) {
+                            'aktif' => 'bg-green-100 text-green-700',
+                            'nonaktif' => 'bg-red-100 text-red-700',
+                            default => 'bg-gray-100 text-gray-800',
+                        };
+                    @endphp
                     <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">Stok Opname</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                {{ $detailGudang->stok_opname ? 'Aktif' : 'Nonaktif' }}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $stokOpnameStyle }}">
+                                {{ ucfirst($detailGudang->stok_opname) }}
                             </span>
                         </dd>
                     </div>
+                    @php
+                        $statusStyle = match(strtolower($detailGudang->status)) {
+                            'aktif' => 'bg-green-100 text-green-700',
+                            'nonaktif' => 'bg-red-100 text-red-700',
+                            default => 'bg-gray-100 text-gray-800',
+                        };
+                    @endphp
                     <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">Status</dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                {{ $detailGudang->status }}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusStyle }}">
+                                {{ ucfirst($detailGudang->status) }}
                             </span>
                         </dd>
                     </div>

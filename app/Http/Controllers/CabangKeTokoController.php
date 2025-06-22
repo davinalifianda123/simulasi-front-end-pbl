@@ -34,6 +34,7 @@ class CabangKeTokoController extends Controller
             'cabangKeTokos' => $result->cabangKeTokos ?? [],
             'statuses' => $result->statuses ?? [],
             'headings' => $result->headings ?? [],
+            'status_opname' => $result->status_opname ?? [],
         ]);
     }
 
@@ -44,6 +45,13 @@ class CabangKeTokoController extends Controller
     {
         $token = $request->cookie('jwt_token');
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/cabang-ke-tokos/create');
+        $responseDetailGudang = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $detailGudang = [];
+        if ($responseDetailGudang->successful()) {
+            $result = json_decode($responseDetailGudang->body());
+            $detailGudang = $result->data;
+        }
 
         $data = [];
         if ($response->successful()) {
@@ -64,6 +72,7 @@ class CabangKeTokoController extends Controller
             'tokos' => $data->toko ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
             'kurirs' => $data->kurir ?? [],
+            'detailGudangs' => $detailGudang->detailGudangs ?? [],
         ]);
     }
 

@@ -34,6 +34,7 @@ class PusatKeCabangController extends Controller
             'pusatKeCabangs' => $result->pusatKeCabangs ?? [],
             'statuses' => $result->statuses ?? [],
             'headings' => $result->headings ?? [],
+            'status_opname' => $result->status_opname ?? [],
         ]);
     }
 
@@ -44,6 +45,13 @@ class PusatKeCabangController extends Controller
     {
         $token = $request->cookie('jwt_token');
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/pusat-ke-cabangs/create');
+        $responseDetailGudang = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $detailGudang = [];
+        if ($responseDetailGudang->successful()) {
+            $result = json_decode($responseDetailGudang->body());
+            $detailGudang = $result->data;
+        }
 
         $data = [];
         if ($response->successful()) {
@@ -63,6 +71,7 @@ class PusatKeCabangController extends Controller
             'cabangs' => $data->cabang ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
             'kurirs' => $data->kurir ?? [],
+            'asalBarangs' => $data->asalBarang ?? [],
         ]);
     }
 

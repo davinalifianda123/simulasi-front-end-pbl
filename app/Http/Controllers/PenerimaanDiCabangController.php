@@ -33,6 +33,7 @@ class PenerimaanDiCabangController extends Controller
             'nama_role' => $nama_role ?? '',
             'penerimaanDiCabangs' => $result->penerimaanDiCabangs ?? [],
             'headings' => $result->headings ?? [],
+            'status_opname' => $result->status_opname ?? [],
         ]);
     }
 
@@ -43,6 +44,13 @@ class PenerimaanDiCabangController extends Controller
     {
         $token = $request->cookie('jwt_token');
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-cabangs/create');
+        $responseDetailGudang = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $detailGudang = [];
+        if ($responseDetailGudang->successful()) {
+            $result = json_decode($responseDetailGudang->body());
+            $detailGudang = $result->data;
+        }
 
         $data = [];
         if ($response->successful()) {
@@ -62,6 +70,7 @@ class PenerimaanDiCabangController extends Controller
             'jenisPenerimaans' => $data->jenisPenerimaan ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
             'asalBarangs' => $data->asalBarang ?? [],
+            'detailGudangs' => $detailGudang->detailGudangs ?? [],
         ]);
     }
 

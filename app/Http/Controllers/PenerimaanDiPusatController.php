@@ -33,6 +33,7 @@ class PenerimaanDiPusatController extends Controller
             'nama_role' => $nama_role ?? '',
             'penerimaanDiPusats' => $result->penerimaanDiPusats ?? [],
             'headings' => $result->headings ?? [],
+            'status_opname' => $result->status_opname ?? [],
         ]);
     }
 
@@ -43,6 +44,13 @@ class PenerimaanDiPusatController extends Controller
     {
         $token = $request->cookie('jwt_token');
         $response = Http::withToken($token)->get('https://gudangku.web.id/api/penerimaan-di-pusats/create');
+        $responseDetailGudang = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $detailGudang = [];
+        if ($responseDetailGudang->successful()) {
+            $result = json_decode($responseDetailGudang->body());
+            $detailGudang = $result->data;
+        }
 
         $data = [];
         if ($response->successful()) {
@@ -64,6 +72,7 @@ class PenerimaanDiPusatController extends Controller
             'jenisPenerimaans' => $data->jenisPenerimaan ?? [],
             'satuanBerats' => $data->satuanBerat ?? [],
             'asalBarangs' => $data->asalBarang ?? [],
+            'detailGudangs' => $detailGudang->detailGudangs ?? [],
         ]);
     }
 
@@ -133,10 +142,23 @@ class PenerimaanDiPusatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/penerimaan-di-pusats/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('penerimaan-di-pusats.index')->with('success', 'Status penerimaan berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return redirect()->back()->withErrors(['message' => $result->message ?? 'Gagal memperbarui status.']);
+        }
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

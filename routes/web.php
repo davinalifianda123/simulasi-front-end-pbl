@@ -9,6 +9,7 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\CabangKeTokoController;
 use App\Http\Controllers\DetailGudangController;
 use App\Http\Controllers\TokoKeCabangController;
@@ -62,6 +63,8 @@ Route::middleware('jwt.auth')->group(function () {
 
         Route::resource('gudangs', GudangController::class);
         Route::patch('/gudangs/{id}/toggle', [GudangController::class, 'toggle'])->name('gudangs.toggle');
+
+        Route::resource('activity-logs', ActivityLogController::class);
     });
 
     Route::middleware(['role:SuperAdmin,Admin'])->group(function () {
