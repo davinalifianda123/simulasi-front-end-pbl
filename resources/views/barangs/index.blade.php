@@ -1,5 +1,6 @@
 @section('page-title', 'Manajemen Barang')
 @section('page-subtitle', 'Merek Barang')
+@include('components.dialogbox')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         @if(session('success'))

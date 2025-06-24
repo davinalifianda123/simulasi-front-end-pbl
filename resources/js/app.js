@@ -245,7 +245,7 @@ if (document.getElementById("export-table") && typeof simpleDatatables.DataTable
     })
 }
 
-// Global functions for button actions masih kosong yah ini
+// Global functions for button actions
 window.viewData = function(index) {
     const row = document.querySelectorAll('#export-table tbody tr')[index];
     const id = row ? row.dataset.id : null;
@@ -262,6 +262,7 @@ window.editData = function(index) {
     }
 };
 
+// Updated deactivateData function to use Alpine.js dialog
 window.deactivateData = function(index) {
     const row = document.querySelectorAll('#export-table tbody tr')[index];
     const id = row ? row.dataset.id : null;
@@ -269,40 +270,68 @@ window.deactivateData = function(index) {
     const isDetailRoute = window.routeName === 'detail-gudangs';
 
     if (!isSuperAdmin && !isDetailRoute) {
-        alert('Akses ditolak. Hanya SuperAdmin yang dapat menghapus data.');
+        // Show error dialog using global dialog reference
+        if (window.dialogBox) {
+            window.dialogBox.openError('Akses ditolak. Hanya SuperAdmin yang dapat menghapus data.');
+        } else {
+            // Fallback jika dialog belum ready
+            setTimeout(() => {
+                if (window.dialogBox) {
+                    window.dialogBox.openError('Akses ditolak. Hanya SuperAdmin yang dapat menghapus data.');
+                }
+            }, 200);
+        }
         return;
     }
 
     if (window.routeName && id) {
-        if (confirm('Yakin ingin menghapus data ini?')) {
-            const url = `/${window.routeName}/${id}/deactivate`;
-
-            fetch(url, {
-                method: 'PATCH',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Accept': 'application/json'
+        // Show confirmation dialog using global dialog reference
+        if (window.dialogBox) {
+            window.dialogBox.openConfirm(index, id);
+        } else {
+            // Fallback jika dialog belum ready
+            setTimeout(() => {
+                if (window.dialogBox) {
+                    window.dialogBox.openConfirm(index, id);
                 }
-            })
-            .then(response => {
-                if (response.status === 403) {
-                    alert('Akses ditolak. Anda tidak memiliki izin untuk menghapus data ini.');
-                    return;
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.status) {
-                    location.reload();
-                } else {
-                    location.reload();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan saat menonaktifkan data.');
-            });
+            }, 200);
         }
     }
 };
 
+// Function to be called when user confirms deletion
+window.deactivateDataConfirmed = function(index, id) {
+    const url = `/${window.routeName}/${id}/deactivate`;
+
+    fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.status === 403) {
+            // Show error dialog
+            if (window.dialogBox) {
+                window.dialogBox.openError('Akses ditolak. Anda tidak memiliki izin untuk menghapus data ini.');
+            }
+            return;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data && data.status) {
+            location.reload();
+        } else {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Show error dialog
+        if (window.dialogBox) {
+            window.dialogBox.openError('Terjadi kesalahan saat menonaktifkan data.');
+        }
+    });
+};

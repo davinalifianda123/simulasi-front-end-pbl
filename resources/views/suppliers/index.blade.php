@@ -1,4 +1,5 @@
 @section('page-title', 'Management Supplier')
+@include('components.dialogbox')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         @if(session('success'))

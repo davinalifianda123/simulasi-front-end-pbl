@@ -41,7 +41,7 @@ class AuthController extends Controller
                     ->with('success', 'Login berhasil!');
             }
 
-            return back()->withErrors(['login' => 'Login gagal, token tidak diterima.']);
+            return back()->withErrors(['login' => 'Password atau email salah.']);
         } catch (\Exception $e) {
             return back()->withErrors(['login' => 'Login gagal: ' . $e->getMessage()]);
         }

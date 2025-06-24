@@ -1,5 +1,6 @@
 @section('page-title', 'Aktivitas Gudang')
 @section('page-subtitle', 'Pengiriman Barang')
+@include('components.dialogbox')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     @include('components.modal-status')
     <div class="bg-white rounded-lg shadow-md p-6">
