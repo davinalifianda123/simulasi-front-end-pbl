@@ -72,6 +72,7 @@ class PusatKeCabangController extends Controller
             'satuanBerats' => $data->satuanBerat ?? [],
             'kurirs' => $data->kurir ?? [],
             'asalBarangs' => $data->asalBarang ?? [],
+            'detailGudangs' => $detailGudang->detailGudangs ?? [],
         ]);
     }
 
@@ -143,7 +144,16 @@ class PusatKeCabangController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/pusat-ke-cabangs/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('pusat-ke-cabangs.index')->with('success', 'Status penerimaan berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return redirect()->back()->withErrors(['message' => $result->message ?? 'Gagal memperbarui status.']);
+        }
     }
 
     /**

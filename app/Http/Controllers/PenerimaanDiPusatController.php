@@ -196,18 +196,25 @@ class PenerimaanDiPusatController extends Controller
         $responseJson = json_decode($gudangResponse->body());
         $gudangData = $responseJson->data ?? [];
        
-
+        // 🔄 Ambil daftar semua gudang
         $allgudangResponse = Http::withToken($token)->get('https://gudangku.web.id/api/gudangs');
         $allresponseJson = json_decode($allgudangResponse->body());
         $allgudangData = $allresponseJson->data->gudangs ?? [];
 
 
         // 🔄 Ambil daftar supplier
+        $supplierResponse = Http::withToken($token)->get('https://gudangku.web.id/api/suppliers');
+        $supplierJson = json_decode($supplierResponse->body());
+        $supplierData = $supplierJson->data->suppliers ?? [];
 
+        // 🔍 Cari gudang yang cocok dengan asal_barang
+        $matchedGudang = collect($allgudangData)->first(function ($gudang) use ($data) {
+            return trim(strtolower($gudang->nama_gudang)) === trim(strtolower($data->asal_barang));
+        });
 
         // 🔍 Cari supplier yang cocok dengan asal_barang
-        $mathedGudang = collect($allgudangData)->first(function ($gudang) use ($data) {
-            return trim(strtolower($gudang->nama_gudang)) === trim(strtolower($data->asal_barang));
+        $matchedSupplier = collect($supplierData)->first(function ($supplier) use ($data) {
+            return trim(strtolower($supplier->nama_gudang_toko)) === trim(strtolower($data->asal_barang));
         });
         
 
@@ -221,13 +228,24 @@ class PenerimaanDiPusatController extends Controller
             ],
         ]);
 
-        $seller = new Buyer([
-            'name' => $mathedGudang->nama_gudang_toko ?? $data->asal_barang ?? 'Supplier Tidak Diketahui',
-            'custom_fields' => [
-                'Alamat' => $mathedGudang->alamat ?? '-',
-                'Telepon' => $mathedGudang->no_telepon ?? '-',
-            ],
-        ]);
+        // jika seller dari gudang
+        if ($matchedGudang) {
+            $seller = new Buyer([
+                'name' => $matchedGudang->nama_gudang ?? 'Gudang Tidak Diketahui',
+                'custom_fields' => [
+                    'Alamat' => $matchedGudang->alamat ?? '-',
+                    'Telepon' => $matchedGudang->no_telepon ?? '-',
+                ],
+            ]);
+        } elseif ($matchedSupplier) { // jika seller dari supplier
+            $seller = new Buyer([
+                'name' => $matchedSupplier->nama_gudang_toko ?? 'Supplier Tidak Diketahui',
+                'custom_fields' => [
+                    'Alamat' => $matchedSupplier->alamat ?? '-',
+                    'Telepon' => $matchedSupplier->no_telepon ?? '-',
+                ],
+            ]);
+        }
 
         // 📦 Item
         $item = (new InvoiceItem())

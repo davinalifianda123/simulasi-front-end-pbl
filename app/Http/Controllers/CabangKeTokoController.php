@@ -144,7 +144,16 @@ class CabangKeTokoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $token = request()->cookie('jwt_token');
+
+        $response = Http::withToken($token)->put("https://gudangku.web.id/api/cabang-ke-tokos/{$id}", $request->all());
+
+        if ($response->successful()) {
+            return redirect()->route('cabang-ke-tokos.index')->with('success', 'Status penerimaan berhasil diperbarui.');
+        } else {
+            $result = json_decode($response->body());
+            return redirect()->back()->withErrors(['message' => $result->message ?? 'Gagal memperbarui status.']);
+        }
     }
 
     /**

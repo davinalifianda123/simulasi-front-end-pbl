@@ -15,19 +15,32 @@
         @endif
         
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ $status_opname ? '#' : route('penerimaan-di-pusats.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-pusats" data-editable="false" data-user-role="{{ $nama_role }}">
+            <table id="export-table"
+                data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' : route('penerimaan-di-pusats.create') }}"
+                data-resource-name="Penerimaan Barang"
+                data-route-name="penerimaan-di-pusats"
+                data-editable="false"
+                data-user-role="{{ $nama_role }}"
+                data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
                 <thead>
                     <tr>
                         @if(count($penerimaanDiPusats) > 0)
                             @foreach ($headings as $heading)
-                            <th>
-                                <span class="flex items-center">
-                                    {{ $heading }}
-                                    <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
-                                    </svg>
-                                </span>
-                            </th>
+                                @if(
+                                    ($nama_role === 'Supervisor' && $heading !== 'Sudah Diterima') ||
+                                    (in_array($nama_role, ['Admin', 'SuperAdmin']) && $heading !== 'Verifikasi') ||
+                                    (!in_array($nama_role, ['Supervisor', 'Admin', 'SuperAdmin']))
+                                )
+                                    <th>
+                                        <span class="flex items-center">
+                                            {{ $heading }}
+                                            <svg class="w-4 h-4 ms-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="m8 15 4 4 4-4m0-6-4-4-4 4"/>
+                                            </svg>
+                                        </span>
+                                    </th>
+                                @endif
                             @endforeach
                         @endif
                     </tr>
@@ -41,27 +54,82 @@
                             <td>{{ $penerimaanDiPusat->jumlah_barang }}</td>
                             <td>{{ $penerimaanDiPusat->tanggal }}</td>
                             <td>{{ $penerimaanDiPusat->jenis_penerimaan }}</td>
-                            <td class="text-center">
-                                <form method="POST" action="{{ route('penerimaan-di-pusats.update', $penerimaanDiPusat->id) }}">
-                                    @csrf
-                                    @method('PUT')
 
-                                    <input type="hidden" name="diterima" value="1">
+                            {{-- Tampilkan checkbox hanya jika BUKAN Supervisor --}}
+                            @if($nama_role !== 'Supervisor')
+                                <td class="text-center">
+                                    <form method="POST" action="{{ route('penerimaan-di-pusats.update', $penerimaanDiPusat->id) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="diterima" value="1">
+                                        <button type="submit">
+                                            <input type="checkbox"
+                                                {{ $penerimaanDiPusat->diterima ? 'checked' : '' }}
+                                                onclick="this.form.submit(); event.preventDefault();"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500">
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
 
-                                    <button type="submit">
-                                        <input type="checkbox" {{ $penerimaanDiPusat->diterima ? 'checked' : '' }} onclick="this.form.submit(); event.preventDefault();" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500  dark:border-gray-600">
-                                    </button>
-                                </form>
-
-                            </td>
+                            {{-- Tampilkan verifikasi hanya jika BUKAN Admin/SuperAdmin --}}
+                            @if(!in_array($nama_role, ['Admin', 'SuperAdmin']))
+                                @php
+                                    $idVerifikasi = $penerimaanDiPusat->id_verifikasi;
+                                    $statusBadge = match($idVerifikasi) {
+                                        2 => 'bg-green-100 text-green-700',
+                                        3 => 'bg-red-100 text-red-700',
+                                        default => null
+                                    };
+                                @endphp
+                                <td class="flex gap-2">
+                                    @if ($statusBadge)
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusBadge }}">
+                                            {{ $penerimaanDiPusat->jenis_verifikasi }}
+                                        </span>
+                                    @else
+                                        <!-- Tombol Diverifikasi -->
+                                        <form method="POST" action="{{ route('penerimaan-di-pusats.update', $penerimaanDiPusat->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="id_verifikasi" value="2">
+                                            <button type="submit"
+                                                    class="group text-green-700 border border-green-700 hover:bg-green-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-1 text-center inline-flex items-center">
+                                                <svg class="w-3 h-3 text-green-700 group-hover:text-white" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 11.917 9.724 16.5 19 7.5"/>
+                                                </svg>
+                                                <span class="sr-only">Diverifikasi</span>
+                                            </button>
+                                        </form>
+                                        <!-- Tombol Tidak Diverifikasi -->
+                                        <form method="POST" action="{{ route('penerimaan-di-pusats.update', $penerimaanDiPusat->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="id_verifikasi" value="3">
+                                            <button type="submit"
+                                                    class="group text-red-700 border border-red-700 hover:bg-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-1 text-center inline-flex items-center">
+                                                <svg class="w-3 h-3 text-red-700 group-hover:text-white" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18 17.94 6M18 18 6.06 6"/>
+                                                </svg>
+                                                <span class="sr-only">Tidak Diverifikasi</span>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
                             <td colspan="11" class="py-8">
                                 <div class="w-full flex flex-col items-center">
                                     <img src="{{ asset('images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
-                                    @if(!$status_opname)
-                                        <a href="{{ route('penerimaan-di-pusats.create') }}" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
+                                    @if(!$status_opname && $nama_role !== 'Supervisor')
+                                        <a href="{{ route('penerimaan-di-pusats.create') }}"
+                                        class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
                                             + Tambah Penerimaan Barang
                                         </a>
                                     @endif

@@ -22,7 +22,7 @@ class DetailGudangController extends Controller
         }
 
         $nama_user = $request->attributes->get('nama_user');
-        $nama_role = $request->attributes->get('role');
+        $nama_role = $request->attributes->get('nama_role');
 
         return view('detail_gudang.index', [
             'nama_user' => $nama_user ?? '',

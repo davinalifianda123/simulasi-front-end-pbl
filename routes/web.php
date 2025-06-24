@@ -44,6 +44,34 @@ Route::middleware('jwt.auth')->group(function () {
         Route::post('dashboard-graph', [DashboardController::class, 'dashboardGraph'])->name('dashboard.graph');
         Route::post('dashboard-low-stock', [DashboardController::class, 'dashboardLowStock'])->name('dashboard.low-stock');
 
+        Route::resource('pusat-ke-suppliers', PusatKeSupplierController::class);
+        Route::patch('/pusat-ke-suppliers/{id}/deactivate', [PusatKeSupplierController::class, 'deactivate'])->name('pusat-ke-suppliers.deactivate');
+        Route::patch('/pusat-ke-suppliers/{id}/update-status', [PusatKeSupplierController::class, 'updateStatus'])->name('pusat-ke-suppliers.update-status');
+        Route::get('/pusat-ke-suppliers/{id}/invoice', [PusatKeSupplierController::class, 'downloadInvoice'])->name('pusat-ke-suppliers.invoice');
+
+        Route::resource('cabang-ke-pusats', CabangKePusatController::class);
+        Route::patch('/cabang-ke-pusats/{id}/deactivate', [CabangKePusatController::class, 'deactivate'])->name('cabang-ke-pusats.deactivate');
+        Route::patch('/cabang-ke-pusats/{id}/update-status', [CabangKePusatController::class, 'updateStatus'])->name('cabang-ke-pusats.update-status');
+        Route::get('/cabang-ke-pusats/{id}/invoice', [CabangKePusatController::class, 'downloadInvoice'])->name('cabang-ke-pusats.invoice');
+    
+        Route::resource('cabang-ke-tokos', CabangKeTokoController::class);
+        Route::patch('/cabang-ke-tokos/{id}/deactivate', [CabangKeTokoController::class, 'deactivate'])->name('cabang-ke-tokos.deactivate');
+        Route::patch('/cabang-ke-tokos/{id}/update-status', [CabangKeTokoController::class, 'updateStatus'])->name('cabang-ke-tokos.update-status');
+        Route::get('/cabang-ke-tokos/{id}/invoice', [CabangKeTokoController::class, 'downloadInvoice'])->name('cabang-ke-tokos.invoice');
+
+        Route::resource('pusat-ke-cabangs', PusatKeCabangController::class);
+        Route::patch('/pusat-ke-cabangs/{id}/deactivate', [PusatKeCabangController::class, 'deactivate'])->name('pusat-ke-cabangs.deactivate');
+        Route::patch('/pusat-ke-cabangs/{id}/update-status', [PusatKeCabangController::class, 'updateStatus'])->name('pusat-ke-cabangs.update-status');
+        Route::get('/pusat-ke-cabangs/{id}/invoice', [PusatKeCabangController::class, 'downloadInvoice'])->name('pusat-ke-cabangs.invoice');
+
+        Route::resource('penerimaan-di-pusats', PenerimaanDiPusatController::class);
+        Route::patch('/penerimaan-di-pusats/{id}/deactivate', [PenerimaanDiPusatController::class, 'deactivate'])->name('penerimaan-di-pusats.deactivate');
+        Route::get('/penerimaan-di-pusats/{id}/invoice', [PenerimaanDiPusatController::class, 'downloadInvoice'])->name('penerimaan-di-pusats.invoice');
+
+        Route::resource('penerimaan-di-cabangs', PenerimaanDiCabangController::class);
+        Route::patch('/penerimaan-di-cabangs/{id}/deactivate', [PenerimaanDiCabangController::class, 'deactivate'])->name('penerimaan-di-cabangs.deactivate');
+        Route::get('/penerimaan-di-cabangs/{id}/invoice', [PenerimaanDiCabangController::class, 'downloadInvoice'])->name('penerimaan-di-cabangs.invoice');
+
         Route::resource('profile', ProfileController::class);
     });
 
@@ -74,33 +102,5 @@ Route::middleware('jwt.auth')->group(function () {
         Route::resource('kategori-barangs', KategoriBarangController::class);
     
         Route::resource('detail-gudangs', DetailGudangController::class);
-        
-        Route::resource('pusat-ke-suppliers', PusatKeSupplierController::class);
-        Route::patch('/pusat-ke-suppliers/{id}/deactivate', [PusatKeSupplierController::class, 'deactivate'])->name('pusat-ke-suppliers.deactivate');
-        Route::patch('/pusat-ke-suppliers/{id}/update-status', [PusatKeSupplierController::class, 'updateStatus'])->name('pusat-ke-suppliers.update-status');
-        Route::get('/pusat-ke-suppliers/{id}/invoice', [PusatKeSupplierController::class, 'downloadInvoice'])->name('pusat-ke-suppliers.invoice');
-
-        Route::resource('cabang-ke-pusats', CabangKePusatController::class);
-        Route::patch('/cabang-ke-pusats/{id}/deactivate', [CabangKePusatController::class, 'deactivate'])->name('cabang-ke-pusats.deactivate');
-        Route::patch('/cabang-ke-pusats/{id}/update-status', [CabangKePusatController::class, 'updateStatus'])->name('cabang-ke-pusats.update-status');
-        Route::get('/cabang-ke-pusats/{id}/invoice', [CabangKePusatController::class, 'downloadInvoice'])->name('cabang-ke-pusats.invoice');
-    
-        Route::resource('cabang-ke-tokos', CabangKeTokoController::class);
-        Route::patch('/cabang-ke-tokos/{id}/deactivate', [CabangKeTokoController::class, 'deactivate'])->name('cabang-ke-tokos.deactivate');
-        Route::patch('/cabang-ke-tokos/{id}/update-status', [CabangKeTokoController::class, 'updateStatus'])->name('cabang-ke-tokos.update-status');
-        Route::get('/cabang-ke-tokos/{id}/invoice', [CabangKeTokoController::class, 'downloadInvoice'])->name('cabang-ke-tokos.invoice');
-
-        Route::resource('pusat-ke-cabangs', PusatKeCabangController::class);
-        Route::patch('/pusat-ke-cabangs/{id}/deactivate', [PusatKeCabangController::class, 'deactivate'])->name('pusat-ke-cabangs.deactivate');
-        Route::patch('/pusat-ke-cabangs/{id}/update-status', [PusatKeCabangController::class, 'updateStatus'])->name('pusat-ke-cabangs.update-status');
-        Route::get('/pusat-ke-cabangs/{id}/invoice', [PusatKeCabangController::class, 'downloadInvoice'])->name('pusat-ke-cabangs.invoice');
-
-        Route::resource('penerimaan-di-pusats', PenerimaanDiPusatController::class);
-        Route::patch('/penerimaan-di-pusats/{id}/deactivate', [PenerimaanDiPusatController::class, 'deactivate'])->name('penerimaan-di-pusats.deactivate');
-        Route::get('/penerimaan-di-pusats/{id}/invoice', [PenerimaanDiPusatController::class, 'downloadInvoice'])->name('penerimaan-di-pusats.invoice');
-
-        Route::resource('penerimaan-di-cabangs', PenerimaanDiCabangController::class);
-        Route::patch('/penerimaan-di-cabangs/{id}/deactivate', [PenerimaanDiCabangController::class, 'deactivate'])->name('penerimaan-di-cabangs.deactivate');
-        Route::get('/penerimaan-di-cabangs/{id}/invoice', [PenerimaanDiCabangController::class, 'downloadInvoice'])->name('penerimaan-di-cabangs.invoice');
     });
 });
