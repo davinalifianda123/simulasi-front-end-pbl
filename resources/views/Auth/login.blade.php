@@ -19,19 +19,19 @@
                 }
             </style>
         @endif
-        <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('assets/images/logo-gudangku.svg') }}" type="image/x-icon">
     </head>
     <body class="bg-[#FAFAFA] text-[#1b1b18] min-h-screen overflow-x-hidden flex flex-col lg:flex-row">
         <!-- Background Image-->
         <div class="lg:hidden w-full p-4">
             <div class="w-full h-48 overflow-hidden rounded-3xl">
-                <img src="{{ asset('images/login-image.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
+                <img src="{{ asset('assets/images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
             </div>
         </div>
         
         <div class="hidden h-screen lg:w-1/2 lg:flex p-6">
             <div class="w-full h-full overflow-hidden rounded-3xl">
-                <img src="{{ asset('images/login-image.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
+                <img src="{{ asset('assets/images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
             </div>
         </div>
 

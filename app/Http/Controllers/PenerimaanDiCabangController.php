@@ -256,7 +256,8 @@ class PenerimaanDiCabangController extends Controller
             ->currencyFormat('{SYMBOL}{VALUE}')
             ->filename('Invoice-Penerimaan-Cabang-' . Str::slug($data->id ?? 'no-id'))
             ->addItem($item)
-            ->logo(public_path('images/Logo-invoice.png'));
+            ->logo(base_path('images/Logo-invoice.png'));
+
 
         return $invoice->stream(); // atau ->download()
     }

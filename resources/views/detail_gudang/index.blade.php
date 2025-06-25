@@ -35,7 +35,7 @@
                         <tr>
                             <td colspan="7" class="py-8">
                                 <div class="w-full flex flex-col items-center">
-                                    <img src="{{ asset('images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
+                                    <img src="{{ asset('assets/images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
                                     <a href="{{ route('detail-gudangs.create') }}" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200">
                                         + Tambah Detail Barang
                                     </a>
