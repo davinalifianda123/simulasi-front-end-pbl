@@ -32,7 +32,7 @@
                         name="nama_barang" 
                         id="nama_barang" 
                         value="{{ old('nama_barang') }}" 
-                        class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_role') ? 'border-red-500' : 'border-gray-300' }}"
+                        class="mb-6 p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_barang') ? 'border-red-500' : 'border-gray-300' }}"
                         placeholder="Input Nama Barang"
                         required
                     >

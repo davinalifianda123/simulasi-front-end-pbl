@@ -56,8 +56,12 @@ class KategoriBarangController extends Controller
         if ($response->successful()) {
             return redirect()->route('kategori-barangs.index')->with('success', 'Kategori barang berhasil ditambahkan!');
         } elseif ($response->status() === 422) {
-            $errors = $response->json()['errors'] ?? [];
-            return back()->withErrors($errors)->withInput();
+            $errorMessage = $response->json()['error'] ?? 'Terjadi kesalahan validasi.';
+            return back()->withErrors([
+                'nama_kategori_barang' => $errorMessage
+            ])->withInput();
+
+
         } else {
             return back()->with('error', 'Gagal menambahkan kategori. Silakan coba lagi.');
         }

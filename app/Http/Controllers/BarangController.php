@@ -69,8 +69,10 @@ class BarangController extends Controller
         if ($response->successful()) {
             return redirect()->route('barangs.index')->with('success', 'Barang berhasil ditambahkan!');
         } elseif ($response->status() === 422) {
-            $errors = $response->json()['errors'] ?? [];
-            return back()->withErrors($errors)->withInput();
+            $errorMessage = $response->json()['error'] ?? 'Terjadi kesalahan validasi.';
+            return back()->withErrors([
+                'nama_barang' => $errorMessage
+            ])->withInput();
         } else {
             return back()->with('error', 'Gagal menambahkan barang. Silakan coba lagi.');
         }

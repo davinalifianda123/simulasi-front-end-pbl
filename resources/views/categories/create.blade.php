@@ -31,7 +31,7 @@
                         name="nama_kategori_barang" 
                         id="nama_kategori_barang" 
                         value="{{ old('nama_kategori_barang') }}" 
-                        class="p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_role') ? 'border-red-500' : 'border-gray-300' }}"
+                        class="p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('nama_kategori_barang') ? 'border-red-500' : 'border-gray-300' }}"
                         placeholder="Input Nama Kategori Barang"
                         required
                     >
