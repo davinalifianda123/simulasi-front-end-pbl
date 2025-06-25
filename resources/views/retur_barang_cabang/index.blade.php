@@ -4,18 +4,6 @@
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     @include('components.modal-status')
     <div class="bg-white rounded-lg shadow-md p-6">
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-        @endif
-        
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                <span class="block sm:inline">{{ session('error') }}</span>
-            </div>
-        @endif
-        
         <div class="flex justify-center items-center">
             <table id="export-table" data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' : route('cabang-ke-pusats.create') }}" data-resource-name="Retur Barang" data-route-name="cabang-ke-pusats" data-editable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
                 <thead>

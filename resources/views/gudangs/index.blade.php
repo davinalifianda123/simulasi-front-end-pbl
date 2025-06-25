@@ -2,18 +2,6 @@
 @include('components.dialogbox')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                <span class="block sm:inline">{{ session('success') }}</span>
-            </div>
-        @endif
-        
-        @if(session('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                <span class="block sm:inline">{{ session('error') }}</span>
-            </div>
-        @endif
-        
         <div class="flex justify-center items-center">
             <table id="export-table" data-create-route="{{ route('gudangs.create') }}" data-resource-name="Gudang" data-route-name="gudangs" data-editable="true">
                 <thead>
@@ -45,12 +33,11 @@
                                 <form 
                                     action="{{ route('gudangs.toggle', $gudang->id) }}" 
                                     method="POST"
-                                    onsubmit="return confirm('Yakin ingin mengubah status gudang ini?');"
                                 >
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit" aria-label="Toggle Status" class="relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2  {{ $gudang->status == 'Nonaktif' ? 'bg-green-600 focus:ring-green-500'  : 'bg-red-300 focus:ring-red-500' }}">
+                                    <button type="submit" onclick="openConfirmModal({{ $gudang->id }})" aria-label="Toggle Status" class="relative inline-flex items-center h-8 w-16 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2  {{ $gudang->status == 'Nonaktif' ? 'bg-green-600 focus:ring-green-500'  : 'bg-red-300 focus:ring-red-500' }}">
                                         <span class="sr-only">Toggle Status</span>
 
                                         {{-- Lingkaran --}}
