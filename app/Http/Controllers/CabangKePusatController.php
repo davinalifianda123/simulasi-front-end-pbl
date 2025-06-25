@@ -50,8 +50,9 @@ class CabangKePusatController extends Controller
         $detailGudang = [];
         if ($responseDetailGudang->successful()) {
             $result = json_decode($responseDetailGudang->body());
-            $detailGudang = $result->data;
+            $detailGudang = $result->data->detailGudangs ?? [];
         }
+        
 
         $data = [];
         if ($response->successful()) {
@@ -119,6 +120,7 @@ class CabangKePusatController extends Controller
     public function show(Request $request, string $id)
     {
         $cabangKePusat = $this->getCabangKePusatById($id);
+        dd($cabangKePusat); 
 
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
@@ -128,6 +130,7 @@ class CabangKePusatController extends Controller
             'nama_role' => $nama_role ?? '',
             'cabangKePusat' => $cabangKePusat,
         ]);
+        
     }
 
     /**

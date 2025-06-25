@@ -40,7 +40,7 @@
                             @if($nama_role !== 'Supervisor')
                                 <td>
                                     @php
-                                        $statusInfo = match($pusatKeCabang->id_status) {
+                                        $statusInfo = match($pusatKeSupplier->id_status) {
                                             1 => ['color' => 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200', 'icon' => '📦'],
                                             2 => ['color' => 'bg-blue-100 text-blue-700 hover:bg-blue-200', 'icon' => '🚚'],
                                             3 => ['color' => 'bg-purple-100 text-purple-700 hover:bg-purple-200', 'icon' => '🏭'],

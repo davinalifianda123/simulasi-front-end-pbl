@@ -40,7 +40,7 @@
                             @if($nama_role !== 'Supervisor')
                                 <td>
                                     @php
-                                        $statusInfo = match($pusatKeCabang->id_status) {
+                                        $statusInfo = match($cabangKePusat->id_status) {
                                             1 => ['color' => 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200', 'icon' => '📦'],
                                             2 => ['color' => 'bg-blue-100 text-blue-700 hover:bg-blue-200', 'icon' => '🚚'],
                                             3 => ['color' => 'bg-purple-100 text-purple-700 hover:bg-purple-200', 'icon' => '🏭'],
@@ -48,7 +48,7 @@
                                         };
                                     @endphp
                                     
-                                    @if($pusatKeCabang->id_status === 4)
+                                    @if($cabangKePusat->id_status === 4)
                                         <span class="px-2 py-1 rounded flex items-center gap-1 text-sm {{ $statusInfo['color'] }}">
                                             <span>{{ $statusInfo['icon'] }}</span>
                                             <span>{{ $cabangKePusat->status }}</span>

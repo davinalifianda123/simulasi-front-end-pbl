@@ -39,7 +39,8 @@
                                 $statusInfo = match($pusatKeCabang->id_status) {
                                     1 => 'bg-yellow-100 text-yellow-700',
                                     2 => 'bg-blue-100 text-blue-700',
-                                    3 => 'bg-green-100 text-green-700',
+                                    3 => 'bg-purple-100 text-purple-700',
+                                    4 => 'bg-green-100 text-green-700',
                                     default => 'bg-gray-100 text-gray-800'
                                 };
                             @endphp
