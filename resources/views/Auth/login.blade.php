@@ -25,13 +25,13 @@
         <!-- Background Image-->
         <div class="lg:hidden w-full p-4">
             <div class="w-full h-48 overflow-hidden rounded-3xl">
-                <img src="{{ asset('assets/images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
+                <img src="{{ asset('images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
             </div>
         </div>
         
         <div class="hidden h-screen lg:w-1/2 lg:flex p-6">
             <div class="w-full h-full overflow-hidden rounded-3xl">
-                <img src="{{ asset('assets/images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
+                <img src="{{ asset('images/login-illustration.png') }}" alt="Ilustrasi Login" class="w-full h-full object-cover">
             </div>
         </div>
 
