@@ -108,7 +108,7 @@
                         <tr>
                             <td colspan="11" class="py-8">
                                 <div class="w-full flex flex-col items-center">
-                                    <img src="{{ asset('assets/images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
+                                    <img src="{{ asset('images/Nothing_found.png') }}" alt="Nothing Found" class="mx-auto w-64 h-64 object-contain">
                                 </div>
                             </td>
                         </tr>

@@ -8,7 +8,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
     <title>Gudangku</title>
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo-gudangku.svg') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="flex flex-col gap-4 sm:rounded-lg bg-white p-3 m-6">

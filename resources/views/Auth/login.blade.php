@@ -19,7 +19,7 @@
                 }
             </style>
         @endif
-        <link rel="shortcut icon" href="{{ asset('assets/images/logo-gudangku.svg') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('images/logo-gudangku.svg') }}" type="image/x-icon">
     </head>
     <body class="bg-[#FAFAFA] text-[#1b1b18] min-h-screen overflow-x-hidden flex flex-col lg:flex-row">
         <!-- Background Image-->

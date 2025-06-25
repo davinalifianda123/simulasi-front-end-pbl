@@ -195,7 +195,7 @@
                         @endforeach
                     @else
                         <div class="mt-28 flex flex-col gap-4 items-center justify-between text-center">
-                            <img src="{{ asset('assets/images/in-stock.png') }}" alt="In Stock" class="mx-auto w-32 h-32 object-contain">
+                            <img src="{{ asset('images/in-stock.png') }}" alt="In Stock" class="mx-auto w-32 h-32 object-contain">
                             <span class="inline-flex items-center bg-green-100 text-green-800 text-md font-medium px-2.5 py-0.5 rounded-full">
                                 <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
                                 Available
