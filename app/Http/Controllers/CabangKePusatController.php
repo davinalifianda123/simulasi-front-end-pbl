@@ -120,7 +120,6 @@ class CabangKePusatController extends Controller
     public function show(Request $request, string $id)
     {
         $cabangKePusat = $this->getCabangKePusatById($id);
-        dd($cabangKePusat); 
 
         $nama_user = $request->attributes->get('nama_user');
         $nama_role = $request->attributes->get('nama_role');
@@ -205,7 +204,7 @@ class CabangKePusatController extends Controller
         $nama_user = request()->attributes->get('nama_user');
 
         $buyer = new Buyer([
-            'name' => $data->tujuan ?? '-',
+            'name' => $data->nama_pusat ?? '-',
             'custom_fields' => [
                 'Tanggal Penerimaan' => $data->tanggal ?? '-',
             ],
@@ -237,7 +236,7 @@ class CabangKePusatController extends Controller
             ->currencyFormat('{SYMBOL}{VALUE}')
             ->filename('Invoice-Retur-Cabang-' . Str::slug($data->id ?? 'no-id'))
             ->addItem($item)
-            ->logo(base_path('images/Logo-invoice.png'));
+            ->logo(public_path('images/Logo-invoice.png'));
 
 
         return $invoice->stream(); // atau ->download()
