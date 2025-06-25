@@ -16,9 +16,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->app->bind('path.public', function () {
-            return base_path(); // override path public agar mengarah ke root project
-        });
+        //
     }
 
 }
