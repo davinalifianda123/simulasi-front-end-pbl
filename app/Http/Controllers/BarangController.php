@@ -71,7 +71,10 @@ class BarangController extends Controller
         } elseif ($response->status() === 422) {
             $errorMessage = $response->json()['error'] ?? 'Terjadi kesalahan validasi.';
             return back()->withErrors([
-                'nama_barang' => $errorMessage
+                'nama_barang' => $errorMessage,
+                'id_kategori_barang' => $errorMessage,
+                'id_satuan_berat' => $errorMessage,
+                'berat_satuan_barang' => $errorMessage,
             ])->withInput();
         } else {
             return back()->with('error', 'Gagal menambahkan barang. Silakan coba lagi.');

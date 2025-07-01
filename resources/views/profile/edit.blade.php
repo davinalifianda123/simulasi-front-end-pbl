@@ -37,7 +37,7 @@
                                         
                                         <div>
                                             <label for="role" class="text-sm font-medium text-gray-500">Role</label>
-                                            <input type="text" id="role" value="{{ $user->role }}" class="mt-1 p-2 w-full text-gray-900 rounded-md" disabled>
+                                            <input type="text" id="role" value="{{ $user->role }}" class="mt-1 p-2 w-full bg-gray-100 text-gray-900 rounded-md" disabled>
                                         </div>
                                     </div>
                                 </div>

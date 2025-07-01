@@ -88,7 +88,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $token = request()->cookie('jwt_token');
-        $response = Http::withToken($token)->put("https://gudangku.web.id/api/profile/{$id}", [
+        $response = Http::withToken($token)->patch("https://gudangku.web.id/api/profile/{$id}", [
             'nama_user' => $request->input('nama_user'),
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),
