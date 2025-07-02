@@ -44,7 +44,7 @@
                 <tbody>
                     @forelse ($activityLogs as $log)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $log->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $log->nama_user }}</td>
                             <td>{{ $log->aktivitas }}</td>
                             <td>{{ $log->tanggal_aktivitas }}</td>

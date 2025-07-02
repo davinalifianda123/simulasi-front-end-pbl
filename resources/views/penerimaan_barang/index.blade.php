@@ -9,6 +9,7 @@
                 data-resource-name="Penerimaan Barang"
                 data-route-name="penerimaan-di-pusats"
                 data-editable="false"
+                data-deleteable="false"
                 data-user-role="{{ $nama_role }}"
                 data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
                 <thead>
@@ -37,7 +38,7 @@
                 <tbody>
                     @forelse ($penerimaanDiPusats as $penerimaanDiPusat)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $penerimaanDiPusat->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $penerimaanDiPusat->nama_barang }}</td>
                             <td>{{ $penerimaanDiPusat->asal_barang }}</td>
                             <td>{{ $penerimaanDiPusat->jumlah_barang }}</td>

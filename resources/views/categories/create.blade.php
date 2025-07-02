@@ -44,7 +44,7 @@
                     <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
                         Cancel
                     </button>
-                    <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                    <button type="submit" class="bg-[#161A30] text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
                         Add
                     </button>
                 </div>

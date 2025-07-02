@@ -5,7 +5,7 @@
     @include('components.modal-status')
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' : route('pusat-ke-cabangs.create') }}" data-resource-name="Pengiriman Barang" data-route-name="pusat-ke-cabangs" data-editable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
+            <table id="export-table" data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' : route('pusat-ke-cabangs.create') }}" data-resource-name="Pengiriman Barang" data-route-name="pusat-ke-cabangs" data-editable="false" data-deleteable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
                 <thead>
                     <tr>
                         @if(count($pusatKeCabangs) > 0)
@@ -32,7 +32,7 @@
                 <tbody>
                     @forelse ($pusatKeCabangs as $pusatKeCabang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $pusatKeCabang->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $pusatKeCabang->nama_barang }}</td>
                             <td>{{ $pusatKeCabang->tujuan }}</td>
                             <td>{{ $pusatKeCabang->jumlah_barang }}</td>

@@ -9,7 +9,6 @@
 
             <select name="id_status" id="status-select" class="w-full p-2 rounded-lg">
                 @foreach ($statuses as $status)
-                    @continue($status->id == 4) {{-- Lewati status dengan id 4 --}}
                     <option value="{{ $status->id }}">{{ $status->nama_status }}</option>
                 @endforeach
             </select>

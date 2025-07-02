@@ -68,13 +68,19 @@
                                 <label for="id_jenis_penerimaan" class="text-sm font-medium text-gray-700">Pilih Jenis Penerimaan</label>
                                 <label for="id_jenis_penerimaan" class="text-sm font-medium text-red-600">*</label>
                             </div>
-                            <select name="id_jenis_penerimaan" id="jenisPenerimaan" class="w-full p-2 rounded-lg">
+                            <select name="id_jenis_penerimaan" id="jenisPenerimaan" class="w-full p-2 rounded-lg bg-gray-100" disabled>
                                 @foreach ($jenisPenerimaans as $jenisPenerimaan)
                                     <option value="{{ $jenisPenerimaan->id }}" {{ strtolower($jenisPenerimaan->nama_jenis_penerimaan) === 'pengiriman' ? 'selected' : '' }}>
                                         {{ $jenisPenerimaan->nama_jenis_penerimaan }}
                                     </option>
                                 @endforeach
                             </select>
+                            @php
+                                $pengiriman = collect($jenisPenerimaans)->firstWhere('nama_jenis_penerimaan', 'pengiriman');
+                            @endphp
+
+                            <input type="hidden" name="id_jenis_penerimaan" value="{{ $pengiriman ? $pengiriman->id : '' }}">
+
                             @error('id_jenis_penerimaan')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -140,7 +146,7 @@
                             <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="history.back(); return false;">
                                 Cancel
                             </button>
-                            <button type="submit" class="bg-[#E3E3E3] hover:bg-[#161A30] text-[#777777] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
+                            <button type="submit" class="bg-[#161A30] text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24">
                                 Add
                             </button>
                         </div>

@@ -3,7 +3,7 @@
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('users.create') }}" data-resource-name="User" data-route-name="users" data-editable="true" data-user-role="{{ $nama_role }}">
+            <table id="export-table" data-create-route="{{ route('users.create') }}" data-resource-name="User" data-route-name="users" data-editable="true" data-deleteable="true" data-user-role="{{ $nama_role }}">
                 <thead>
                     <tr>
                         @if(count($users) > 0)
@@ -23,7 +23,7 @@
                 <tbody>
                     @forelse ($users as $user)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $user->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $user->nama_user }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>

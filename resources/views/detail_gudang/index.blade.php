@@ -5,7 +5,7 @@
     <div class="bg-white rounded-lg shadow-md p-6">
         {{-- Tabel --}}
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ $status_opname ? '#' :route('detail-gudangs.create')}}" data-resource-name="Detail Barang" data-route-name="detail-gudangs" data-editable="true">
+            <table id="export-table" data-create-route="{{ $detailGudangs[0]->stok_opname == 'Aktif' ? '#' :route('detail-gudangs.create')}}" data-resource-name="Detail Barang" data-route-name="detail-gudangs" data-editable="true" data-deleteable="true">
                 <thead>
                     <tr>
                         @if(count($detailGudangs) > 0)
@@ -25,7 +25,7 @@
                 <tbody>
                     @forelse ($detailGudangs as $detailGudang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $detailGudang->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $detailGudang->nama_barang }}</td>
                             <td>{{ $detailGudang->nama_gudang }}</td>
                             <td>{{ $detailGudang->jumlah_stok }}</td>
@@ -47,7 +47,7 @@
             </table>
         </div>
     </div>
-    @if($status_opname)
+    @if($detailGudangs[0]->stok_opname == 'Aktif')
         <div id="bottom-banner" tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50">
             <div class="flex items-center mx-auto">
                 <p class="flex items-center text-sm font-normal text-gray-500">

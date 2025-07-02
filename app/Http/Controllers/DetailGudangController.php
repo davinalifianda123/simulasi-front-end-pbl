@@ -29,7 +29,6 @@ class DetailGudangController extends Controller
             'nama_role' => $nama_role ?? '',
             'detailGudangs' => $result->detailGudangs ?? [],
             'headings' => $result->headings ?? [],
-            'status_opname' => $result->status_opname,
         ]);
     }
 

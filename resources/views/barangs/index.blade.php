@@ -4,7 +4,7 @@
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('barangs.create') : '#' }}" data-resource-name="Barang" data-route-name="barangs" data-editable="true" data-user-role="{{ $nama_role }}">
+            <table id="export-table" data-create-route="{{ $nama_role == 'SuperAdmin' ? route('barangs.create') : '#' }}" data-resource-name="Barang" data-route-name="barangs" data-editable="true" data-deleteable="true" data-user-role="{{ $nama_role }}">
                 <thead>
                     <tr>
                         @if(count($barangs) > 0)
@@ -24,7 +24,7 @@
                 <tbody>
                     @forelse ($barangs as $barang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $barang->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $barang->nama_barang }}</td>
                             <td>{{ $barang->kategori_barang }}</td>
                             <td>{{ $barang->satuan_berat }}</td>

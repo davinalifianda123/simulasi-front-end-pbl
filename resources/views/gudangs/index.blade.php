@@ -3,7 +3,7 @@
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('gudangs.create') }}" data-resource-name="Gudang" data-route-name="gudangs" data-editable="true">
+            <table id="export-table" data-create-route="{{ route('gudangs.create') }}" data-resource-name="Gudang" data-route-name="gudangs" data-editable="true" data-deleteable="false">
                 <thead>
                     <tr>
                         @if(count($gudangs) > 0)
@@ -24,7 +24,7 @@
                 <tbody>
                     @forelse ($gudangs as $gudang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
-                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $gudang->id }}</td>
+                            <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $gudang->nama_gudang }}</td>
                             <td>{{ $gudang->alamat }}</td>
                             <td>{{ $gudang->no_telepon }}</td>
