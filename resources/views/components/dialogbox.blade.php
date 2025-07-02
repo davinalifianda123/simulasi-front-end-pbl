@@ -62,7 +62,16 @@
 @if(session('success'))
     <div 
         x-data="{ open: true }" 
-        x-init="setTimeout(() => open = false, 5000)" 
+        x-init="
+            if (sessionStorage.getItem('success_shown_{{ md5(session('success')) }}')) {
+                open = false;
+            } else {
+                setTimeout(() => {
+                    open = false;
+                    sessionStorage.setItem('success_shown_{{ md5(session('success')) }}', 'true');
+                }, 3000);
+            }
+        "
         x-show="open" 
         class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4" 
         role="dialog" 
@@ -89,7 +98,16 @@
 @if(session('error'))
     <div 
         x-data="{ open: true }" 
-        x-init="setTimeout(() => open = false, 5000)" 
+        x-init="
+            if (sessionStorage.getItem('error_shown_{{ md5(session('error')) }}')) {
+                open = false;
+            } else {
+                setTimeout(() => {
+                    open = false;
+                    sessionStorage.setItem('error_shown_{{ md5(session('error')) }}', 'true');
+                }, 3000);
+            }
+        "
         x-show="open" 
         class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4" 
         role="dialog" 
@@ -103,7 +121,7 @@
             <div class="my-4 flex justify-center">
                 <div class="bg-red-200 rounded-full p-3">
                     <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecip="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
             </div>
