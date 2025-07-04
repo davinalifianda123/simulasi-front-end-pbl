@@ -1,14 +1,9 @@
 @section('page-title', 'Profile Pengguna')
+@include('components.dialogbox')
 <x-default-layout>
         <div class="mx-auto sm:px-6">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-
-                    @if (session('success'))
-                        <div class="p-4 mb-4 text-green-700 bg-green-100 border-l-4 border-green-500 rounded-lg" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
                         <!-- Informasi Pengguna -->
                         <div class="bg-white p-6">

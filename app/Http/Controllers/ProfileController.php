@@ -90,13 +90,14 @@ class ProfileController extends Controller
         $token = request()->cookie('jwt_token');
         $response = Http::withToken($token)->patch("https://gudangku.web.id/api/profile/{$id}", [
             'nama_user' => $request->input('nama_user'),
+            'current_password' => $request->input('current_password'), // Include current_password
             'password' => $request->input('password'),
             'password_confirmation' => $request->input('password_confirmation'),
         ]);
 
         if ($response->successful()) {
             $result = json_decode($response->body());
-            return redirect()->route('dashboard.index')->with('success', $result->message);
+            return redirect()->route('profile.show', $id)->with('success', $result->message);
         } else {
             $errors = json_decode($response->body())->errors ?? ['general' => 'Terjadi kesalahan saat memperbarui pengguna.'];
             $message = json_decode($response->body())->message ?? 'Gagal memperbarui data pengguna.';
