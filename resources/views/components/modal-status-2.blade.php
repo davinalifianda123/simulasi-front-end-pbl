@@ -9,12 +9,9 @@
 
             <select name="id_status" id="status-select" class="w-full p-2 rounded-lg">
                 @foreach ($statuses as $status)
-                    @if ($status->id != 4)
-                        <option value="{{ $status->id }}">{{ $status->nama_status }}</option>
-                    @endif
+                    <option value="{{ $status->id }}">{{ $status->nama_status }}</option>
                 @endforeach
             </select>
-
 
             <div class="flex justify-center items-center gap-4 mt-5">
                     <button type="button" class="bg-white hover:bg-red-600 text-[#161A30] hover:text-white px-4 py-2 rounded-lg transition duration-200 h-fit drop-shadow w-24" onclick="closeModal()">

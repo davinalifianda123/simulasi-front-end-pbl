@@ -2,7 +2,7 @@
 @section('page-subtitle', 'Retur Barang')
 @include('components.dialogbox')
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
-    @include('components.modal-status')
+    @include('components.modal-status-2')
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
             <table id="export-table" data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' : route('pusat-ke-suppliers.create') }}" data-resource-name="Retur Barang" data-route-name="pusat-ke-suppliers" data-editable="false" data-deleteable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
