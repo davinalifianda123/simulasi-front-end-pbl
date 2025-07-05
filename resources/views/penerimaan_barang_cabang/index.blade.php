@@ -4,7 +4,7 @@
 <x-default-layout :nama-user="$nama_user" :nama-role="$nama_role">
     <div class="bg-white rounded-lg shadow-md p-6">
         <div class="flex justify-center items-center">
-            <table id="export-table" data-create-route="{{ route('penerimaan-di-cabangs.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-cabangs" data-editable="false" data-deleteable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
+            <table id="export-table" data-create-route="{{ $status_opname || $nama_role === 'Supervisor' ? '#' :route('penerimaan-di-cabangs.create') }}" data-resource-name="Penerimaan Barang" data-route-name="penerimaan-di-cabangs" data-editable="false" data-deleteable="false" data-user-role="{{ $nama_role }}" data-show-action="{{ $nama_role !== 'Supervisor' ? 'true' : 'false' }}">
                 <thead>
                     <tr>
                         @if(count($penerimaanDiCabangs) > 0)
@@ -130,9 +130,16 @@
 
                         <span class="sr-only">Info</span>
                     </span>
-                    <span>Gudang sedang di opname, tidak bisa menerima barang untuk saat ini.<a href="{{ route('gudangs.index') }}" class="flex items-center ms-0 text-sm font-medium text-blue-600 md:ms-1 md:inline-flex">Ubah status opname disini<svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-        </svg></a></span>
+                    <span>Gudang sedang di opname, tidak bisa menerima barang untuk saat ini.
+                        @if($nama_role == 'SuperAdmin')
+                            <a href="{{ route('gudangs.index') }}" class="flex items-center ms-0 text-sm font-medium text-blue-600 md:ms-1 md:inline-flex">
+                                Ubah status opname disini
+                                <svg class="w-3 h-3 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                </svg>
+                            </a>
+                        @endif
+                    </span>
                 </p>
             </div>
             <div class="flex items-center">
