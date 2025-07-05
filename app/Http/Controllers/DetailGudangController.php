@@ -130,6 +130,13 @@ class DetailGudangController extends Controller
         $token = request()->cookie('jwt_token');
 
         $response = Http::withToken($token)->get("https://gudangku.web.id/api/detail-gudangs/{$id}/edit");
+        $response2 = Http::withToken($token)->get('https://gudangku.web.id/api/detail-gudangs');
+
+        $result2 = [];
+        if ($response2->successful()) {
+            $result2 = json_decode($response2->body());
+            $result2 = $result2->data->detailGudangs ?? [];
+        }
 
         $result = json_decode($response->body());
         $data = $result->data ?? [];
@@ -145,6 +152,7 @@ class DetailGudangController extends Controller
             'detailGudang' => $data->detailGudang,
             'barangs' => $data->barangs ?? [],
             'gudangs' => $data->gudang ?? [],
+            'detailGudangs' => $result2,
         ]);
     }
 

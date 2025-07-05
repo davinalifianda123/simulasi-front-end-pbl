@@ -9,6 +9,7 @@
                 <thead>
                     <tr>
                         @if(count($detailGudangs) > 0)
+                            <th hidden>ID</th>
                             @foreach ($headings as $heading)
                             <th>
                                 <span class="flex items-center">
@@ -25,6 +26,7 @@
                 <tbody>
                     @forelse ($detailGudangs as $detailGudang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
+                            <td hidden>{{ $detailGudang->id }}</td>
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $detailGudang->nama_barang }}</td>
                             <td>{{ $detailGudang->nama_gudang }}</td>

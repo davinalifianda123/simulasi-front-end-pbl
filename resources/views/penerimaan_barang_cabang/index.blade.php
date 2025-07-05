@@ -8,6 +8,7 @@
                 <thead>
                     <tr>
                         @if(count($penerimaanDiCabangs) > 0)
+                            <th hidden>ID</th>
                             @foreach ($headings as $heading)
                                 @if(
                                     ($nama_role === 'Supervisor' && $heading !== 'Sudah Diterima') ||
@@ -31,6 +32,7 @@
                 <tbody>
                     @forelse ($penerimaanDiCabangs as $penerimaanDiCabang)
                         <tr class="hover:bg-gray-50 cursor-pointer">
+                            <td hidden>{{ $penerimaanDiCabang->id }}</td>
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $penerimaanDiCabang->nama_barang }}</td>
                             <td>{{ $penerimaanDiCabang->asal_barang }}</td>

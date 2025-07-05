@@ -7,6 +7,7 @@
                 <thead>
                     <tr>
                         @if(count($users) > 0)
+                            <th hidden>ID</th>
                             @foreach ($headings as $heading)
                             <th>
                                 <span class="flex items-center">
@@ -23,6 +24,7 @@
                 <tbody>
                     @forelse ($users as $user)
                         <tr class="hover:bg-gray-50 cursor-pointer">
+                            <td hidden>{{ $user->id }}</td>
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $user->nama_user }}</td>
                             <td>{{ $user->email }}</td>

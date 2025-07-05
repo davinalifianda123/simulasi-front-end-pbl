@@ -86,7 +86,7 @@
                                 name="jumlah_stok" 
                                 id="jumlah_stok" 
                                 value="{{ old('jumlah_stok', $detailGudang->jumlah_stok) }}" 
-                                @if (!isset($detailGudang) || $detailGudang->stok_opname == 0) class="p-2 w-full rounded-lg bg-gray-100" readonly @else class="p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('jumlah_stok') ? 'border-red-500' : 'border-gray-300' }}" required @endif
+                                @if (!isset($detailGudangs) || $detailGudangs[2]->stok_opname === 'Nonaktif') class="p-2 w-full rounded-lg bg-gray-100" readonly @else class="p-2 w-full rounded-lg focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 {{ $errors->has('jumlah_stok') ? 'border-red-500' : 'border-gray-300' }}" required @endif
                             >
                             @error('jumlah_stok')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

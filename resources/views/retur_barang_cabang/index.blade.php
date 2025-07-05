@@ -9,6 +9,7 @@
                 <thead>
                     <tr>
                         @if(count($cabangKePusats) > 0)
+                            <th hidden>ID</th>
                             @foreach ($headings as $heading)
                                 @if(
                                         ($nama_role === 'Supervisor' && $heading !== 'Status') ||
@@ -32,6 +33,7 @@
                 <tbody>
                     @forelse ($cabangKePusats as $cabangKePusat)
                         <tr class="hover:bg-gray-50 cursor-pointer">
+                            <td hidden>{{ $cabangKePusat->id }}</td>
                             <td class="font-medium text-gray-900 whitespace-nowrap">{{ $loop->iteration }}</td>
                             <td>{{ $cabangKePusat->nama_barang }}</td>
                             <td>{{ $cabangKePusat->tujuan }}</td>
@@ -49,7 +51,7 @@
                                     @endphp
                                     
                                     @if($cabangKePusat->id_status === 4)
-                                        <span class="px-2 py-1 rounded flex items-center gap-1 text-sm {{ $statusInfo['color'] }}">
+                                        <span class="px-2 py-1 w-fit rounded flex items-center gap-1 text-sm {{ $statusInfo['color'] }}">
                                             <span>{{ $statusInfo['icon'] }}</span>
                                             <span>{{ $cabangKePusat->status }}</span>
                                         </span>
